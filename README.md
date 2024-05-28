@@ -1,8 +1,8 @@
 ![image](https://repository-images.githubusercontent.com/89463753/d30452dc-d3da-4c51-8592-221bbc03e7a6)
 
-[![GitHub tag](https://img.shields.io/github/tag/infinum/you-betcha-cannabis.svg?style=for-the-badge)](https://github.com/infinum/you-betcha-cannabis)
-[![GitHub stars](https://img.shields.io/github/stars/infinum/you-betcha-cannabis.svg?style=for-the-badge&label=Stars)](https://github.com/infinum/you-betcha-cannabis/)
-[![license](https://img.shields.io/github/license/infinum/you-betcha-cannabis.svg?style=for-the-badge)](https://github.com/infinum/you-betcha-cannabis)
+[![GitHub tag](https://img.shields.io/github/tag/infinum/youbetcha-blocks-theme.svg?style=for-the-badge)](https://github.com/infinum/youbetcha-blocks-theme)
+[![GitHub stars](https://img.shields.io/github/stars/infinum/youbetcha-blocks-theme.svg?style=for-the-badge&label=Stars)](https://github.com/infinum/youbetcha-blocks-theme/)
+[![license](https://img.shields.io/github/license/infinum/youbetcha-blocks-theme.svg?style=for-the-badge)](https://github.com/infinum/youbetcha-blocks-theme)
 
 ## About Eightshift Boilerplate
 
@@ -11,7 +11,6 @@ Eightshift Boilerplate is a modern, Gutenberg-oriented, WordPress theme boilerpl
 ## ⚠️ Requirements
 To get started, you'll need:
 
-* [PHP 8.2+](https://www.php.net/)
 * [Node LTS](https://nodejs.org/)
 * [Composer](https://getcomposer.org/)
 * [git](https://git-scm.com/)
@@ -19,7 +18,7 @@ To get started, you'll need:
 
 ## 🏁 Quick start
 
-If you'd like to get started ASAP, run `npx eightshift-create theme` inside of `wp-content/themes` to bootstrap your Eightshift Development Kit project.
+If you'd like to get started ASAP, run `npx create-wp-project` inside of `wp-content/themes` to bootstrap your Eightshift Development Kit project.
 
 [Documentation on getting started with Eightshift Boilerplate is available in Eightshift Docs &rarr;](https://eightshift.com/docs/theme/)
 
@@ -27,14 +26,25 @@ If you'd like to get started ASAP, run `npx eightshift-create theme` inside of `
 
 Eightshift Development Kit comes with [comprehensive documentation](https://eightshift.com).
 
+## 💻 Other resources
+
+* [Documentation](https://eightshift.com/)
+* [Tutorials and more on the blog](https://eightshift.com/blog)
+* [Storybook](https://eightshift.com/storybook/)
+* [SassDoc](https://eightshift.com/sass)
+* Other parts of the Development kit:
+* * [Eightshift Boilerplate for Plugins](https://github.com/infinum/youbetcha-blocks-theme-plugin)
+* * [Eightshift Frontend Libs](https://github.com/infinum/eightshift-frontend-libs)
+* * [Eightshift Libs](https://github.com/infinum/eightshift-libs)
+
 ## 🛟 Getting help
 
-If you have any questions or problems, please [open an issue](https://github.com/infinum/you-betcha-cannabis/issues) on GitHub. 
+If you have any questions or problems, please [open an issue](https://github.com/infinum/youbetcha-blocks-theme/issues) on GitHub. 
 
-When submitting issues or otherwise participating in development, please follow our [code of conduct](https://github.com/infinum/you-betcha-cannabis/blob/develop/CODE_OF_CONDUCT.md), and fill out the issue template properly. We'll do our best to answer your issues as quickly as humanly possible: following these steps helps us out a lot in doing that.
+When submitting issues or otherwise participating in development, please follow our [code of conduct](https://github.com/infinum/youbetcha-blocks-theme/blob/develop/CODE_OF_CONDUCT.md), and fill out the issue template properly. We'll do our best to answer your issues as quickly as humanly possible: following these steps helps us out a lot in doing that.
 
 ## 👩‍💻 Maintainers 🧑‍💻 
 Eightshift Boilerplate is maintained and sponsored by [Infinum](https://infinum.com).
 
 ## ⚖️ License
-Eightshift Boilerplate [Infinum](https://infinum.com). It is free software, and may be redistributed under the terms specified in the LICENSE file.
+Eightshift Boilerplate &copy;2022 [Infinum](https://infinum.com). It is free software, and may be redistributed under the terms specified in the LICENSE file.

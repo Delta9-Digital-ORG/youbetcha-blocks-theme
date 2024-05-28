@@ -1,23 +1,22 @@
 <?php
 
 /**
- * Theme Name: You Betcha Cannabis
- * Description: You Betcha Cannabis
- * Author: Eightshift team
+ * Theme Name: YouBetchaCannabisTheme
+ * Description: Eightshift Boilerplate Description
+ * Author: Team Eightshift
  * Author URI: https://eightshift.com/
  * Version: 1.0.0
- * License: MIT
- * License URI: http://www.gnu.org/licenses/gpl.html
- * Text Domain: you-betcha-cannabis
+ * Text Domain: youbetcha-blocks-theme
  *
- * @package YouBetchaCannabis
+ * @package YouBetchaCannabisTheme
  */
 
 declare(strict_types=1);
 
-namespace YouBetchaCannabis;
+namespace YouBetchaCannabisTheme;
 
-use EightshiftLibs\Cli\Cli;
+use YouBetchaCannabisTheme\Main\Main;
+use YouBetchaCannabisThemeVendor\EightshiftLibs\Cli\Cli;
 
 /**
  * If this file is called directly, abort.
@@ -29,11 +28,18 @@ if (! \defined('WPINC')) {
 /**
  * Include the autoloader so we can dynamically include the rest of the classes.
  */
-if (!\file_exists(__DIR__ . '/vendor/autoload.php')) {
-	return;
-}
+$loader = require __DIR__ . '/vendor/autoload.php';
 
-require __DIR__ . '/vendor/autoload.php';
+/**
+ * Begins execution of the theme.
+ *
+ * Since everything within the theme is registered via hooks,
+ * then kicking off the theme from this point in the file does
+ * not affect the page life cycle.
+ */
+if (\class_exists(Main::class)) {
+	(new Main($loader->getPrefixesPsr4(), __NAMESPACE__))->register();
+}
 
 /**
  * Run all WPCLI commands.
