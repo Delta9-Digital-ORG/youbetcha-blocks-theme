@@ -1,0 +1,42 @@
+{
+	"name": "eightshift/you-betcha-cannabis",
+	"description": "This repository contains all the tools you need to start building a modern WordPress project.",
+	"private": true,
+	"keywords": [
+		"eightshift",
+		"Gutenberg",
+		"WordPress"
+	],
+	"homepage": "https://eightshift.com/",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Eightshift team",
+			"email": "team@eightshift.com",
+			"homepage": "https://eightshift.com/",
+			"role": "Developer / IT Manager"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/infinum/you-betcha-cannabis/issues",
+		"source": "https://github.com/infinum/you-betcha-cannabis"
+	},
+	"require-dev": {
+		"wp-cli/wp-cli": "^2.9"
+	},
+	"require": {
+		"php": ">=8.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"YouBetchaCannabis\\": "src/"
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"config": {
+		"sort-packages": true,
+		"optimize-autoloader": true,
+		"process-timeout": 2000
+	}
+}
