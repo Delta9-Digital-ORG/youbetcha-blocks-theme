@@ -6,3 +6,5 @@
 import './BeverlyDriveRight-Bold.otf';
 import './DDCHardware-Regular.otf';
 import './SharpGrotesk-Bold15.otf';
+import './Poppins/Poppins-Regular.ttf';
+import './Poppins/Poppins-Bold.ttf';

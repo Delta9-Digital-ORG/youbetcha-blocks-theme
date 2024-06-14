@@ -11,72 +11,34 @@
     "color": {
       "palette": [
         {
-          "color": "#007F7E",
-          "name": "Dark Cyan"
+          "color": "#417360",
+          "name": "Brand Green (primary)",
+          "slug": "primary"
         },
         {
-          "color": "#FBC8B4",
-          "name": "Light Peach"
+          "color": "#417360",
+          "name": "Brand Green",
+          "slug": "secondary"
         },
         {
-          "color": "#F37021",
-          "name": "Orange"
+          "color": "#417360",
+          "name": "Brand Green",
+          "slug": "tertiary"
         },
         {
-          "color": "#FFDF4F",
-          "name": "Yellow"
+          "color": "#00D787",
+          "name": "Jade",
+          "slug": "success"
         },
         {
-          "color": "#FFF450",
-          "name": "Medium Yellow"
+          "color": "#FF905F",
+          "name": "Atomic Tangerine",
+          "slug": "error"
         },
         {
-          "color": "#8F53A1",
-          "name": "Purple"
-        },
-        {
-          "color": "#C8234A",
-          "name": "Red"
-        },
-        {
-          "color": "#B8E4FA",
-          "name": "Light Blue"
-        },
-        {
-          "color": "#D3E5AD",
-          "name": "Light Yellow-Green"
-        },
-        {
-          "color": "#008167",
-          "name": "Green"
-        },
-        {
-          "color": "#F4F3B8",
-          "name": "Light Yellow"
-        },
-        {
-          "color": "#8ED8F8",
-          "name": "Powder Blue"
-        },
-        {
-          "color": "#AE1A48",
-          "name": "Dark Red"
-        },
-        {
-          "color": "#FBBD8E",
-          "name": "Muted Peach"
-        },
-        {
-          "color": "#195435",
-          "name": "Dark Green"
-        },
-        {
-          "color": "#F58152",
-          "name": "Muted Orange"
-        },
-        {
-          "color": "#FFDE40",
-          "name": "Muted Yellow"
+          "color": "#FDCB05",
+          "name": "Jonquil",
+          "slug": "warning"
         },
         {
           "color": "#292929",
@@ -97,6 +59,96 @@
           "color": "#FFF",
           "name": "White",
           "slug": "white"
+        },
+        {
+          "color": "#007F7E",
+          "name": "Peach Package Contrast",
+          "slug": "package-1-secondary"
+        },
+        {
+          "color": "#FBC8B4",
+          "name": "Peach Package",
+          "slug": "package-1-primary"
+        },
+        {
+          "color": "#F37021",
+          "name": "Orange",
+          "slug": "package-2-secondary"
+        },
+        {
+          "color": "#FFDF4F",
+          "name": "Yellow Package",
+          "slug": "package-2-primary"
+        },
+        {
+          "color": "#FFF450",
+          "name": "Purple Package Contrast",
+          "slug": "package-3-secondary"
+        },
+        {
+          "color": "#8F53A1",
+          "name": "Purple Package",
+          "slug": "package-3-primary"
+        },
+        {
+          "color": "#C8234A",
+          "name": "Package Light Blue Contrast",
+          "slug": "package-4-secondary"
+        },
+        {
+          "color": "#B8E4FA",
+          "name": "Package Light Blue",
+          "slug": "package-4-primary"
+        },
+        {
+          "color": "#C8234A",
+          "name": "Light Yellow-Green Contrast",
+          "slug": "package-5-secondary"
+        },
+        {
+          "color": "#D3E5AD",
+          "name": "Light Yellow-Green Package",
+          "slug": "package-5-primary"
+        },
+        {
+          "color": "#008167",
+          "name": "Light Yellow Package Contrast",
+          "slug": "package-6-secondary"
+        },
+        {
+          "color": "#F4F3B8",
+          "name": "Light Yellow Package",
+          "slug": "package-6-primary"
+        },
+        {
+          "color": "#8ED8F8",
+          "name": "Dark Red Package Contrast",
+          "slug": "package-6-secondary"
+        },
+        {
+          "color": "#AE1A48",
+          "name": "Dark Red Package",
+          "slug": "package-6-primary"
+        },
+        {
+          "color": "#FBBD8E",
+          "name": "Dark Green Package Contrast",
+          "slug": "package-7-secondary"
+        },
+        {
+          "color": "#195435",
+          "name": "Dark Green Package",
+          "slug": "package-7-primary"
+        },
+        {
+          "color": "#F58152",
+          "name": "Muted Yellow Package Contrast",
+          "slug": "package-8-secondary"
+        },
+        {
+          "color": "#FFDE40",
+          "name": "Muted Yellow Package",
+          "slug": "package-8-primary"
         }
       ],
       "defaultGradients": false,
@@ -185,6 +237,31 @@
         {
           "fontFace": [
             {
+              "fontFamily": "Poppins",
+              "fontStretch": "normal",
+              "fontStyle": "normal",
+              "fontWeight": "400",
+              "src": [
+                "file:./assets/fonts/Poppins/poppins-regular.otf"
+              ]
+            },
+            {
+              "fontFamily": "Poppins",
+              "fontStretch": "normal",
+              "fontStyle": "bold",
+              "fontWeight": "700",
+              "src": [
+                "file:./assets/fonts/Poppins/poppins-bold.otf"
+              ]
+            }
+          ],
+          "fontFamily": "\"Poppins\"",
+          "name": "Poppins",
+          "slug": "poppins"
+        },
+        {
+          "fontFace": [
+            {
               "fontFamily": "Beverly Drive Right",
               "fontStretch": "normal",
               "fontStyle": "normal",
@@ -195,8 +272,8 @@
             }
           ],
           "fontFamily": "\"Beverly Drive Right\"",
-          "name": "Beverly Drive Right",
-          "slug": "BeverlyDriveRight"
+          "name": "Beverly Drive Right Bold",
+          "slug": "beverly-drive-right"
         },
         {
           "fontFace": [
@@ -212,7 +289,7 @@
           ],
           "fontFamily": "\"DDC Hardware\"",
           "name": "DDC Hardware",
-          "slug": "DDCHardware"
+          "slug": "ddc-hardware"
         },
         {
           "fontFace": [
@@ -228,7 +305,7 @@
           ],
           "fontFamily": "\"Sharp Grotesk\"",
           "name": "Sharp Grotesk",
-          "slug": "SharpGrotesk"
+          "slug": "sharp-grotesk"
         }
       ],
       "fontSizes": [
