@@ -47,3 +47,6 @@ if (\class_exists(Main::class)) {
 if (\class_exists(Cli::class)) {
 	(new Cli())->load('boilerplate');
 }
+
+// Remove P tags from content.
+\remove_filter('the_content', 'wpautop');
