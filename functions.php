@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace YouBetchaCannabisTheme;
 
+use YouBetchaCannabisTheme\Cache\ManifestCache;
 use YouBetchaCannabisTheme\Main\Main;
 use YouBetchaCannabisThemeVendor\EightshiftLibs\Cli\Cli;
 
@@ -26,9 +27,30 @@ if (! \defined('WPINC')) {
 }
 
 /**
- * Include the autoloader so we can dynamically include the rest of the classes.
+ * Bailout, if the theme is not loaded via Composer.
+ */
+if (!\file_exists(__DIR__ . '/vendor/autoload.php')) {
+	return;
+}
+
+/**
+ * Require the Composer autoloader.
  */
 $loader = require __DIR__ . '/vendor/autoload.php';
+
+/**
+ * Require the Composer autoloader for the prefixed libraries.
+ */
+if (\file_exists(__DIR__ . '/vendor-prefixed/autoload.php')) {
+	require __DIR__ . '/vendor-prefixed/autoload.php';
+}
+
+/**
+ * Set all the cache for the theme.
+ */
+if (\class_exists(ManifestCache::class)) {
+	(new ManifestCache())->setAllCache();
+}
 
 /**
  * Begins execution of the theme.
@@ -45,7 +67,7 @@ if (\class_exists(Main::class)) {
  * Run all WPCLI commands.
  */
 if (\class_exists(Cli::class)) {
-	(new Cli())->load('boilerplate');
+	(new Cli())->load('youbetcha-theme');
 }
 
 // Remove P tags from content.

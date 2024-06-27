@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace YouBetchaCannabisTheme\Enqueue\Admin;
 
 use YouBetchaCannabisTheme\Config\Config;
-use YouBetchaCannabisThemeVendor\EightshiftLibs\Manifest\ManifestInterface;
 use YouBetchaCannabisThemeVendor\EightshiftLibs\Enqueue\Admin\AbstractEnqueueAdmin;
 
 /**
@@ -21,16 +20,6 @@ use YouBetchaCannabisThemeVendor\EightshiftLibs\Enqueue\Admin\AbstractEnqueueAdm
  */
 class EnqueueAdmin extends AbstractEnqueueAdmin
 {
-	/**
-	 * Create a new admin instance.
-	 *
-	 * @param ManifestInterface $manifest Inject manifest which holds data about assets from manifest.json.
-	 */
-	public function __construct(ManifestInterface $manifest)
-	{
-		$this->manifest = $manifest;
-	}
-
 	/**
 	 * Register all the hooks
 	 *

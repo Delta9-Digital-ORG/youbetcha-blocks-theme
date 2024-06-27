@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace YouBetchaCannabisTheme\Config;
 
-use YouBetchaCannabisThemeVendor\EightshiftLibs\Config\AbstractConfigData;
+use YouBetchaCannabisThemeVendor\EightshiftLibs\Helpers\Helpers;
 
 /**
  * The project config class.
  */
-class Config extends AbstractConfigData
+class Config
 {
 	/**
 	 * Method that returns project name.
@@ -27,7 +27,7 @@ class Config extends AbstractConfigData
 	 */
 	public static function getProjectName(): string
 	{
-		return \wp_get_theme('', \dirname(__DIR__, 3))->get('TextDomain');
+		return Helpers::getThemeName();
 	}
 
 	/**
@@ -37,7 +37,17 @@ class Config extends AbstractConfigData
 	 */
 	public static function getProjectVersion(): string
 	{
-		return \wp_get_theme('', \dirname(__DIR__, 3))->get('Version');
+		return Helpers::getThemeVersion();
+	}
+
+	/**
+	 * Method that returns project text domain.
+	 *
+	 * Generally used for caching and translations.
+	 */
+	public static function getProjectTextDomain(): string
+	{
+		return Helpers::getThemeTextDomain();
 	}
 
 	/**
@@ -49,7 +59,7 @@ class Config extends AbstractConfigData
 	 */
 	public static function getProjectRoutesNamespace(): string
 	{
-		return static::getProjectName();
+		return self::getProjectName();
 	}
 
 	/**
