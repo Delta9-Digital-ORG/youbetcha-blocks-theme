@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace YouBetchaCannabisTheme\AdminMenus;
 
 use YouBetchaCannabisThemeVendor\EightshiftLibs\AdminMenus\AbstractAdminMenu;
-use YouBetchaCannabisThemeVendor\EightshiftLibs\Helpers\Components;
+use YouBetchaCannabisThemeVendor\EightshiftLibs\Helpers\Helpers;
 use WP_Query;
 
 /**
@@ -306,6 +306,6 @@ class ReusableBlocksHeaderFooter extends AbstractAdminMenu
 			$blocksToRenderFiltered // phpcs:ignore
 		);
 
-		echo Components::ensureString($blocksToRenderRendered); // phpcs:ignore
+		echo Helpers::ensureString($blocksToRenderRendered); // phpcs:ignore
 	}
 }
