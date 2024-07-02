@@ -251,7 +251,7 @@
               "fontStyle": "bold",
               "fontWeight": "700",
               "src": [
-                "file:./assets/fonts/Poppins/poppins-bold.otf"
+                "file:./assets/fonts/Poppins/poppins-bold.ttf"
               ]
             }
           ],
