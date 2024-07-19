@@ -310,9 +310,9 @@
       ],
       "fontSizes": [
         {
-          "name": "Small 12px",
+          "name": "Small",
           "size": "12px",
-          "slug": "small"
+          "slug": "sm"
         },
         {
           "name": "Medium",
@@ -321,7 +321,7 @@
             "max": "1rem"
           },
           "size": "16px",
-          "slug": "medium"
+          "slug": "md"
         },
         {
           "name": "Large",
@@ -330,7 +330,7 @@
             "max": "1.125rem"
           },
           "size": "18px",
-          "slug": "large"
+          "slug": "lg"
         },
         {
           "name": "Extra Large",
