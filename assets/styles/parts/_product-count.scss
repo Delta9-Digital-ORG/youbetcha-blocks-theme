@@ -41,3 +41,24 @@
 		}
 	}
 }
+
+.block-product-count-button {
+	.block-product-count-button__btn {
+		width: 100%;
+		border: solid;
+		border-radius: 12px;
+		border-width: 3px;
+		border-color: var(--wp--preset--color--primary);
+		background-color: rgba(65, 115, 96, 75%);
+		
+		span {
+			color: white;
+			text-transform: uppercase;
+			font-family: Poppins;
+			font-weight: bold;
+		}
+	}
+	a.added_to_cart {
+		display: none;
+	}
+}
