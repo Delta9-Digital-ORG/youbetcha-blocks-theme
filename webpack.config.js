@@ -9,7 +9,6 @@ module.exports = (env, argv) => {
 	const projectConfig = {
 		config: {
 			projectDir: __dirname, // Current project directory absolute path.
-			projectUrl: 'dev.boilerplate.com', // Used for providing browsersync functionality.
 			projectPath: 'wp-content/themes/youbetcha-blocks-theme', // Project path relative to project root.
 		},
 	};

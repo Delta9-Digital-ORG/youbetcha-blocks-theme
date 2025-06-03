@@ -1,0 +1,40 @@
+.es-block-forms {
+	.es-form {
+		.es-form__fields {
+			.es-field {
+				padding-inline: unset;
+				margin-block-end: 8px;
+				
+				.es-submit {
+					background-color: var(--wp--preset--color--primary);
+					max-width: 7rem;
+					display: flex;
+					justify-content: center;
+				}
+			}
+			
+			.es-field.es-field--input {
+				.es-input {
+					border: solid;
+					border-radius: 8px;
+					border-width: 3px;
+					border-color: var(--wp--preset--color--primary);
+					background-color: white;
+					height: 3rem;
+				}
+			}
+			
+			.es-field.es-form-is-active .es-field__label {
+			    color: unset;
+			}
+			
+			.es-field .es-field__inner .es-field__content .es-field__content-wrap .es-textarea {
+				border: solid;
+				border-radius: 8px;
+				border-width: 3px;
+				border-color: var(--wp--preset--color--primary);
+				background-color: white;
+			}
+		}
+	}
+}
