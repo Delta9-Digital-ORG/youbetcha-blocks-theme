@@ -1,25 +1,24 @@
 {
-	"name": "@eightshift/youbetcha-blocks-theme",
+	"name": "@delta9-digital/youbetcha-blocks-theme",
 	"version": "1.0.0",
-
 	"description": "This repository contains all the tools you need to start building a modern WordPress project.",
 	"authors": [
 		{
-			"name": "Eightshift team",
-			"email": "team@eightshift.com",
-			"homepage": "https://eightshift.com/",
+			"name": "Delta9 Digital",
+			"email": "www.delta9.digital@gmail.com",
+			"homepage": "https://delta9digital.com/",
 			"role": "Developer / IT Manager"
 		}
 	],
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/infinum/youbetcha-blocks-theme.git"
+		"url": "git+https://github.com/delta9-digital/youbetcha-blocks-theme.git"
 	},
 	"bugs": {
-		"url": "https://github.com/infinum/youbetcha-blocks-theme/issues"
+		"url": "https://github.com/delta9-digital/youbetcha-blocks-theme/issues"
 	},
-	"homepage": "https://github.com/infinum/youbetcha-blocks-theme#readme",
+	"homepage": "https://github.com/delta9-digital/youbetcha-blocks-theme#readme",
 	"scripts": {
 		"lintStyle": "stylelint **/*.scss",
 		"lintJs": "eslint src/ assets/",
