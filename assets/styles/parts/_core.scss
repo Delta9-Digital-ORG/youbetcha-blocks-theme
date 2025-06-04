@@ -24,3 +24,17 @@ body {
 #wpadminbar {
 	position: fixed;
 }
+
+@media (max-width: 480px) {
+	body {
+		.is-layout-flex {
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+		
+		.is-layout-grid {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+}
