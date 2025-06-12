@@ -1,0 +1,15 @@
+.wc-block-product-categories.is-list.product-page-categories-pattern {
+	.wc-block-product-categories-list--depth-0 {
+		list-style-type: none; /* Remove bullets */
+		padding: 0; /* Remove padding */
+		margin: 0; /* Remove margins */
+	}
+	
+	.wc-block-product-categories-list--depth-0 > .wc-block-product-categories-list-item > a:first-child {
+		font-weight: bold;
+	}
+	
+	ul:not(.wc-block-product-categories-list--depth-0) {
+		list-style-type: disc;
+	}
+}
