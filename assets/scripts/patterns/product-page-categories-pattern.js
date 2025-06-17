@@ -1,6 +1,7 @@
 jQuery(function () {
 	let productCategoryList;
 	let productCategoryArray = new Array();
+	let productIngredientsArray = new Array();
 	
 	productCategoryList = $('.product-page-categories-pattern').children();
 	

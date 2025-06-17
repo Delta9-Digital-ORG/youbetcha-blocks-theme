@@ -4,4 +4,4 @@
  * Usage: `WordPress frontend screen`.
  */
 
-import './patterns/product-page-categories'
+import './patterns/product-page-categories-pattern'
