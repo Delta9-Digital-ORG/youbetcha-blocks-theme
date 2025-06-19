@@ -39,7 +39,7 @@ jQuery(function () {
 		let factName = this[0];
 		let factQty = this[1];
 		
-		let factHtml = "<div><span>" + factName + "</span><span>" + factQty + "</span></div>";
+		let factHtml = '<div class="nutrition-facts-pattern-container"><span>' + factName + '</span><span>' + factQty + '</span></div>';
 		$(factHtml).appendTo(productNutritionFactsContainer); // Update the HTML for the list to be displayed
 	});
 	
@@ -50,7 +50,7 @@ jQuery(function () {
 		let factName = this[0];
 		let factQty = this[1];
 		
-		let factHtml = "<div><span>" + factName + "</span><span>" + factQty + "</span></div>";
+		let factHtml = '<div class="cana-facts-pattern-container"><span>' + factName + '</span><span>' + factQty + '</span></div>';
 		$(factHtml).appendTo(productCanaFactsCategoryContainer); // Update the HTML for the list to be displayed
 	});
 });

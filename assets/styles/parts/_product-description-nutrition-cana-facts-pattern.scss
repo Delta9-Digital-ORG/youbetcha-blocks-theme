@@ -1,0 +1,65 @@
+.product-page-description-nutrition-cana-facts-pattern {
+	display: flex;
+	align-items: stretch;
+	
+	.product-page-description-pattern {
+		width: 50%;
+		
+		.wc-block-product-categories.is-list {
+			.wc-block-product-categories-list--depth-0 {
+				list-style-type: none; /* Remove bullets */
+				padding: 0; /* Remove padding */
+				margin: 0; /* Remove margins */
+			}
+			
+			.wc-block-product-categories-list--depth-0 > .wc-block-product-categories-list-item > a:first-child {
+				font-weight: bold;
+			}
+			
+			ul {
+				list-style-type: disc;
+			}
+		}
+		
+		.product-page-other-ingredients-pattern {
+			display: flex;
+			align-items: baseline;
+			
+			p {
+				padding-right: 8px;
+			}
+			
+			.wp-block-mfb-meta-field-block > div {
+				text-transform: capitalize;
+			}
+		}
+	}
+	
+	.product-page-nutrition-cana-facts-pattern {
+		width: 50%;
+		background-color: rgb(65 115 96 / 75%);
+		
+		.product-page-nutrition-facts-pattern, .product-page-cana-facts-pattern {
+			width: 100%;
+			
+			.wc-block-product-categories.is-list {
+				width: 100%;
+				
+				.nutrition-facts-pattern-container:first-of-type, .cana-facts-pattern-container:first-of-type {
+					border-width: 1px 0px 1px 0px;
+				}
+				
+				.nutrition-facts-pattern-container, .cana-facts-pattern-container {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					padding: 4px 0 4px 0;
+					border-style: solid;
+					border-color: white;
+					border-width: 0px 0px 1px 0px;
+					text-transform: none;
+				}
+			}
+		}
+	}
+}
