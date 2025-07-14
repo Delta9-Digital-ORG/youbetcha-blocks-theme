@@ -80,7 +80,7 @@
 				},
 				{
 					"color": "#F37021",
-					"name": "Orange",
+					"name": "Yellow Package Contrast",
 					"slug": "package-2-secondary"
 				},
 				{
@@ -167,6 +167,17 @@
 					"color": "#B8E5E7",
 					"name": "Light Blue Package",
 					"slug": "package-10-primary"
+				}
+				,
+				{
+					"color": "#D3E5AD",
+					"name": "Orange Package Contrast",
+					"slug": "package-11-secondary"
+				},
+				{
+					"color": "#F37021",
+					"name": "Orange Package",
+					"slug": "package-11-primary"
 				}
 			]
 		},
