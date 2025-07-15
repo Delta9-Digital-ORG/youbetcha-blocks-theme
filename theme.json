@@ -590,21 +590,12 @@
 			},
 			"core/paragraph": {
 				"typography": {
-					"fontFamily": "var(--wp--preset--font-family--noto-serif)"
+					"fontFamily": "var(--wp--preset--font-family--poppins)"
 				}
 			},
 			"core/post-author": {
 				"typography": {
 					"fontSize": "var(--wp--preset--font-size--small)"
-				}
-			},
-			"core/post-content": {
-				"elements": {
-					"link": {
-						"color": {
-							"text": "var(--wp--preset--color--primary)"
-						}
-					}
 				}
 			},
 			"core/post-date": {
