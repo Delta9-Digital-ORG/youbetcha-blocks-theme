@@ -1,6 +1,40 @@
 .wp-block-woocommerce-product-collection {
 	.wc-block-product-template {
-		.wc-block-product {			
+		.wc-block-product {
+			.product-category-active-ingredient-label {
+				width: 100px;
+				z-index: 1;
+				position: absolute;
+				top: 160px;
+				left: 0px;
+				
+				.wrapper > .wrapper__inner {
+					margin-left: -8px;
+				}
+				
+				svg {
+					circle {
+						fill: white;
+					}
+					
+					text {
+						font-family: "poppins";
+						font-weight: 600;
+						font-size: 14px;
+						letter-spacing: 1.1px;
+						text-transform: uppercase;
+					}
+					
+					text.product-category-active-ingredient-label-inner-text {
+						font-size: 20px;
+						letter-spacing: unset;
+						text-anchor: middle;
+						alignment-baseline: central;
+						transform: rotate(348deg) translate(-11%, 10%);
+					}
+				}
+			}
+			
 			.product-card-group {
 				min-width: 400px;
 				height: 468px;
@@ -95,6 +129,14 @@
 				background-color: var(--wp--preset--color--package-1-primary) !important;
 			}
 			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-1-primary);
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -125,6 +167,14 @@
 			
 			.product-card-group, .product-card-product-name, .product-card-product-type, .product-card-product-type-inner:before {
 				background-color: var(--wp--preset--color--package-2-primary) !important;
+			}
+			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-2-primary);
+					}
+				}
 			}
 			
 			.product-card-product-type {
@@ -159,6 +209,14 @@
 				background-color: var(--wp--preset--color--package-3-primary) !important;
 			}
 			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-3-primary);
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -189,6 +247,14 @@
 			
 			.product-card-group, .product-card-product-name, .product-card-product-type, .product-card-product-type-inner:before {
 				background-color: var(--wp--preset--color--package-4-primary) !important;
+			}
+			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-4-primary);
+					}
+				}
 			}
 			
 			.product-card-product-type {
@@ -223,6 +289,14 @@
 				background-color: var(--wp--preset--color--package-5-primary) !important;
 			}
 			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-5-primary);
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -255,6 +329,14 @@
 				background-color: var(--wp--preset--color--package-6-primary) !important;
 			}
 			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-6-primary);
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -282,6 +364,14 @@
 		
 		.product_tag-package-7 {
 			color: var(--wp--preset--color--package-7-secondary) !important;
+			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-7-primary);
+					}
+				}
+			}
 			
 			.product-card-group, .product-card-product-name, .product-card-product-type, .product-card-product-type-inner:before {
 				background-color: var(--wp--preset--color--package-7-primary) !important;
@@ -319,6 +409,14 @@
 				background-color: var(--wp--preset--color--package-8-primary) !important;
 			}
 			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-8-primary);
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -349,6 +447,14 @@
 			
 			.product-card-group, .product-card-product-name, .product-card-product-type, .product-card-product-type-inner:before {
 				background-color: var(--wp--preset--color--package-9-primary) !important;
+			}
+			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-9-primary);
+					}
+				}
 			}
 			
 			.product-card-product-type {
@@ -383,6 +489,14 @@
 				background-color: var(--wp--preset--color--package-10-primary) !important;
 			}
 			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-10-primary);
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -413,6 +527,14 @@
 			
 			.product-card-group, .product-card-product-name, .product-card-product-type, .product-card-product-type-inner:before {
 				background-color: var(--wp--preset--color--package-11-primary) !important;
+			}
+			
+			.product-category-active-ingredient-label {
+				svg {
+					text, textpath {
+						fill: var(--wp--preset--color--package-11-primary);
+					}
+				}
 			}
 			
 			.product-card-product-type {
