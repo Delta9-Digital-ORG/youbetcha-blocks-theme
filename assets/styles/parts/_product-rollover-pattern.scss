@@ -4,9 +4,8 @@
 			.product-category-active-ingredient-label {
 				width: 100px;
 				z-index: 1;
-				position: absolute;
-				top: 160px;
-				left: 0px;
+				margin-left: -380px;
+				margin-bottom: -72px;
 				
 				.wrapper > .wrapper__inner {
 					margin-left: -8px;
@@ -21,8 +20,15 @@
 						font-family: "poppins";
 						font-weight: 600;
 						font-size: 14px;
-						letter-spacing: 1.1px;
 						text-transform: uppercase;
+					}
+					
+					text.product-category-active-ingredient-label-small {
+						letter-spacing: 1.1px;
+					}
+					
+					text.product-category-active-ingredient-label-large {
+						letter-spacing: -0.45px;
 					}
 					
 					text.product-category-active-ingredient-label-inner-text {
@@ -132,7 +138,7 @@
 			.product-category-active-ingredient-label {
 				svg {
 					text, textpath {
-						fill: var(--wp--preset--color--package-1-primary);
+						fill: var(--wp--preset--color--package-1-secondary);
 					}
 				}
 			}
@@ -172,7 +178,7 @@
 			.product-category-active-ingredient-label {
 				svg {
 					text, textpath {
-						fill: var(--wp--preset--color--package-2-primary);
+						fill: var(--wp--preset--color--package-2-secondary);
 					}
 				}
 			}
@@ -292,7 +298,7 @@
 			.product-category-active-ingredient-label {
 				svg {
 					text, textpath {
-						fill: var(--wp--preset--color--package-5-primary);
+						fill: var(--wp--preset--color--package-5-secondary);
 					}
 				}
 			}
@@ -452,7 +458,7 @@
 			.product-category-active-ingredient-label {
 				svg {
 					text, textpath {
-						fill: var(--wp--preset--color--package-9-primary);
+						fill: var(--wp--preset--color--package-9-secondary);
 					}
 				}
 			}
@@ -492,7 +498,7 @@
 			.product-category-active-ingredient-label {
 				svg {
 					text, textpath {
-						fill: var(--wp--preset--color--package-10-primary);
+						fill: var(--wp--preset--color--package-10-secondary);
 					}
 				}
 			}
