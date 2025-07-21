@@ -34,9 +34,34 @@
 					"slug": "tertiary"
 				},
 				{
+					"color": "#F1E8E3",
+					"name": "Brand Green",
+					"slug": "tertiary"
+				},
+				{
 					"color": "#00D787",
-					"name": "Jade",
-					"slug": "success"
+					"name": "Porcelain Blush",
+					"slug": "porcelain-blush"
+				},
+				{
+					"color": "#D8C5B0",
+					"name": "Oatmeal Beige",
+					"slug": "oatmeal-beige"
+				},
+				{
+					"color": "#D8C5B0",
+					"name": "Ash Taupe",
+					"slug": "ash-taupe"
+				},
+				{
+					"color": "#AA885B",
+					"name": "Burnt Sienna",
+					"slug": "burnt-sienna"
+				},
+				{
+					"color": "#2B2B2B",
+					"name": "Charcoal Bark",
+					"slug": "charcoal-bark"
 				},
 				{
 					"color": "#FF905F",
