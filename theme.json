@@ -19,6 +19,16 @@
 			],
 			"palette": [
 				{
+					"color": "#ffffff",
+					"name": "Base",
+					"slug": "base"
+				},
+				{
+					"color": "#ffffff",
+					"name": "Contrast",
+					"slug": "contrast"
+				},
+				{
 					"color": "#417360",
 					"name": "Brand Green (primary)",
 					"slug": "primary"
