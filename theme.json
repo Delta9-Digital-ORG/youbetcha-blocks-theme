@@ -34,22 +34,17 @@
 					"slug": "primary"
 				},
 				{
-					"color": "#417360",
-					"name": "Brand Green",
+					"color": "#2f5245",
+					"name": "Brand Green Dark",
 					"slug": "secondary"
 				},
 				{
-					"color": "#417360",
-					"name": "Brand Green",
+					"color": "#53947b",
+					"name": "Brand Green Light",
 					"slug": "tertiary"
 				},
 				{
 					"color": "#F1E8E3",
-					"name": "Brand Green",
-					"slug": "tertiary"
-				},
-				{
-					"color": "#00D787",
 					"name": "Porcelain Blush",
 					"slug": "porcelain-blush"
 				},
@@ -74,16 +69,6 @@
 					"slug": "charcoal-bark"
 				},
 				{
-					"color": "#FF905F",
-					"name": "Atomic Tangerine",
-					"slug": "error"
-				},
-				{
-					"color": "#FDCB05",
-					"name": "Jonquil",
-					"slug": "warning"
-				},
-				{
 					"color": "#292929",
 					"name": "Dark",
 					"slug": "dark"
@@ -102,6 +87,16 @@
 					"color": "#FFF",
 					"name": "White",
 					"slug": "white"
+				},
+				{
+					"color": "#FF905F",
+					"name": "Atomic Tangerine",
+					"slug": "error"
+				},
+				{
+					"color": "#FDCB05",
+					"name": "Jonquil",
+					"slug": "warning"
 				},
 				{
 					"color": "#007F7E",
@@ -202,8 +197,7 @@
 					"color": "#B8E5E7",
 					"name": "Light Blue Package",
 					"slug": "package-10-primary"
-				}
-				,
+				},
 				{
 					"color": "#D3E5AD",
 					"name": "Orange Package Contrast",
@@ -229,12 +223,12 @@
 				},
 				{
 					"name": "Medium",
-					"shadow": "0 4px  10px 0 rgba( 0, 0, 0, 0.3 )",
+					"shadow": "0 4px 10px 0 rgba( 0, 0, 0, 0.3 )",
 					"slug": "md"
 				},
 				{
 					"name": "Large",
-					"shadow": "0 8px  15px 0 rgba( 0, 0, 0, 0.3 )",
+					"shadow": "0 8px 15px 0 rgba( 0, 0, 0, 0.3 )",
 					"slug": "lg"
 				}
 			]
