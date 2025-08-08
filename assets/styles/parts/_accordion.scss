@@ -31,6 +31,12 @@
 	}
 }
 
+.faq-container {
+	.block-accordion-item, p {
+		background-color: var(--wp--preset--color--porcelain-blush) !important;
+	}
+}
+
 @media (max-width: 480px) {
 	.block-accordion {
 		.block-accordion-item {
