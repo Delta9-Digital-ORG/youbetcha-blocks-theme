@@ -61,7 +61,7 @@
 					display: none;
 					visibility: hidden;
 					opacity: 0;
-					height: 422px;
+					height: 416px;
 					max-width: 210px;
 				}
 			}
@@ -92,6 +92,14 @@
 				left: 0;
 				width: 100%;
 				transform: translateY(-50%);
+			}
+		}
+		
+		.product_cat-gummies, .product_cat-chocolate-bars {
+			.product-card-group {
+				.product-card-info {
+					height: 400px;
+				}
 			}
 		}
 		

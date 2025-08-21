@@ -3,6 +3,3 @@
  *
  * Usage: `WordPress frontend screen`.
  */
-
-import './patterns/product-page-description-pattern';
-import './patterns/product-page-nutrition-cana-facts-pattern';
