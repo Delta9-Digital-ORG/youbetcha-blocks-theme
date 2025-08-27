@@ -67,6 +67,10 @@
 				
 				.product-categories-container {
 					.product-category-icon-container {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						
 						svg {
 							height: 50px;
 						}
@@ -172,6 +176,16 @@
 				}
 			}
 			
+			.product-categories-container {
+				.product-category-icon-container {
+					svg {
+						path {
+							fill: var(--wp--preset--color--package-1-secondary) !important;
+						}
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -208,6 +222,16 @@
 				svg {
 					text, textpath {
 						fill: var(--wp--preset--color--package-2-secondary);
+					}
+				}
+			}
+			
+			.product-categories-container {
+				.product-category-icon-container {
+					svg {
+						path {
+							fill: var(--wp--preset--color--package-2-secondary) !important;
+						}
 					}
 				}
 			}
@@ -254,10 +278,6 @@
 			
 			.product-categories-container {
 				.product-category-icon-container {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					
 					svg {
 						path {
 							fill: var(--wp--preset--color--package-3-secondary) !important;
@@ -306,6 +326,16 @@
 				}
 			}
 			
+			.product-categories-container {
+				.product-category-icon-container {
+					svg {
+						path {
+							fill: var(--wp--preset--color--package-4-secondary) !important;
+						}
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -342,6 +372,16 @@
 				svg {
 					text, textpath {
 						fill: var(--wp--preset--color--package-5-secondary);
+					}
+				}
+			}
+			
+			.product-categories-container {
+				.product-category-icon-container {
+					svg {
+						path {
+							fill: var(--wp--preset--color--package-5-secondary) !important;
+						}
 					}
 				}
 			}
@@ -386,6 +426,16 @@
 				}
 			}
 			
+			.product-categories-container {
+				.product-category-icon-container {
+					svg {
+						path {
+							fill: var(--wp--preset--color--package-6-secondary) !important;
+						}
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -414,6 +464,10 @@
 		.product_tag-package-7 {
 			color: var(--wp--preset--color--package-7-secondary) !important;
 			
+			.product-card-group, .product-card-product-name, .product-card-product-type, .product-card-product-type-inner:before {
+				background-color: var(--wp--preset--color--package-7-primary) !important;
+			}
+			
 			.product-category-active-ingredient-label {
 				svg {
 					text, textpath {
@@ -422,8 +476,14 @@
 				}
 			}
 			
-			.product-card-group, .product-card-product-name, .product-card-product-type, .product-card-product-type-inner:before {
-				background-color: var(--wp--preset--color--package-7-primary) !important;
+			.product-categories-container {
+				.product-category-icon-container {
+					svg {
+						path {
+							fill: var(--wp--preset--color--package-7-secondary) !important;
+						}
+					}
+				}
 			}
 			
 			.product-card-product-type {
@@ -462,6 +522,16 @@
 				svg {
 					text, textpath {
 						fill: var(--wp--preset--color--package-8-primary);
+					}
+				}
+			}
+			
+			.product-categories-container {
+				.product-category-icon-container {
+					svg {
+						path {
+							fill: var(--wp--preset--color--package-8-secondary) !important;
+						}
 					}
 				}
 			}
@@ -506,6 +576,16 @@
 				}
 			}
 			
+			.product-categories-container {
+				.product-category-icon-container {
+					svg {
+						path {
+							fill: var(--wp--preset--color--package-9-secondary) !important;
+						}
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -546,6 +626,16 @@
 				}
 			}
 			
+			.product-categories-container {
+				.product-category-icon-container {
+					svg {
+						path {
+							fill: var(--wp--preset--color--package-10-secondary) !important;
+						}
+					}
+				}
+			}
+			
 			.product-card-product-type {
 				.product-categories-container {
 					.product-category-container {
@@ -582,6 +672,16 @@
 				svg {
 					text, textpath {
 						fill: var(--wp--preset--color--package-11-primary);
+					}
+				}
+			}
+			
+			.product-categories-container {
+				.product-category-icon-container {
+					svg {
+						path {
+							fill: var(--wp--preset--color--package-11-secondary) !important;
+						}
 					}
 				}
 			}
