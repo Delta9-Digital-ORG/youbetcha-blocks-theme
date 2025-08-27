@@ -63,21 +63,41 @@
 					opacity: 0;
 					height: 416px;
 					max-width: 210px;
-				}
-				
-				.product-categories-container {
-					.product-category-icon-container {
-						display: flex;
-						flex-direction: column;
-						align-items: center;
-						
-						svg {
-							height: 50px;
+					
+					.product-categories-container {
+						.product-category-container {
+							padding: 4px;
 						}
 					}
-					
-					.product-category-name {
-						font-size: 12px;
+				
+					.product-card-icons {
+						width: max-content;
+						max-width: 290px;
+						
+						.product-categories-container {
+							display: flex;
+							justify-content: center;
+							
+							.product-category-icon-container {
+								display: flex;
+								flex-direction: column;
+								align-items: center;
+								max-width: 76px;
+								padding: 0;
+								
+								svg {
+									width: 40px;
+									max-height: fit-content;
+								}
+								
+								.product-category-name {
+									font-size: 12px;
+									word-wrap: break-word;
+									word-break: break-word;
+									text-align: center;
+								}
+							}
+						}
 					}
 				}
 			}
@@ -179,7 +199,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-1-secondary) !important;
 						}
 					}
@@ -229,7 +249,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-2-secondary) !important;
 						}
 					}
@@ -279,7 +299,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-3-secondary) !important;
 						}
 					}
@@ -329,7 +349,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-4-secondary) !important;
 						}
 					}
@@ -379,7 +399,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-5-secondary) !important;
 						}
 					}
@@ -429,7 +449,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-6-secondary) !important;
 						}
 					}
@@ -479,7 +499,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-7-secondary) !important;
 						}
 					}
@@ -529,7 +549,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-8-secondary) !important;
 						}
 					}
@@ -579,7 +599,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-9-secondary) !important;
 						}
 					}
@@ -629,7 +649,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-10-secondary) !important;
 						}
 					}
@@ -679,7 +699,7 @@
 			.product-categories-container {
 				.product-category-icon-container {
 					svg {
-						path {
+						path, circle {
 							fill: var(--wp--preset--color--package-11-secondary) !important;
 						}
 					}
