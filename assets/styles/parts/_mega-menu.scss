@@ -1,0 +1,28 @@
+// Hide #mega-menu by default, show on hover/active.
+#mega-menu {
+	opacity: 0;
+	visibility: hidden;
+	max-height: 0;
+	overflow: hidden;
+	transition: opacity 0.2s ease, max-height 0.3s ease, visibility 0.2s;
+
+	&.is-active {
+		opacity: 1;
+		visibility: visible;
+		max-height: 600px;
+		overflow: visible;
+	}
+}
+
+// Hide the standard Shop submenu dropdown on desktop (replaced by mega menu).
+@media (min-width: 782px) {
+	.wp-block-navigation-item.has-child:has(> a[href*="/products/"]) {
+		> .wp-block-navigation__submenu-container {
+			display: none !important; // stylelint-disable-line declaration-no-important
+		}
+
+		> .wp-block-navigation-submenu__toggle {
+			display: none;
+		}
+	}
+}
