@@ -48,7 +48,7 @@
 				display: flex;
 				flex-direction: column;
 				justify-content: space-between;
-				
+
 				.wc-block-components-product-image > a {
 					display: flex;
 					visibility: visible;
@@ -56,42 +56,75 @@
 					justify-content: center;
 					margin-top: -68px;
 				}
-				
+
 				.product-card-info {
 					display: none;
 					visibility: hidden;
 					opacity: 0;
 					height: 416px;
 					max-width: 210px;
-					
+
+					// Grid layout for symmetrical hover states
+					grid-template-rows: auto 1fr 1fr;
+					align-items: center;
+					justify-items: center;
+
+					// Top zone: dosages
+					> div:first-child {
+						align-self: start;
+					}
+
+					// Middle zone: ingredient icons - sits at bottom of its row
+					> div:nth-child(2) {
+						align-self: end;
+					}
+
+					// Bottom zone: badge + benefit tags - sits at top of its row
+					> div:last-child {
+						align-self: start;
+
+						// Benefit tags container
+						.product-category-format-border {
+							.product-categories-container {
+								display: flex;
+								flex-wrap: wrap;
+								justify-content: center;
+								gap: 4px;
+							}
+						}
+					}
+
 					.product-categories-container {
 						.product-category-container {
 							padding: 4px;
 						}
 					}
-				
+
 					.product-card-icons {
-						width: max-content;
-						max-width: 290px;
-						
+						width: 100%;
+						max-width: 210px;
+
 						.product-categories-container {
 							display: flex;
+							flex-wrap: wrap;
 							justify-content: center;
-							
+							gap: 2px;
+							align-content: center;
+
 							.product-category-icon-container {
 								display: flex;
 								flex-direction: column;
 								align-items: center;
-								max-width: 76px;
+								max-width: 66px;
 								padding: 0;
-								
+
 								svg {
-									width: 40px;
+									width: 34px;
 									max-height: fit-content;
 								}
-								
+
 								.product-category-name {
-									font-size: 12px;
+									font-size: 11px;
 									word-wrap: break-word;
 									word-break: break-word;
 									text-align: center;
@@ -164,15 +197,14 @@
 				}
 				
 				.product-card-info {
-					display: flex;
-					flex-wrap: nowrap;
+					display: grid !important;
 					visibility: visible;
 					opacity: 1;
-					transition-property: all;
+					transition-property: opacity, visibility;
 					transition-duration: 0.2s;
 					transition-delay: 0.2s;
 					transition-behavior: allow-discrete;
-					
+
 					@starting-style {
 						opacity: 0;
 						visibility: hidden;
