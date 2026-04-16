@@ -2,21 +2,50 @@
 #mega-menu {
 	opacity: 0;
 	visibility: hidden;
-	max-height: 0;
-	overflow: hidden;
-	transition: opacity 0.2s ease, max-height 0.3s ease, visibility 0.2s;
+	pointer-events: none;
+	transition: opacity 0.2s ease, visibility 0.2s;
 
 	&.is-active {
 		opacity: 1;
 		visibility: visible;
-		max-height: 600px;
-		overflow: visible;
+		pointer-events: auto;
 	}
 }
 
-// Hide the standard Shop submenu dropdown on desktop (replaced by mega menu).
+// Active state styling for Shop nav item when mega menu is open.
 @media (min-width: 782px) {
 	.wp-block-navigation-item.has-child:has(> a[href*="/products/"]) {
+		position: relative;
+
+		// Chevron arrow next to Shop link.
+		> a::after {
+			content: '';
+			display: inline-block;
+			width: 0.4em;
+			height: 0.4em;
+			margin-left: 0.35em;
+			border-right: 2px solid currentColor;
+			border-bottom: 2px solid currentColor;
+			transform: translateY(-0.1em) rotate(45deg);
+			transition: transform 0.25s ease;
+		}
+
+		// Rotate arrow up when mega menu is active.
+		&.is-mega-active > a::after {
+			transform: translateY(0.1em) rotate(-135deg);
+		}
+
+		// Bridge gap between nav item and mega menu to prevent hover flicker.
+		&.is-mega-active::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: -20px;
+			height: 20px;
+		}
+
+		// Hide the standard Shop submenu dropdown (replaced by mega menu).
 		> .wp-block-navigation__submenu-container {
 			display: none !important; // stylelint-disable-line declaration-no-important
 		}
