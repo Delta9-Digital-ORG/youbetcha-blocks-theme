@@ -1,14 +1,20 @@
 // Hide #mega-menu by default, show on hover/active.
 #mega-menu {
+	height: 0;
+	margin: 0 !important; // stylelint-disable-line declaration-no-important
 	opacity: 0;
-	visibility: hidden;
+	overflow: hidden;
+	padding: 0 !important; // stylelint-disable-line declaration-no-important
 	pointer-events: none;
-	transition: opacity 0.2s ease, visibility 0.2s;
+	transition: opacity 0.2s ease, height 0s 0.2s, padding 0s 0.2s;
 
 	&.is-active {
+		height: auto;
 		opacity: 1;
-		visibility: visible;
+		overflow: visible;
+		padding: revert !important; // stylelint-disable-line declaration-no-important
 		pointer-events: auto;
+		transition: opacity 0.2s ease, height 0s, padding 0s;
 	}
 }
 
