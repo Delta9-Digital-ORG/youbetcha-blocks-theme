@@ -62,34 +62,94 @@
 					visibility: hidden;
 					opacity: 0;
 					height: 416px;
-					max-width: 210px;
+					max-width: 260px;
 
 					// Grid layout for symmetrical hover states
-					grid-template-rows: auto 1fr 1fr;
+					grid-template-rows: auto auto 1fr;
 					align-items: center;
 					justify-items: center;
+					padding: 8px 0;
 
 					// Top zone: dosages
 					> div:first-child {
 						align-self: start;
 					}
 
-					// Middle zone: ingredient icons - sits at bottom of its row
+					// Middle zone: ingredient icons - fixed height for 3x3 grid max
 					> div:nth-child(2) {
-						align-self: end;
+						align-self: center;
+						min-height: 122px;
+						max-height: 122px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 100%;
 					}
 
-					// Bottom zone: badge + benefit tags - sits at top of its row
+					// Bottom zone: badge + dosages + benefit tags
 					> div:last-child {
 						align-self: start;
+						width: 100%;
+						height: 100%;
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						gap: 6px;
+						margin-top: 4px;
 
-						// Benefit tags container
-						.product-category-format-border {
-							.product-categories-container {
-								display: flex;
-								flex-wrap: wrap;
-								justify-content: center;
-								gap: 4px;
+						// Stretch all wrapper ancestors to full width for dotted lines
+						.wrapper, .wrapper__inner {
+							width: 100%;
+						}
+
+						.product-category-format-border-thick {
+							width: 100%;
+							display: flex;
+							align-items: center;
+							gap: 6px;
+
+							// Dotted lines on both sides
+							&::before,
+							&::after {
+								content: '';
+								flex: 1;
+								min-width: 20px;
+								border-top: 2px dotted currentColor;
+							}
+
+							.product-category-container {
+								padding: 0;
+								flex-shrink: 1;
+
+								span {
+									font-size: 22px;
+									font-weight: 700;
+									letter-spacing: 2px;
+									text-transform: uppercase;
+									padding: 6px 16px;
+									border-width: 3px;
+									white-space: nowrap;
+								}
+							}
+						}
+
+						// Benefits wrapper - vertically centered
+						> .wp-block-group.has-poppins-font-family {
+							margin-top: auto;
+							margin-bottom: auto;
+						}
+
+						// Benefit tags (Immune Boost, Calming, etc.)
+						.product-ingredients-format-border {
+							max-width: 210px;
+							justify-content: center;
+							align-items: center;
+
+							.product-ingredients-container {
+								span {
+									font-size: 11px;
+									padding: 4px 8px;
+								}
 							}
 						}
 					}
@@ -102,32 +162,34 @@
 
 					.product-card-icons {
 						width: 100%;
-						max-width: 210px;
+						max-width: 230px;
 
 						.product-categories-container {
 							display: flex;
 							flex-wrap: wrap;
-							justify-content: center;
-							gap: 2px;
+							justify-content: space-evenly;
+							gap: 4px 0;
 							align-content: center;
 
 							.product-category-icon-container {
 								display: flex;
 								flex-direction: column;
 								align-items: center;
-								max-width: 66px;
+								width: 72px;
+								max-width: 72px;
 								padding: 0;
 
 								svg {
-									width: 34px;
+									width: 26px;
 									max-height: fit-content;
 								}
 
 								.product-category-name {
-									font-size: 11px;
-									word-wrap: break-word;
-									word-break: break-word;
+									font-size: 10px;
 									text-align: center;
+									line-height: 1.2;
+									margin-top: 2px;
+									font-weight: 700;
 								}
 							}
 						}
@@ -168,6 +230,16 @@
 			.product-card-group {
 				.product-card-info {
 					height: 400px;
+
+					// Smaller badge for gummies/chocolate (30% smaller)
+					.product-category-format-border-thick {
+						.product-category-container {
+							span {
+								font-size: 15px;
+								padding: 4px 16px;
+							}
+						}
+					}
 				}
 			}
 		}
