@@ -836,3 +836,18 @@
 		}
 	}
 }
+
+// Taxonomy archive pages: equal-height cards with vertical spacing
+.archive .wp-block-woocommerce-product-collection {
+	.wc-block-product-template {
+		.wc-block-product {
+			align-self: stretch;
+			margin-top: var(--wp--preset--spacing--50);
+			margin-bottom: var(--wp--preset--spacing--50);
+
+			.product-card {
+				height: 100%;
+			}
+		}
+	}
+}
