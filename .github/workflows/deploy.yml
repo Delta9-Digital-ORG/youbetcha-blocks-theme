@@ -37,6 +37,12 @@ jobs:
       - name: Build assets
         run: npm run build
 
+<<<<<<< Updated upstream
+=======
+      - name: Remove node_modules before deploy
+        run: rm -rf node_modules
+
+>>>>>>> Stashed changes
       - name: Deploy to Production
         if: github.ref == 'refs/heads/main'
         uses: wpengine/github-action-wpe-site-deploy@v3
@@ -45,6 +51,10 @@ jobs:
           WPE_ENV: ${{ vars.WPE_PROD_ENV }}
           SRC_PATH: "."
           REMOTE_PATH: "wp-content/themes/youbetcha-blocks-theme/"
+<<<<<<< Updated upstream
+=======
+          FLAGS: "-azvr --inplace --exclude-from=.deployignore"
+>>>>>>> Stashed changes
           PHP_LINT: true
           CACHE_CLEAR: true
 
@@ -56,4 +66,8 @@ jobs:
           WPE_ENV: ${{ vars.WPE_STAGING_ENV }}
           SRC_PATH: "."
           REMOTE_PATH: "wp-content/themes/youbetcha-blocks-theme/"
+<<<<<<< Updated upstream
+=======
+          FLAGS: "-azvr --inplace --exclude-from=.deployignore"
+>>>>>>> Stashed changes
           CACHE_CLEAR: true
