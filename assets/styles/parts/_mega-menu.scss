@@ -1,0 +1,63 @@
+// Hide #mega-menu by default, show on hover/active.
+#mega-menu {
+	height: 0;
+	margin: 0 !important; // stylelint-disable-line declaration-no-important
+	opacity: 0;
+	overflow: hidden;
+	padding: 0 !important; // stylelint-disable-line declaration-no-important
+	pointer-events: none;
+	transition: opacity 0.2s ease, height 0s 0.2s, padding 0s 0.2s;
+
+	&.is-active {
+		height: auto;
+		opacity: 1;
+		overflow: visible;
+		padding: revert !important; // stylelint-disable-line declaration-no-important
+		pointer-events: auto;
+		transition: opacity 0.2s ease, height 0s, padding 0s;
+	}
+}
+
+// Active state styling for Shop nav item when mega menu is open.
+@media (min-width: 782px) {
+	.wp-block-navigation-item.has-child:has(> a[href*="/products/"]) {
+		position: relative;
+
+		// Chevron arrow next to Shop link.
+		> a::after {
+			content: '';
+			display: inline-block;
+			width: 0.4em;
+			height: 0.4em;
+			margin-left: 0.35em;
+			border-right: 2px solid currentColor;
+			border-bottom: 2px solid currentColor;
+			transform: translateY(-0.1em) rotate(45deg);
+			transition: transform 0.25s ease;
+		}
+
+		// Rotate arrow up when mega menu is active.
+		&.is-mega-active > a::after {
+			transform: translateY(0.1em) rotate(-135deg);
+		}
+
+		// Bridge gap between nav item and mega menu to prevent hover flicker.
+		&.is-mega-active::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: -20px;
+			height: 20px;
+		}
+
+		// Hide the standard Shop submenu dropdown (replaced by mega menu).
+		> .wp-block-navigation__submenu-container {
+			display: none !important; // stylelint-disable-line declaration-no-important
+		}
+
+		> .wp-block-navigation-submenu__toggle {
+			display: none;
+		}
+	}
+}
