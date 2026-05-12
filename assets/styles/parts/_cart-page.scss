@@ -1,0 +1,590 @@
+// Cart page brand redesign
+// Styles the classic WooCommerce cart page to match the mini-cart sidebar design
+
+$cp-primary: #417360;
+$cp-primary-dark: #2f5245;
+$cp-primary-light: #729789;
+$cp-primary-tint: rgba(65, 115, 96, 0.1);
+$cp-charcoal: #2B2B2B;
+$cp-border: #EAEAEA;
+$cp-error: #FF905F;
+$cp-porcelain-tint: rgba(241, 232, 227, 0.3);
+$cp-white: #ffffff;
+$cp-transition: 0.3s ease-out;
+
+// ============================================================
+// Override WC dl.variation dt — must match WC specificity:
+// .woocommerce td.product-name dl.variation dt { display: inline-block }
+// ============================================================
+body.woocommerce-cart .woocommerce td.product-name dl.variation dt {
+	display: none;
+}
+
+body.woocommerce-cart .woocommerce td.product-name dl.variation dd {
+	margin: 0;
+	padding: 0;
+}
+
+body.woocommerce-cart .woocommerce td.product-name dl.variation {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+	margin-top: 8px;
+}
+
+body.woocommerce-cart .woocommerce td.product-name dl.variation dd.variation-Ingredients p {
+	font-family: 'Poppins', sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: $cp-primary-light;
+	margin: 0;
+}
+
+body.woocommerce-cart .woocommerce td.product-name dl.variation dd.variation-Nutrition p {
+	font-family: 'Poppins', sans-serif;
+	font-size: 12px;
+	font-weight: 700;
+	color: $cp-primary;
+	margin: 0;
+}
+
+body.woocommerce-cart .woocommerce td.product-name dl.variation dd.variation-Mood {
+	width: 100%;
+
+	p {
+		display: inline-block;
+		font-family: 'DDC Hardware', 'Poppins', sans-serif;
+		font-size: 16px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		padding: 3px 10px;
+		border: 2px solid $cp-primary;
+		border-radius: 4px;
+		color: $cp-primary;
+		line-height: 1.3;
+		margin: 0;
+	}
+}
+
+body.woocommerce-cart .woocommerce td.product-name dl.variation dd.variation-Active {
+	width: 100%;
+
+	p {
+		font-family: 'DDC Hardware', 'Poppins', sans-serif;
+		font-size: 16px;
+		text-transform: uppercase;
+		color: $cp-primary;
+		letter-spacing: 0.02em;
+		margin: 0;
+	}
+}
+
+// ============================================================
+// Cart page container
+// ============================================================
+.woocommerce-cart {
+
+	// Page title
+	.entry-title,
+	h1.wp-block-heading {
+		font-family: 'Poppins', sans-serif;
+		font-weight: 700;
+		color: $cp-primary;
+	}
+
+	// Cart form + totals side by side
+	&.woocommerce-cart .woocommerce,
+	.woocommerce {
+		max-width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2rem;
+		align-items: flex-start;
+
+		.woocommerce-cart-form {
+			flex: 2;
+			min-width: 0;
+		}
+
+		.cart-collaterals {
+			flex: 1;
+			min-width: 300px;
+			width: 100%;
+			position: sticky;
+			top: 2rem;
+			align-self: flex-start;
+		}
+	}
+
+	// Cart table
+	table.shop_table.cart {
+		border: none;
+		border-collapse: separate;
+		border-spacing: 0;
+
+		thead th {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 600;
+			font-size: 14px;
+			color: $cp-primary;
+			border-bottom: 2px solid $cp-border;
+			padding: 1rem 1.5rem;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+		}
+
+		tr.woocommerce-cart-form__cart-item {
+			border-bottom: 1px solid $cp-border;
+			transition: background $cp-transition;
+
+			&:hover {
+				background: $cp-porcelain-tint;
+			}
+
+			td {
+				padding: 1.25rem 1rem;
+				border: none;
+				border-bottom: 1px solid $cp-border;
+				vertical-align: middle;
+				font-family: 'Poppins', sans-serif;
+			}
+
+			// Remove button — trash icon
+			td.product-remove a.remove {
+				color: $cp-charcoal;
+				font-size: 0;
+				width: 36px;
+				height: 36px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 8px;
+				transition: all $cp-transition;
+				background: transparent;
+
+				&::before {
+					content: '';
+					display: block;
+					width: 20px;
+					height: 20px;
+					background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%232B2B2B' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'/%3E%3Cpath d='M5 6l1 14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-14'/%3E%3Cline x1='10' y1='11' x2='10' y2='17'/%3E%3Cline x1='14' y1='11' x2='14' y2='17'/%3E%3C/svg%3E");
+					background-repeat: no-repeat;
+					background-size: contain;
+				}
+
+				&:hover {
+					background: rgba(255, 144, 95, 0.12);
+
+					&::before {
+						background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%23FF905F' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 6h18'/%3E%3Cpath d='M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'/%3E%3Cpath d='M5 6l1 14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-14'/%3E%3Cline x1='10' y1='11' x2='10' y2='17'/%3E%3Cline x1='14' y1='11' x2='14' y2='17'/%3E%3C/svg%3E");
+					}
+				}
+			}
+
+			// Product image
+			td.product-thumbnail img {
+				width: 80px;
+				height: 80px;
+				max-width: 80px;
+				object-fit: cover;
+				border-radius: 0.5rem;
+				border: 1px solid $cp-border;
+			}
+
+			// Product name + pack label
+			td.product-name {
+				a {
+					font-family: 'Poppins', sans-serif;
+					font-size: 16px;
+					font-weight: 600;
+					color: $cp-primary;
+					text-decoration: none;
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+
+				.pack-label {
+					font-family: 'Poppins', sans-serif;
+					font-size: 16px;
+					font-weight: 600;
+					color: $cp-primary;
+				}
+
+				dl.variation {
+					display: flex;
+					flex-wrap: wrap;
+					align-items: center;
+					gap: 4px;
+					margin-top: 8px;
+				}
+			}
+
+			// Price
+			td.product-price {
+				font-family: 'Poppins', sans-serif;
+				font-size: 16px;
+				font-weight: 700;
+				color: $cp-primary;
+
+				del { color: $cp-primary-light; }
+			}
+
+			// Quantity — styled +/- buttons with input
+			td.product-quantity .quantity {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+
+				.yb-qty-btn {
+					width: 36px;
+					height: 36px;
+					min-width: 36px;
+					background: $cp-primary;
+					color: $cp-white;
+					border: 3px solid $cp-primary;
+					border-radius: 8px;
+					font-size: 20px;
+					font-weight: 700;
+					font-family: 'Poppins', sans-serif;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					cursor: pointer;
+					transition: all $cp-transition;
+					line-height: 1;
+					padding: 0;
+
+					&:hover {
+						background: $cp-primary-dark;
+						border-color: $cp-primary-dark;
+					}
+				}
+			}
+
+			td.product-quantity .quantity input.qty {
+				width: 44px;
+				height: 36px;
+				border: 3px solid $cp-primary;
+				border-radius: 8px;
+				text-align: center;
+				font-size: 14px;
+				font-weight: 700;
+				color: $cp-primary;
+				font-family: 'Poppins', sans-serif;
+				background: $cp-white;
+				-moz-appearance: textfield;
+
+				&::-webkit-inner-spin-button,
+				&::-webkit-outer-spin-button {
+					-webkit-appearance: none;
+					margin: 0;
+				}
+			}
+
+			// Subtotal + save badge
+			td.product-subtotal {
+				font-family: 'Poppins', sans-serif;
+				font-size: 16px;
+				font-weight: 700;
+				color: $cp-primary;
+
+				.yb-save-badge {
+					display: block;
+					margin-top: 4px;
+					background: $cp-primary;
+					color: $cp-white;
+					font-family: 'Poppins', sans-serif;
+					font-size: 11px;
+					font-weight: 700;
+					padding: 2px 8px;
+					border-radius: 4px;
+					white-space: nowrap;
+					width: fit-content;
+
+					.woocommerce-Price-amount {
+						color: $cp-white;
+						font-size: 11px;
+					}
+				}
+			}
+		}
+
+		// Coupon + update cart row
+		td.actions {
+			border: none;
+			padding: 1.25rem 0;
+
+			.coupon {
+				display: flex;
+				gap: 0.5rem;
+				align-items: center;
+
+				input[type="text"] {
+					border: 2px solid $cp-border;
+					border-radius: 100rem;
+					padding: 0.75rem 1.25rem;
+					font-family: 'Poppins', sans-serif;
+					font-size: 14px;
+					transition: border-color $cp-transition;
+
+					&:focus {
+						border-color: $cp-primary;
+						outline: none;
+					}
+				}
+
+				button {
+					background: transparent;
+					border: 3px solid $cp-primary;
+					color: $cp-primary;
+					border-radius: 100rem;
+					padding: 0.625rem 1.5rem;
+					font-family: 'Poppins', sans-serif;
+					font-weight: 700;
+					font-size: 14px;
+					text-transform: uppercase;
+					letter-spacing: 0.04em;
+					cursor: pointer;
+					transition: all $cp-transition;
+
+					&:hover {
+						background: $cp-primary;
+						color: $cp-white;
+					}
+				}
+			}
+
+			button[name="update_cart"] {
+				background: $cp-primary;
+				border: 3px solid $cp-primary;
+				color: $cp-white;
+				border-radius: 100rem;
+				padding: 0.625rem 1.5rem;
+				font-family: 'Poppins', sans-serif;
+				font-weight: 700;
+				font-size: 14px;
+				text-transform: uppercase;
+				letter-spacing: 0.04em;
+				cursor: pointer;
+				transition: all $cp-transition;
+				float: right;
+
+				&:hover {
+					background: $cp-primary-dark;
+					border-color: $cp-primary-dark;
+				}
+
+				&:disabled {
+					opacity: 0.5;
+					cursor: not-allowed;
+				}
+			}
+		}
+	}
+
+	// Cart totals — override WC's .woocommerce .cart-collaterals .cart_totals { width: 48% }
+	.woocommerce .cart-collaterals .cart_totals {
+		width: 100%;
+	}
+
+	.cart_totals {
+
+		h2 {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 700;
+			color: $cp-primary;
+			font-size: 20px;
+		}
+
+		table.shop_table {
+			border: 2px solid $cp-border;
+			border-radius: 12px;
+			overflow: hidden;
+
+			th {
+				font-family: 'Poppins', sans-serif;
+				font-weight: 600;
+				font-size: 16px;
+				color: $cp-charcoal;
+				padding: 1rem 1.5rem;
+				border: none;
+				border-bottom: 1px solid $cp-border;
+			}
+
+			td {
+				font-family: 'Poppins', sans-serif;
+				font-weight: 700;
+				font-size: 16px;
+				color: $cp-primary;
+				padding: 1rem 1.5rem;
+				border: none;
+				border-bottom: 1px solid $cp-border;
+			}
+
+			tr.order-total {
+				th, td {
+					font-size: 18px;
+					border-bottom: none;
+				}
+
+				td .woocommerce-Price-amount {
+					font-size: 24px;
+					color: $cp-primary;
+				}
+			}
+
+			.woocommerce-shipping-methods {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+
+				label {
+					font-family: 'Poppins', sans-serif;
+					font-weight: 400;
+					color: $cp-charcoal;
+				}
+			}
+		}
+
+		.wc-proceed-to-checkout {
+			text-align: center;
+		}
+
+		.wc-proceed-to-checkout a.checkout-button {
+			display: block;
+			width: 100%;
+			background: $cp-primary;
+			border: 3px solid $cp-primary;
+			color: $cp-white;
+			border-radius: 100rem;
+			padding: 1rem 1.5rem;
+			font-family: 'Poppins', sans-serif;
+			font-weight: 700;
+			font-size: 16px;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			text-align: center;
+			text-decoration: none;
+			transition: all $cp-transition;
+			margin-top: 1rem;
+
+			&:hover {
+				background: $cp-primary-dark;
+				border-color: $cp-primary-dark;
+			}
+		}
+	}
+
+	// WooCommerce notices (classic)
+	.woocommerce-message {
+		border-top-color: $cp-primary;
+		font-family: 'Poppins', sans-serif;
+
+		a {
+			color: $cp-primary;
+			font-weight: 600;
+		}
+	}
+
+	// Empty cart message
+	.wc-empty-cart-message {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	// Return to shop / back button
+	.wc-backward.wp-element-button,
+	a.wc-backward {
+		display: inline-block;
+		background: transparent;
+		border: 3px solid $cp-primary;
+		color: $cp-primary;
+		border-radius: 100rem;
+		padding: 0.75rem 1.5rem;
+		font-family: 'Poppins', sans-serif;
+		font-weight: 700;
+		font-size: 14px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		text-decoration: none;
+		cursor: pointer;
+		transition: all $cp-transition;
+
+		&:hover {
+			background: $cp-primary;
+			color: $cp-white;
+		}
+	}
+
+	// Store notices (Blocks)
+	.wc-block-store-notices {
+		max-width: 100%;
+		margin: 0 auto 1.5rem;
+		display: flex;
+		justify-content: center;
+
+		.wc-block-components-notice-banner {
+			font-family: 'Poppins', sans-serif;
+			font-size: 14px;
+			border-radius: 8px;
+			padding: 0.75rem 1.25rem;
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			justify-content: center;
+
+			&.is-success {
+				background: $cp-primary-tint;
+				border: 2px solid $cp-primary;
+				color: $cp-primary;
+
+				svg {
+					fill: $cp-primary;
+					flex-shrink: 0;
+				}
+			}
+
+			&.is-error {
+				background: rgba(255, 144, 95, 0.1);
+				border: 2px solid $cp-error;
+				color: $cp-charcoal;
+
+				svg {
+					fill: $cp-error;
+					flex-shrink: 0;
+				}
+			}
+
+			&.is-info {
+				background: $cp-primary-tint;
+				border: 2px solid $cp-primary-light;
+				color: $cp-charcoal;
+				justify-content: center;
+
+				svg {
+					fill: $cp-primary;
+					flex-shrink: 0;
+				}
+			}
+
+			.wc-block-components-notice-banner__content {
+				font-weight: 500;
+
+				a {
+					color: $cp-primary;
+					font-weight: 700;
+					text-decoration: underline;
+				}
+			}
+
+			// Hide dismiss button
+			button.components-button {
+				color: $cp-primary;
+			}
+		}
+	}
+}

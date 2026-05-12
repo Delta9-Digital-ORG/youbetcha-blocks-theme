@@ -45,6 +45,11 @@ class WooCommerce implements ServiceInterface
 		\add_action('woocommerce_product_options_general_product_data', [$this, 'custom_product_suggested_use_text_field']);
 		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_suggested_use_text_field_save'], 10, 1);
 		\add_filter('woocommerce_get_item_data', [$this, 'miniCartItemData'], 10, 2);
+		\add_action('woocommerce_before_quantity_input_field', [$this, 'quantityMinusButton']);
+		\add_action('woocommerce_after_quantity_input_field', [$this, 'quantityPlusButton']);
+		\add_filter('woocommerce_cart_item_subtotal', [$this, 'cartItemSaveBadge'], 20, 3);
+		\add_filter('woocommerce_order_button_text', [$this, 'checkoutButtonText']);
+		\add_filter('gettext', [$this, 'changeProceedToCheckoutText'], 20, 3);
 	}
 	/**
 	 * Disable new WooCommerce product template (from Version 7.7.0)
@@ -389,5 +394,79 @@ class WooCommerce implements ServiceInterface
 		}
 
 		return $itemData;
+	}
+
+	/**
+	 * Append a "Save $X.XX" badge to the cart item subtotal.
+	 *
+	 * Works with both WooCommerce sale prices and pack pricing.
+	 */
+	public function cartItemSaveBadge(string $subtotal, array $cartItem, string $cartItemKey): string
+	{
+		$product = $cartItem['data'] ?? null;
+
+		if (!$product) {
+			return $subtotal;
+		}
+
+		$quantity = (int) ($cartItem['quantity'] ?? 1);
+		$regularPrice = (float) $product->get_regular_price();
+		$saved = 0;
+
+		// Pack pricing savings: regular × qty vs pack price
+		if (!empty($cartItem['wc_pack_price'])) {
+			$packPrice = (float) $cartItem['wc_pack_price'];
+			$regularTotal = $regularPrice * $quantity;
+			$saved = $regularTotal - $packPrice;
+		}
+		// WooCommerce sale price savings
+		elseif ($product->is_on_sale()) {
+			$salePrice = (float) $product->get_sale_price();
+			if ($regularPrice > 0 && $salePrice > 0) {
+				$saved = ($regularPrice - $salePrice) * $quantity;
+			}
+		}
+
+		if ($saved > 0.01) {
+			$badge = '<span class="yb-save-badge">Save ' . \wc_price($saved) . '</span>';
+			return $subtotal . $badge;
+		}
+
+		return $subtotal;
+	}
+
+	/**
+	 * Change "Proceed to checkout" text to "Checkout".
+	 */
+	public function changeProceedToCheckoutText(string $translated, string $text, string $domain): string
+	{
+		if ($domain === 'woocommerce' && $text === 'Proceed to checkout') {
+			return 'Checkout';
+		}
+		return $translated;
+	}
+
+	/**
+	 * Change order button text on checkout page.
+	 */
+	public function checkoutButtonText(): string
+	{
+		return 'Checkout';
+	}
+
+	/**
+	 * Add minus button before quantity input.
+	 */
+	public function quantityMinusButton(): void
+	{
+		echo '<button type="button" class="yb-qty-btn yb-qty-minus" aria-label="Decrease quantity">&minus;</button>';
+	}
+
+	/**
+	 * Add plus button after quantity input.
+	 */
+	public function quantityPlusButton(): void
+	{
+		echo '<button type="button" class="yb-qty-btn yb-qty-plus" aria-label="Increase quantity">+</button>';
 	}
 }
