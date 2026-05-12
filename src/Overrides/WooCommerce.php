@@ -44,6 +44,7 @@ class WooCommerce implements ServiceInterface
 		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_servings_per_container_text_field_save'], 10, 1);
 		\add_action('woocommerce_product_options_general_product_data', [$this, 'custom_product_suggested_use_text_field']);
 		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_suggested_use_text_field_save'], 10, 1);
+		\add_filter('woocommerce_get_item_data', [$this, 'miniCartItemData'], 10, 2);
 	}
 	/**
 	 * Disable new WooCommerce product template (from Version 7.7.0)
@@ -265,5 +266,128 @@ class WooCommerce implements ServiceInterface
 	function custom_product_awards_tag_text_field_save($product) {
 		$custom_field_value = isset($_POST['_custom_product_awards_tag_text_field']) ? $_POST['_custom_product_awards_tag_text_field'] : '';
 		$product->update_meta_data('_custom_product_awards_tag_text_field', sanitize_text_field($custom_field_value));
+	}
+
+	/**
+	 * Inject product metadata into mini-cart item data.
+	 *
+	 * Adds ingredients, nutrition facts, active ingredients, and mood
+	 * to the cart item data so they render in the WooCommerce Blocks mini-cart.
+	 */
+	public function miniCartItemData(array $itemData, array $cartItem): array
+	{
+		$productId = $cartItem['product_id'] ?? 0;
+
+		if (!$productId) {
+			return $itemData;
+		}
+
+		$productCategories = get_the_terms($productId, 'product_cat');
+
+		if (empty($productCategories) || is_wp_error($productCategories)) {
+			return $itemData;
+		}
+
+		// Helper: get child category names under a parent slug.
+		$getChildCats = function (string $parentSlug) use ($productId, $productCategories): array {
+			$parentTerm = get_term_by('slug', $parentSlug, 'product_cat');
+			if (!$parentTerm) {
+				return [];
+			}
+
+			$children = [];
+			foreach ($productCategories as $cat) {
+				if ($cat->parent === $parentTerm->term_id) {
+					$children[] = $cat;
+				}
+			}
+			return $children;
+		};
+
+		// 1. Ingredients — child category names under "ingredients"
+		$ingredientCats = $getChildCats('ingredients');
+		if (!empty($ingredientCats)) {
+			$names = array_map(function ($cat) {
+				return $cat->name;
+			}, $ingredientCats);
+
+			$itemData[] = [
+				'key'   => 'Ingredients',
+				'value' => implode(', ', $names),
+			];
+		}
+
+		// 2. Nutrition Facts — first line of description from child cats under "nutrition-facts"
+		$nutritionCats = $getChildCats('nutrition-facts');
+		if (!empty($nutritionCats)) {
+			$facts = [];
+			foreach ($nutritionCats as $cat) {
+				$desc = wp_strip_all_tags($cat->description);
+				$lines = array_filter(preg_split('/\r\n|\r|\n/', $desc), function ($line) {
+					return !empty(trim($line));
+				});
+				$lines = array_values($lines);
+				if (!empty($lines)) {
+					$facts[] = trim($lines[0]);
+				}
+			}
+
+			if (!empty($facts)) {
+				$itemData[] = [
+					'key'   => 'Nutrition',
+					'value' => implode(' · ', $facts),
+				];
+			}
+		}
+
+		// 3. Mood — child category name under "mood"
+		$moodCats = $getChildCats('mood');
+		if (!empty($moodCats)) {
+			$itemData[] = [
+				'key'   => 'Mood',
+				'value' => $moodCats[0]->name,
+			];
+		}
+
+		// 4. Active Ingredients — child cats under "active-ingredient-label" with grandchildren for dosage
+		$activeIngredientCats = $getChildCats('active-ingredient-label');
+		if (!empty($activeIngredientCats)) {
+			$activeParts = [];
+			foreach ($activeIngredientCats as $cat) {
+				// Get grandchildren (dosage info)
+				$grandchildren = get_terms([
+					'taxonomy'   => 'product_cat',
+					'hide_empty' => false,
+					'parent'     => $cat->term_id,
+				]);
+
+				if (!empty($grandchildren) && !is_wp_error($grandchildren)) {
+					// Check product is assigned to these grandchildren
+					$productCatIds = array_map(function ($c) {
+						return $c->term_id;
+					}, $productCategories);
+
+					foreach ($grandchildren as $gc) {
+						if (in_array($gc->term_id, $productCatIds, true)) {
+							$parts = explode(' ', $gc->name);
+							$dose = $parts[0] ?? '';
+							$compound = $parts[1] ?? $cat->name;
+							$activeParts[] = $dose . ' ' . $compound;
+						}
+					}
+				} else {
+					$activeParts[] = $cat->name;
+				}
+			}
+
+			if (!empty($activeParts)) {
+				$itemData[] = [
+					'key'   => 'Active',
+					'value' => implode(', ', $activeParts),
+				];
+			}
+		}
+
+		return $itemData;
 	}
 }
