@@ -4,6 +4,32 @@
  * Usage: `WordPress frontend screen`.
  */
 
+// Quantity +/- buttons on cart page
+document.addEventListener('click', (e) => {
+	const btn = e.target.closest('.yb-qty-btn');
+	if (!btn) return;
+
+	const qty = btn.closest('.quantity');
+	if (!qty) return;
+
+	const input = qty.querySelector('input.qty');
+	if (!input) return;
+
+	const min = parseInt(input.min, 10) || 0;
+	const max = parseInt(input.max, 10) || Infinity;
+	const step = parseInt(input.step, 10) || 1;
+	let val = parseInt(input.value, 10) || 0;
+
+	if (btn.classList.contains('yb-qty-minus')) {
+		val = Math.max(min, val - step);
+	} else {
+		val = Math.min(max, val + step);
+	}
+
+	input.value = val;
+	input.dispatchEvent(new Event('change', { bubbles: true }));
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 	const megaMenu = document.querySelector('#mega-menu');
 	if (!megaMenu) return;

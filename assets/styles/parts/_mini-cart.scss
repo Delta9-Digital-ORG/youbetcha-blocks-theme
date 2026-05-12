@@ -180,6 +180,8 @@ $mc-transition: 0.3s ease-out;
 
 						// Active ingredients — inline, DDC Hardware font
 						.wc-block-components-product-details__active {
+							width: 100%;
+
 							.wc-block-components-product-details__name {
 								display: none;
 							}
@@ -193,8 +195,10 @@ $mc-transition: 0.3s ease-out;
 							}
 						}
 
-						// Mood — inline, bordered badge, DDC Hardware font
+						// Mood — stacked, bordered badge, DDC Hardware font
 						.wc-block-components-product-details__mood {
+							width: 100%;
+
 							.wc-block-components-product-details__name {
 								display: none;
 							}
