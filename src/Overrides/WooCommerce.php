@@ -438,7 +438,7 @@ class WooCommerce implements ServiceInterface
 	/**
 	 * Change "Proceed to checkout" text to "Checkout".
 	 */
-	public function changeProceedToCheckoutText(string $translated, string $text, string $domain): string
+	public function changeProceedToCheckoutText($translated, $text, $domain) // This function can't have types in the signature because the wholesale plugin passes it NULL on the settings page. 
 	{
 		if ($domain === 'woocommerce' && $text === 'Proceed to checkout') {
 			return 'Checkout';
