@@ -28,6 +28,7 @@ class WooCommerce implements ServiceInterface
 		\add_filter('woocommerce_register_post_type_product', [$this, 'restored_reset_product_template']);
 		\add_filter('use_block_editor_for_post_type', [$this, 'restored_activate_gutenberg_product'], 10, 2);
 		\add_filter('woocommerce_taxonomy_args_product_cat', [$this, 'restored_enable_taxonomy_rest']);
+		\add_filter('taxonomy_template_hierarchy', [$this, 'inheritAncestorCategoryTemplate']);
 		\add_action('woocommerce_product_options_general_product_data', [$this, 'custom_product_description_text_field']);
 		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_description_text_field_save'], 10, 1);
 		\add_action('woocommerce_product_options_general_product_data', [$this, 'custom_product_ingredients_text_field']);
@@ -96,6 +97,65 @@ class WooCommerce implements ServiceInterface
 		$args['show_in_rest'] = true;
 
 		return $args;
+	}
+
+	/**
+	 * Make nested product categories inherit the nearest ancestor's block template.
+	 *
+	 * WordPress' term-template hierarchy only matches a term's OWN slug
+	 * (taxonomy-product_cat-{slug}) before falling back to the generic
+	 * taxonomy-product_cat template — it never walks up to parent terms. So a deep
+	 * category such as active-ingredients/cbd-active-ingredients/5mg-cbd-active-ingredients
+	 * skips the curated "cbd-active-ingredients" template and drops to the generic one.
+	 *
+	 * This injects each ancestor's taxonomy-product_cat-{ancestor-slug} into the
+	 * hierarchy (nearest ancestor first) just before the generic template, so a child
+	 * term renders with the closest ancestor template that actually exists.
+	 *
+	 * @param string[] $templates Template hierarchy (most specific first).
+	 *
+	 * @return string[]
+	 */
+	public function inheritAncestorCategoryTemplate($templates): array
+	{
+		if (!\is_array($templates) || !\is_tax('product_cat')) {
+			return $templates;
+		}
+
+		$term = \get_queried_object();
+		if (!($term instanceof \WP_Term) || empty($term->parent)) {
+			return $templates;
+		}
+
+		// Locate the generic template entry and mirror its suffix (with/without .php).
+		$genericIndex = false;
+		$suffix = '';
+		foreach ($templates as $index => $candidate) {
+			if ($candidate === 'taxonomy-product_cat' || $candidate === 'taxonomy-product_cat.php') {
+				$genericIndex = $index;
+				$suffix = ($candidate === 'taxonomy-product_cat.php') ? '.php' : '';
+				break;
+			}
+		}
+
+		if ($genericIndex === false) {
+			return $templates;
+		}
+
+		// Ancestors are returned nearest-first (immediate parent → root).
+		$ancestorTemplates = [];
+		foreach (\get_ancestors($term->term_id, 'product_cat', 'taxonomy') as $ancestorId) {
+			$ancestor = \get_term($ancestorId, 'product_cat');
+			if ($ancestor instanceof \WP_Term && !empty($ancestor->slug)) {
+				$ancestorTemplates[] = "taxonomy-product_cat-{$ancestor->slug}{$suffix}";
+			}
+		}
+
+		if (!empty($ancestorTemplates)) {
+			\array_splice($templates, $genericIndex, 0, $ancestorTemplates);
+		}
+
+		return $templates;
 	}
 	
 	// Hook to add product description to general data
