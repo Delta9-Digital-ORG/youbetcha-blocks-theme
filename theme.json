@@ -483,6 +483,26 @@
 	},
 	"styles": {
 		"blocks": {
+			"core/column": {
+				"spacing": {
+					"blockGap": ".8rem"
+				}
+			},
+			"core/columns": {
+				"spacing": {
+					"blockGap": ".8rem"
+				}
+			},
+			"core/group": {
+				"spacing": {
+					"blockGap": ".8rem"
+				}
+			},
+			"core/post-content": {
+				"spacing": {
+					"blockGap": ".8rem"
+				}
+			},
 			"core/button": {
 				"border": {
 					"radius": "4px"
