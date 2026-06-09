@@ -197,11 +197,21 @@
 				}
 			}
 			
+			// Keep the card at content height instead of stretching to fill the
+			// equal-height grid row, so the price/Add-to-Cart sit directly under
+			// the product type label (matches the homepage product grid).
+			.product-card {
+				height: auto;
+				align-self: start;
+			}
+
 			.product-card-product-name {
 				margin: 0;
-				
+				text-align: center;
+
 				a {
 					color: inherit;
+					text-align: center;
 				}
 			}
 			
