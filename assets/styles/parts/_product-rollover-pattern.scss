@@ -857,3 +857,54 @@
 		}
 	}
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// Responsive: product cards on tablet & phone.
+//
+// Everything above is desktop-first and hard-codes a 400px card (`min-width`
+// + a fixed 468px height, with the decorative ingredient badge offset by
+// -380px to suit that 400px width). In a multi-column grid this forces the
+// card to ignore its grid cell and balloon to 400px, overflowing the viewport
+// on phones and tablets. Below the `lg` breakpoint we let the card size
+// fluidly to its cell; below `sm` we also collapse the grid to a single
+// column so the detailed can artwork stays legible.
+// ─────────────────────────────────────────────────────────────────────────
+// Selectors mirror the desktop-first chain above
+// (`…product-collection .wc-block-product-template .wc-block-product …`) so
+// these overrides match its specificity and win by source order — without
+// `!important`.
+@include bp-down(lg) {
+	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product {
+		.product-card-group {
+			min-width: 0;
+			width: 100%;
+			height: auto;
+			margin-inline: auto;
+
+			.wc-block-components-product-image > a {
+				margin-top: 0;
+			}
+		}
+
+		// The circular "Xmg THC per container" badge is offset for the 400px
+		// desktop card — reset it so it sits inline on smaller cards.
+		.product-category-active-ingredient-label {
+			margin-left: 0;
+			margin-bottom: 0;
+			align-self: flex-start;
+		}
+	}
+}
+
+@include bp-down(sm) {
+	.wp-block-woocommerce-product-collection {
+		.wc-block-product-template {
+			// Override WooCommerce's generated multi-column template.
+			grid-template-columns: 1fr !important; // stylelint-disable-line declaration-no-important
+		}
+
+		.wc-block-product-template .wc-block-product .product-card-group {
+			max-width: 360px;
+		}
+	}
+}
