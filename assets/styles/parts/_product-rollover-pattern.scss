@@ -908,3 +908,26 @@
 		}
 	}
 }
+
+@media only screen and (max-width: 600px) {
+	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product {
+		.product-category-active-ingredient-label {
+			margin-bottom: -72px;
+		}
+		
+		.product-card-group {
+			max-width: none;
+		}
+	}
+	
+	.product-collection-gummies {
+		ul {
+			li {
+				.has-global-padding {
+					padding-right: var(--wp--style--root--padding-right);
+					padding-left: var(--wp--style--root--padding-left);
+				}
+			}
+		}
+	}
+}
