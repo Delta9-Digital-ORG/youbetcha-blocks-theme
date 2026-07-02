@@ -52,3 +52,12 @@
 		}
 	}
 }
+
+@media only screen and (max-width: 600px) {
+	.product-page-description-nutrition-cana-facts-pattern {
+		.product-page-description-pattern , .product-page-nutrition-cana-facts-pattern {
+			width: auto;
+		}
+	}
+}
+
