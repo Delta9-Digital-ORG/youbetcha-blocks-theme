@@ -143,12 +143,27 @@ class WooCommerce implements ServiceInterface
 		}
 
 		// Ancestors are returned nearest-first (immediate parent → root).
+		$ancestorIds = \array_map('\intval', \get_ancestors($term->term_id, 'product_cat', 'taxonomy'));
+
 		$ancestorTemplates = [];
-		foreach (\get_ancestors($term->term_id, 'product_cat', 'taxonomy') as $ancestorId) {
+		foreach ($ancestorIds as $ancestorId) {
 			$ancestor = \get_term($ancestorId, 'product_cat');
 			if ($ancestor instanceof \WP_Term && !empty($ancestor->slug)) {
 				$ancestorTemplates[] = "taxonomy-product_cat-{$ancestor->slug}{$suffix}";
 			}
+		}
+
+		// Style-by-level rule for the "mood" subtree: any category nested under
+		// "mood" uses the shared Style-B template (compact "MOOD" label + large,
+		// left-aligned term title) instead of inheriting the top-level "mood"
+		// Style-A template. Injected ahead of the ancestor-slug entries so Style-B
+		// wins over the parent's Style-A template, while a term's own curated
+		// template (matched earlier in the hierarchy by WordPress) still takes
+		// precedence. Scoped to the mood subtree, so active-ingredients/etc. are
+		// unaffected.
+		$moodTerm = \get_term_by('slug', 'mood', 'product_cat');
+		if ($moodTerm instanceof \WP_Term && \in_array((int) $moodTerm->term_id, $ancestorIds, true)) {
+			\array_unshift($ancestorTemplates, "taxonomy-product_cat-mood-nested{$suffix}");
 		}
 
 		if (!empty($ancestorTemplates)) {
