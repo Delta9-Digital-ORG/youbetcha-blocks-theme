@@ -1,0 +1,24 @@
+// Sticky site header.
+// The header template part (announcement bar + centered nav) sticks to the
+// top of the viewport while the page scrolls beneath it.
+header.wp-block-template-part {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+
+	// Opaque background so scrolled content doesn't show through the nav row.
+	// The announcement bar keeps its own (primary) background on top of this.
+	background-color: var(--global-colors-white);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+// Offset for the fixed WordPress admin bar when logged in.
+.admin-bar header.wp-block-template-part {
+	top: 32px;
+}
+
+@media (max-width: 782px) {
+	.admin-bar header.wp-block-template-part {
+		top: 46px;
+	}
+}
