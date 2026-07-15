@@ -16,7 +16,10 @@ body {
 	color: var(--global-colors-black);
 	background-color: var(--global-colors-white);
 	position: relative;
-	overflow-x: hidden;
+
+	// Use `clip` (not `hidden`) so the body does not become a scroll
+	// container — `hidden` would break `position: sticky` on the header.
+	overflow-x: clip;
 }
 
 // Fix WP admin bar positioning.
