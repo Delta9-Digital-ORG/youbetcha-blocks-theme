@@ -1,9 +1,25 @@
 .product-page-description-nutrition-cana-facts-pattern {
 	display: flex;
 	align-items: stretch;
-	
+	gap: 16px;
+	// Figma leaves ~80px between the hero's bottom edge and the top of these
+	// cards. The gap is not decorative: the single-product block's script
+	// wordmark deliberately hangs past that edge, so anything less and the
+	// cards collide with the product name.
+	margin-top: 64px;
+
+	// Three columns — description 25%, nutrition/cana facts 25%, product
+	// gallery grid 50%. Flex-grow ratios (1/1/2 on a 0 basis) so the gaps
+	// are absorbed proportionally instead of overflowing fixed widths.
+	.yb-product-gallery-grid {
+		flex: 2 1 0;
+		min-width: 0;
+	}
+
 	.product-page-description-pattern {
-		width: 50%;
+		width: auto;
+		flex: 1 1 0;
+		min-width: 0;
 		
 		.product-category-list-custom-category {
 			font-weight: 700;
@@ -14,8 +30,8 @@
 		}
 		
 		.product-page-other-ingredients-pattern {
-			display: flex;
-			align-items: baseline;
+			// Stack the "OTHER INGREDIENTS:" label above the ingredient list.
+			display: block;
 			
 			p {
 				padding-right: 8px;
@@ -28,7 +44,9 @@
 	}
 	
 	.product-page-nutrition-cana-facts-pattern {
-		width: 50%;
+		width: auto;
+		flex: 1 1 0;
+		min-width: 0;
 		background-color: rgb(65 115 96 / 75%);
 		
 		.product-page-nutrition-facts-pattern, .product-page-cana-facts-pattern {
@@ -55,8 +73,16 @@
 
 @media only screen and (max-width: 600px) {
 	.product-page-description-nutrition-cana-facts-pattern {
+		// Three flex children don't fit side by side on phones — stack them.
+		flex-direction: column;
+
 		.product-page-description-pattern , .product-page-nutrition-cana-facts-pattern {
 			width: auto;
+			flex: none;
+		}
+
+		.yb-product-gallery-grid {
+			flex: none;
 		}
 	}
 }
