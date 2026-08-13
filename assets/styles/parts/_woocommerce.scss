@@ -33,13 +33,6 @@
 	cursor: pointer;
 }
 
-// Hide the redundant native WooCommerce "Description" tab label and its panel
-// heading — the custom single-product block already shows the description, so
-// only these two "Description" labels are duplicated. Panel content stays.
-#tab-title-description,
-#tab-description > h2:first-child {
-	display: none;
-}
 // WooCommerce's own woocommerce-layout.css caps images at `max-width: 100%`.
 // Override it here rather than editing the plugin's stylesheet, which is
 // vendored and would lose the change on the next WooCommerce update.

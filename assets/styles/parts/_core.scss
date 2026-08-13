@@ -28,6 +28,20 @@ body {
 	position: fixed;
 }
 
+// Close the gap between the header and the start of the page.
+//
+// `core/post-content` carries WP's default block spacing (0.8em), and where it
+// is the first thing in <main> that margin shows up as a strip of background
+// between the header and the content. The block's own top margin is already
+// zeroed by core's first-child rule, so this is the whole gap.
+//
+// Scoped to a direct child of <main> deliberately: on templates where
+// post-content is nested inside a group and follows a title (single.html), the
+// spacing is doing real work and is left alone.
+main > .wp-block-post-content {
+	margin-top: 0;
+}
+
 @media (max-width: 480px) {
 	body {
 		.is-layout-flex {

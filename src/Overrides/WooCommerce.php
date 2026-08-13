@@ -33,6 +33,8 @@ class WooCommerce implements ServiceInterface
 		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_description_text_field_save'], 10, 1);
 		\add_action('woocommerce_product_options_general_product_data', [$this, 'custom_product_ingredients_text_field']);
 		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_ingredients_text_field_save'], 10, 1);
+		\add_action('woocommerce_product_options_general_product_data', [$this, 'custom_product_benefits_text_field']);
+		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_benefits_text_field_save'], 10, 1);
 		\add_action('woocommerce_product_options_general_product_data', [$this, 'custom_product_other_ingredients_text_field']);
 		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_other_ingredients_text_field_save'], 10, 1);
 		\add_action('woocommerce_product_options_general_product_data', [$this, 'custom_product_cannafacts_select_field']);
@@ -45,6 +47,8 @@ class WooCommerce implements ServiceInterface
 		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_servings_per_container_text_field_save'], 10, 1);
 		\add_action('woocommerce_product_options_general_product_data', [$this, 'custom_product_suggested_use_text_field']);
 		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_suggested_use_text_field_save'], 10, 1);
+		\add_action('woocommerce_product_options_general_product_data', [$this, 'custom_product_nutrition_facts_fields']);
+		\add_action('woocommerce_admin_process_product_object', [$this, 'custom_product_nutrition_facts_fields_save'], 10, 1);
 		\add_filter('woocommerce_get_item_data', [$this, 'miniCartItemData'], 10, 2);
 		\add_action('woocommerce_before_quantity_input_field', [$this, 'quantityMinusButton']);
 		\add_action('woocommerce_after_quantity_input_field', [$this, 'quantityPlusButton']);
@@ -53,7 +57,14 @@ class WooCommerce implements ServiceInterface
 		\add_filter('gettext', [$this, 'changeProceedToCheckoutText'], 20, 3);
 	}
 	/**
-	 * Disable new WooCommerce product template (from Version 7.7.0)
+	 * Give new products the starter block layout every product page needs.
+	 *
+	 * Replaces WooCommerce's own product template (added in 7.7.0), which this
+	 * previously just unset. The single-product block lives in each product's
+	 * content rather than in the shared template, so that its award badges and
+	 * other block attributes are per-product — which means a product created
+	 * without it renders no hero at all. Pre-populating the canvas keeps that
+	 * from being something an editor has to remember.
 	 *
 	 * @param array $post_type_args Post type arguments.
 	 *
@@ -61,9 +72,28 @@ class WooCommerce implements ServiceInterface
 	 */
 	public function restored_reset_product_template($post_type_args): array
 	{
-		if (\array_key_exists('template', $post_type_args)) {
-			unset($post_type_args['template']);
+		$template = [
+			['eightshift-boilerplate/single-product'],
+		];
+
+		// The description/nutrition/gallery row is a synced pattern. Resolve it
+		// by slug, never by ID — the ID differs between local, youbetchadev and
+		// production, and a stale one would render an empty block. If the
+		// pattern is missing, ship the hero on its own rather than a broken ref.
+		$pattern = \get_page_by_path(
+			'product-page-description-and-nutrition-cana-facts',
+			\OBJECT,
+			'wp_block'
+		);
+
+		if ($pattern instanceof \WP_Post) {
+			$template[] = ['core/block', ['ref' => $pattern->ID]];
 		}
+
+		$post_type_args['template'] = $template;
+
+		// Deliberately no `template_lock` — editors can still add to, reorder,
+		// or remove blocks on an individual product.
 
 		return $post_type_args;
 	}
@@ -192,7 +222,11 @@ class WooCommerce implements ServiceInterface
 		$product->update_meta_data('_custom_product_description_text_field', sanitize_text_field($custom_field_value));
 	}
 	
-	// Hook to add product ingredients to general data
+	// Hook to add product ingredients to general data.
+	//
+	// This key used to hold the product's claims rather than its ingredients.
+	// That copy has been moved to _custom_product_benefits_text_field, so the
+	// key now matches its name and is free for real ingredient copy.
 	function custom_product_ingredients_text_field() {
 		woocommerce_wp_textarea_input(
 			array(
@@ -211,6 +245,35 @@ class WooCommerce implements ServiceInterface
 		$product->update_meta_data('_custom_product_ingredients_text_field', sanitize_text_field($custom_field_value));
 	}
 	
+	// Hook to add product benefits to general data.
+	//
+	// Holds the claims copy ("Organically Farmed…, Non-GMO, Vegan,
+	// Gluten-Free") that used to sit on the ingredients key, and feeds the
+	// Benefits tab on the product page.
+	function custom_product_benefits_text_field() {
+		woocommerce_wp_textarea_input(
+			array(
+				'id'		  => '_custom_product_benefits_text_field',
+				'label'		  => __('Benefits', 'woocommerce'),
+				'placeholder' => __('Enter benefits here', 'woocommerce'),
+				'desc_tip'	  => 'true',
+				'description' => __('Product Benefits — shown in the Benefits tab on the product page.', 'woocommerce'),
+			)
+		);
+	}
+
+	// Hook to save product benefits to general data
+	function custom_product_benefits_text_field_save($product) {
+		if (!isset($_POST['_custom_product_benefits_text_field'])) {
+			return;
+		}
+
+		$product->update_meta_data(
+			'_custom_product_benefits_text_field',
+			sanitize_textarea_field($_POST['_custom_product_benefits_text_field'])
+		);
+	}
+
 	// Hook to add product other ingredients to general data
 	function custom_product_other_ingredients_text_field() {
 		woocommerce_wp_text_input(
@@ -328,25 +391,87 @@ class WooCommerce implements ServiceInterface
 		$custom_field_value = isset($_POST['_custom_product_suggested_use_text_field']) ? $_POST['_custom_product_suggested_use_text_field'] : '';
 		$product->update_meta_data('_custom_product_suggested_use_text_field', sanitize_text_field($custom_field_value));
 	}
-	
-	// Hook to add product awards tag to general data
-	function custom_product_awards_tag_text_field() {
-		woocommerce_wp_text_input(
-			array(
-				'id'		  => '_custom_product_awards_tag_text_field',
-				'label'		  => __('Awards Tag', 'woocommerce'),
-				'placeholder' => __('Enter awards tag here', 'woocommerce'),
-				'desc_tip'	  => 'true',
-				'description' => __('Product Awards Tag.', 'woocommerce'),
-			)
-		);
+
+	/**
+	 * The FDA nutrition panel lines, in printed-label order.
+	 *
+	 * Keyed by the meta-key suffix — each line is stored in its own
+	 * `_custom_product_nf_{key}_text_field` key, which is what the
+	 * single-product block reads. Driven from one list rather than eleven
+	 * near-identical method pairs, so adding a line is a one-line change.
+	 *
+	 * @return array<string, string> Meta suffix => admin label.
+	 */
+	private function nutrition_facts_fields(): array {
+		return [
+			'calories'           => __('Calories', 'woocommerce'),
+			'total_fat'          => __('Total Fat', 'woocommerce'),
+			'saturated_fat'      => __('Saturated Fat', 'woocommerce'),
+			'trans_fat'          => __('Trans Fat', 'woocommerce'),
+			'cholesterol'        => __('Cholesterol', 'woocommerce'),
+			'sodium'             => __('Sodium', 'woocommerce'),
+			'total_carbohydrate' => __('Total Carbohydrate', 'woocommerce'),
+			'dietary_fiber'      => __('Dietary Fiber', 'woocommerce'),
+			'total_sugars'       => __('Total Sugars', 'woocommerce'),
+			'added_sugars'       => __('Added Sugars', 'woocommerce'),
+			'protein'            => __('Protein', 'woocommerce'),
+		];
 	}
 
-	// Hook to save product suggested use to general data
-	function custom_product_awards_tag_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_awards_tag_text_field']) ? $_POST['_custom_product_awards_tag_text_field'] : '';
-		$product->update_meta_data('_custom_product_awards_tag_text_field', sanitize_text_field($custom_field_value));
+	// Hook to add the nutrition facts panel to general data
+	function custom_product_nutrition_facts_fields() {
+		echo '<div class="options_group">';
+		echo '<p class="form-field"><strong>' . esc_html__('Nutrition Facts', 'woocommerce') . '</strong><br />';
+		echo '<span class="description">' . esc_html__('Enter each line exactly as printed on the label, value column only, including the % Daily Value — for example "5mg (<1%)". Leave a line blank to hide that row on the product page.', 'woocommerce') . '</span></p>';
+
+		foreach ($this->nutrition_facts_fields() as $key => $label) {
+			woocommerce_wp_text_input(
+				array(
+					'id'		  => "_custom_product_nf_{$key}_text_field",
+					'label'		  => $label,
+					'placeholder' => __('e.g. 0g (0%)', 'woocommerce'),
+					'desc_tip'	  => 'true',
+					'description' => $label . __(' line of the nutrition panel, value column only.', 'woocommerce'),
+				)
+			);
+		}
+
+		echo '</div>';
 	}
+
+	// Hook to save the nutrition facts panel to general data
+	function custom_product_nutrition_facts_fields_save($product) {
+		foreach (array_keys($this->nutrition_facts_fields()) as $key) {
+			$meta_key = "_custom_product_nf_{$key}_text_field";
+
+			// Only touch keys the submitted form actually carried. A blank
+			// input still posts an empty string, so clearing a line still
+			// works; this only guards against a save that ran without the
+			// product-data panel rendered, which would otherwise wipe all
+			// eleven lines.
+			if (!isset($_POST[$meta_key])) {
+				continue;
+			}
+
+			// `sanitize_text_field` HTML-encodes a bare "<", which turns a
+			// perfectly ordinary "5mg (<1%)" into "5mg (&lt;1%)" and prints
+			// the entity on the page. Decoding afterwards restores the
+			// literal character while keeping the tag-stripping — a real
+			// "<script>" is dropped by the sanitizer before this runs, and
+			// output is escaped with esc_html at render time.
+			$value = html_entity_decode(
+				sanitize_text_field($_POST[$meta_key]),
+				ENT_QUOTES,
+				'UTF-8'
+			);
+
+			$product->update_meta_data($meta_key, $value);
+		}
+	}
+	
+	// The "Awards Tag" text field that used to sit here was never hooked in
+	// register(), so it never rendered or saved, and nothing read its meta key.
+	// Awards are set per product on the single-product block itself.
 
 	/**
 	 * Inject product metadata into mini-cart item data.
