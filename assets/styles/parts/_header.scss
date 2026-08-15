@@ -22,3 +22,27 @@ header.wp-block-template-part {
 		top: 46px;
 	}
 }
+
+// The header columns are pinned unstacked (burger / logo / account+cart).
+// On phones the fixed 169px logo plus spacing-50 side padding total more
+// than the viewport, so the logo gets clipped at the left edge. Tighten
+// the paddings (inline styles, hence !important) and let columns shrink.
+@include bp-down(md) {
+	header.wp-block-template-part {
+		.wp-block-columns.is-not-stacked-on-mobile {
+			padding-right: var(--wp--preset--spacing--30) !important;
+			padding-left: var(--wp--preset--spacing--30) !important;
+			gap: var(--wp--preset--spacing--20);
+		}
+
+		.wp-block-column {
+			min-width: 0;
+			padding-right: 0 !important;
+			padding-left: 0 !important;
+		}
+
+		img.wp-image-111 {
+			width: 130px !important;
+		}
+	}
+}

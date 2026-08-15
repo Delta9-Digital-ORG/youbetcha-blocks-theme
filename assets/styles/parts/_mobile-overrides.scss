@@ -16,3 +16,15 @@
 		}
 	}
 }
+
+// Flex rows authored nowrap for desktop (the benefits-band icon row, card
+// meta rows) force their flex/grid ancestors out to content width on
+// tablets and phones. lg rather than md because an iPad-portrait 768px
+// viewport sits exactly on the md boundary and would miss a bp-down(md)
+// rule. wrap only engages when a row genuinely doesn't fit, so rows that
+// already fit are untouched.
+@include bp-down(lg) {
+	.wp-site-blocks .is-nowrap.is-layout-flex {
+		flex-wrap: wrap;
+	}
+}

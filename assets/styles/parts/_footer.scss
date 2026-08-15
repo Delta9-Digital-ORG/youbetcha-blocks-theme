@@ -89,3 +89,32 @@ footer {
 		justify-content: space-between;
 	}
 }
+
+// Rows authored nowrap for desktop (subscribe text + badge, the legal
+// bottom bar) can't share a row on tablet; let them wrap instead of
+// running past the viewport edge.
+@include bp-down(lg) {
+	footer .is-nowrap.is-layout-flex {
+		flex-wrap: wrap;
+	}
+}
+
+@include bp-down(md) {
+	// The subscribe badge is authored width:auto/height:400px inline, which
+	// renders ~380px wide — wider than a phone viewport once offset by the
+	// band padding. Scale it with the viewport; !important beats the inline
+	// style. width:auto rides along so the SVG keeps its aspect ratio.
+	footer img.wp-image-138 {
+		width: auto !important;
+		height: clamp(180px, 45vw, 300px) !important;
+	}
+
+	// Both footer bands carry desktop-scale side padding (spacing 80 ≈ 80px
+	// per side, plus another 70 on the inner columns) — over 40% of a phone
+	// screen gone before content starts. Inline styles again, so !important.
+	footer > .wp-block-group,
+	footer .wp-block-columns {
+		padding-right: var(--wp--preset--spacing--50) !important;
+		padding-left: var(--wp--preset--spacing--50) !important;
+	}
+}
