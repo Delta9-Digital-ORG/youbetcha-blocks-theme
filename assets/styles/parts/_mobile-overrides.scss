@@ -27,4 +27,27 @@
 	.wp-site-blocks .is-nowrap.is-layout-flex {
 		flex-wrap: wrap;
 	}
+
+	// The homepage photo-tile grids pair a lifestyle shot with mood tiles
+	// whose display headings ("Productivity") are single unbreakable words
+	// at ~48px minimum — wider than a half-width tablet column, and flex
+	// min-width:auto lets them push the tile past the viewport. Stack the
+	// grid instead; phones already render it single-column.
+	.entry-content .wp-block-group.is-layout-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	// Overlay stat rows (NO HANGOVER / 0G SUGAR) are right-justified nowrap
+	// rows that otherwise take their content width and escape the tile.
+	.entry-content .is-content-justification-right.is-nowrap {
+		max-width: 100%;
+	}
+
+	// Same min-width:auto trap one level down: a display heading a few px
+	// wider than a phone-width tile floors the tile at the heading's
+	// max-content width. Let the tile stretch to its column; the glyphs
+	// then render over the tile's own padding instead of past the viewport.
+	.entry-content .is-vertical.is-layout-flex > .wp-block-group {
+		min-width: 0;
+	}
 }
