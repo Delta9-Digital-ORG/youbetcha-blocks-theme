@@ -54,3 +54,10 @@
 .yb-product-gallery-grid img {
 	max-width: 100%;
 }
+
+// An editor who sized an image in the editor meant it — `is-resized` is the
+// class core adds when they do. The 280px cap was silently overriding that
+// intent: the You Betcha wordmark is placed at 1450px and was rendering at 280.
+.wp-block-image.is-resized img {
+	max-width: none;
+}
