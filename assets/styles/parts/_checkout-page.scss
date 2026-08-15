@@ -510,3 +510,29 @@ body.woocommerce-checkout .woocommerce td.product-name dl.variation dd.variation
 		}
 	}
 }
+
+// The checkout grid (details 1.5fr / order review 1fr) has no mobile
+// stacking, so the review table overflows a phone viewport. Single column
+// below md, with the review under the details and no sticky offset.
+@include bp-down(md) {
+	body.woocommerce-checkout form.woocommerce-checkout {
+		grid-template-columns: minmax(0, 1fr);
+
+		#customer_details {
+			grid-column: 1;
+			grid-row: auto;
+		}
+
+		#order_review_heading {
+			grid-column: 1;
+			grid-row: auto;
+		}
+
+		#order_review {
+			grid-column: 1;
+			grid-row: auto;
+			position: static;
+			max-width: 100%;
+		}
+	}
+}
