@@ -86,3 +86,100 @@ figure.wp-block-post-featured-image {
 		height: auto;
 	}
 }
+
+// The single-product block (plugin-owned styles) is authored as a fixed
+// 1440px, three-column desktop layout with no media queries: hero grid
+// `540px 1fr 500px`, 500px tab panel, 690px buy card, 110px wordmark.
+// Layer the small-screen layout here in the theme, where the rest of the
+// responsive pass lives, rather than forking the plugin build.
+@include bp-down(lg) {
+	.yb-single-product {
+		&__inner {
+			padding-right: 20px;
+			padding-left: 20px;
+		}
+
+		// Single column: hero can first, then flavors, then the tab panel.
+		&__hero {
+			grid-template-columns: minmax(0, 1fr);
+			justify-items: center;
+			min-height: 0;
+			row-gap: 40px;
+		}
+
+		&__heroImage {
+			order: 1;
+			// The theme-wide `.woocommerce img { height: auto }` outruns the
+			// block's `height: 100%` on load order, so the can renders taller
+			// than the authored 500px box; let the box track the image instead
+			// of clipping/overlapping the flavor grid below.
+			height: auto;
+		}
+
+		&__flavors {
+			order: 2;
+			width: auto;
+			max-width: 100%;
+			grid-template-columns: repeat(3, minmax(90px, 125px));
+			gap: 40px 24px;
+			justify-content: center;
+
+			// The desktop half-column nudge that centers the orphan row
+			// assumes fixed 125px tracks; with flexible tracks it just
+			// misaligns the grid.
+			> :nth-child(4),
+			> :nth-child(5) {
+				grid-column: auto;
+				margin-left: 0;
+			}
+		}
+
+		&__flavorCard {
+			width: auto;
+		}
+
+		&__panel {
+			order: 3;
+			width: 100%;
+			max-width: 500px;
+		}
+
+		&__purchaseTop {
+			flex-wrap: wrap;
+		}
+
+		&__awards {
+			justify-content: center;
+		}
+
+		&__buyCardWrap {
+			// The sticky-buyCard JS writes the card's desktop dimensions
+			// inline onto the wrap; in the stacked layout the card is
+			// never pinned, so the placeholder must not reserve them.
+			width: 100% !important;
+			height: auto !important;
+		}
+
+		&__buyCard {
+			width: 100%;
+
+			// Pinning is sized for the desktop layout (inline top/right/
+			// width from the JS); on small screens keep the card in flow.
+			&.is-pinned {
+				position: static !important;
+				width: 100% !important;
+			}
+		}
+
+		&__buyTop,
+		&__buyBottom {
+			flex-wrap: wrap;
+		}
+
+		&__wordmark {
+			margin-left: 0;
+			margin-bottom: -0.3em;
+			font-size: clamp(44px, 11vw, 84px);
+		}
+	}
+}
