@@ -51,3 +51,14 @@
 		min-width: 0;
 	}
 }
+
+// Mood-tile display words ("Productivity", "Easygoing") carry an inline
+// fluid clamp that tops out at 90px — wider than their half-grid tile even
+// on a 1440px desktop, where the word clipped at the viewport edge.
+// Re-clamp to sizes that fit the tile at every width (not media-queried:
+// the inline style needs !important at desktop too). The attribute match
+// keeps this to the fluid display paragraphs; the tiles' small stat labels
+// use preset size classes and are untouched.
+.entry-content .is-layout-grid p[style*='font-size:clamp'] {
+	font-size: clamp(32px, 4.6vw, 66px) !important; // stylelint-disable-line declaration-no-important
+}
