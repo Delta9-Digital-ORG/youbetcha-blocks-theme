@@ -62,17 +62,15 @@
 	max-width: none;
 }
 
-// …but an editor size is a desktop size. Below the xl breakpoint those same
-// widths (1450px wordmark, 608px blog images) are wider than the screen and
-// drag every template that embeds them into horizontal scroll. min() keeps
+// …but never wider than the screen. The 1450px wordmark and 608px blog
+// images otherwise drag every template that embeds them into horizontal
+// scroll (a 1450px image overflows even a 1440px desktop). min() keeps
 // whichever cap is narrower: the parent box or the viewport itself — the
 // viewport term matters because flex/grid ancestors stretch to content
 // width, so a bare 100% would resolve right back to the oversized value.
-@include bp-down(xl) {
-	.wp-block-image.is-resized img {
-		max-width: min(100%, 100vw);
-		height: auto;
-	}
+.wp-block-image.is-resized img {
+	max-width: min(100%, 100vw);
+	height: auto;
 }
 
 // Featured images on the blog templates are resized the same way but carry
