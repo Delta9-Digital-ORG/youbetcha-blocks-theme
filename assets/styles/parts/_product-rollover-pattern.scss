@@ -880,10 +880,6 @@
 			width: 100%;
 			height: auto;
 			margin-inline: auto;
-
-			.wc-block-components-product-image > a {
-				margin-top: 0;
-			}
 		}
 
 		// The circular "Xmg THC per container" badge is offset for the 400px
@@ -1011,6 +1007,10 @@
 			.wc-block-components-product-image > a {
 				opacity: 0;
 				visibility: hidden;
+				// The desktop hover zeroes the -68px pop-above offset; here
+				// the faded image stays in layout, so a margin change would
+				// resize the group and bring back the tap jump.
+				margin-top: -68px;
 			}
 
 			.product-card-info {
