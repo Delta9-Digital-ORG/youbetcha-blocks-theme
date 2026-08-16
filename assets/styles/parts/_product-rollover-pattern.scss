@@ -911,10 +911,17 @@
 			// pattern additionally centers its children (align-items from
 			// the block's content justification), which shrink-wraps the
 			// colored card-group to the 250px can image — stretch those too.
+			// The 480px cap keeps the can-outline rollover proportionate on
+			// wide phones (~430–575px viewports) — the outline background
+			// stretches with the card while the spec sheet stays ~260px, so
+			// an uncapped 547px card drifts off its own rollover content.
+			// Typical phones sit under the cap and keep the full-bleed look.
 			.product-card {
 				align-self: stretch;
 				align-items: stretch;
 				width: 100%;
+				max-width: 480px;
+				margin-inline: auto;
 			}
 
 			.product-card-group {
@@ -966,6 +973,10 @@
 			display: grid;
 			align-items: center;
 			justify-items: center;
+			// justify-items centers within the track, but the auto-sized
+			// track itself hugs the left of a wider group — center it too,
+			// or the can and spec sheet both sit left of the outline.
+			justify-content: center;
 
 			> .wc-block-components-product-image,
 			> .product-card-info {
@@ -1004,14 +1015,15 @@
 	}
 }
 
-// Tablet and wider: the card is designed around a 400px footprint (can
+// From 576px up: the card is designed around a 400px footprint (can
 // outline, spec-sheet proportions), but WooCommerce's generated template
 // packs fixed column counts — 3 × 238px at 768 — which squeezes the cards
 // and leaves the rollover sheet floating on a mismatched outline. Let the
 // grid derive its column count from a 400px floor instead, and restore
-// the designed min-width (the phone rules above keep their fluid width —
-// this block starts where they stop).
-@include bp(md) {
+// the designed min-width. sm (not md) so the 576–767px band doesn't fall
+// back to the generated 3-column template between the phone rules and
+// this block.
+@include bp(sm) {
 	.wp-block-woocommerce-product-collection {
 		.wc-block-product-template {
 			grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important; // stylelint-disable-line declaration-no-important
