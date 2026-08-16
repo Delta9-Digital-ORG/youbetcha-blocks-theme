@@ -89,8 +89,11 @@ figure.wp-block-post-featured-image {
 // 1440px, three-column desktop layout with no media queries: hero grid
 // `540px 1fr 500px`, 500px tab panel, 690px buy card, 110px wordmark.
 // Layer the small-screen layout here in the theme, where the rest of the
-// responsive pass lives, rather than forking the plugin build.
-@include bp-down(lg) {
+// responsive pass lives, rather than forking the plugin build. Stacked up
+// to xl (not lg): below ~1200px the three fixed columns cannot fit at all
+// — at 1100 the middle can column bottoms out and the panel leaves the
+// viewport — so the single-column layout takes over there.
+@include bp-down(xl) {
 	.yb-single-product {
 		&__inner {
 			padding-right: 20px;
@@ -201,6 +204,51 @@ figure.wp-block-post-featured-image {
 			margin-left: 0;
 			margin-bottom: -0.3em;
 			font-size: clamp(44px, 11vw, 84px);
+		}
+	}
+}
+
+// Between xl and the 1440px design width the fixed 540/500 side columns
+// stop fitting — only the middle can column flexed, so at 1395 the panel
+// was already 9px past the viewport. Scale the composition through this
+// band instead; at ≥1440 every max resolves to the authored value, so the
+// original design is untouched.
+@media (min-width: 1200px) and (max-width: 1439.98px) {
+	.yb-single-product {
+		&__inner {
+			padding-right: 24px;
+			padding-left: 24px;
+		}
+
+		&__hero {
+			grid-template-columns: minmax(400px, 540px) minmax(260px, 1fr) minmax(400px, 500px);
+		}
+
+		&__flavors {
+			width: auto;
+			max-width: 465px;
+			grid-template-columns: repeat(3, minmax(100px, 125px));
+
+			// The orphan-row nudge assumes fixed 125px tracks.
+			> :nth-child(4),
+			> :nth-child(5) {
+				grid-column: auto;
+				margin-left: 0;
+			}
+		}
+
+		&__flavorCard {
+			width: auto;
+		}
+
+		&__panel {
+			width: auto;
+			max-width: 500px;
+			min-width: 0;
+		}
+
+		&__buyCard {
+			width: min(690px, 100%);
 		}
 	}
 }
