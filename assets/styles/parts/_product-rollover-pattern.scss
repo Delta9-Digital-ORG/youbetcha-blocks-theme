@@ -882,11 +882,9 @@
 			margin-inline: auto;
 		}
 
-		// The circular "Xmg THC per container" badge is offset for the 400px
-		// desktop card — reset it so it sits inline on smaller cards.
+		// The circular "Xmg THC per container" badge keeps its authored
+		// desktop margins at every width; only its alignment resets here.
 		.product-category-active-ingredient-label {
-			margin-left: 0;
-			margin-bottom: 0;
 			align-self: flex-start;
 		}
 	}
@@ -929,10 +927,7 @@
 
 @media only screen and (max-width: 600px) {
 	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product {
-		.product-category-active-ingredient-label {
-			margin-bottom: -72px;
-		}
-		
+
 		.product-card-group {
 			max-width: none;
 		}
