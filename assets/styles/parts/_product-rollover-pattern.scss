@@ -1003,3 +1003,29 @@
 		}
 	}
 }
+
+// Tablet and wider: the card is designed around a 400px footprint (can
+// outline, spec-sheet proportions), but WooCommerce's generated template
+// packs fixed column counts — 3 × 238px at 768 — which squeezes the cards
+// and leaves the rollover sheet floating on a mismatched outline. Let the
+// grid derive its column count from a 400px floor instead, and restore
+// the designed min-width (the phone rules above keep their fluid width —
+// this block starts where they stop).
+@include bp(md) {
+	.wp-block-woocommerce-product-collection {
+		.wc-block-product-template {
+			grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important; // stylelint-disable-line declaration-no-important
+		}
+
+		.wc-block-product-template .wc-block-product .product-card-group {
+			min-width: 400px;
+		}
+
+		// The desktop align-self: start leaves the 400px card hugging the
+		// left of a wider column while the price row, picker, and button
+		// span it fully — center the card under the centered title instead.
+		.wc-block-product-template .wc-block-product .product-card {
+			align-self: center;
+		}
+	}
+}
