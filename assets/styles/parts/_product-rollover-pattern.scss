@@ -953,28 +953,3 @@
 		}
 	}
 }
-// Touch screens fire :hover on tap and keep it until the next tap, so the
-// rollover (hide the can, show the spec sheet) reads as the card glitching
-// on phones and tablets. Neutralize every hover effect on devices that
-// can't actually hover; !important because the per-package hover rules
-// (.product_cat-…​.product_tag-…​:hover) carry higher specificity.
-@media (hover: none) {
-	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product:hover {
-		.product-card-group {
-			background-image: none !important;
-
-			.wc-block-components-product-image > a {
-				display: flex !important;
-				visibility: visible !important;
-				opacity: 1 !important;
-				margin-top: -68px !important;
-			}
-
-			.product-card-info {
-				display: none !important;
-				visibility: hidden !important;
-				opacity: 0 !important;
-			}
-		}
-	}
-}
