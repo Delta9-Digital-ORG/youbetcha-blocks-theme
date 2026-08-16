@@ -911,17 +911,10 @@
 			// pattern additionally centers its children (align-items from
 			// the block's content justification), which shrink-wraps the
 			// colored card-group to the 250px can image — stretch those too.
-			// The 480px cap keeps the can-outline rollover proportionate on
-			// wide phones (~430–575px viewports) — the outline background
-			// stretches with the card while the spec sheet stays ~260px, so
-			// an uncapped 547px card drifts off its own rollover content.
-			// Typical phones sit under the cap and keep the full-bleed look.
 			.product-card {
 				align-self: stretch;
 				align-items: stretch;
 				width: 100%;
-				max-width: 480px;
-				margin-inline: auto;
 			}
 
 			.product-card-group {
@@ -1051,6 +1044,32 @@
 		// span it fully — center the card under the centered title instead.
 		.wc-block-product-template .wc-block-product .product-card {
 			align-self: center;
+		}
+	}
+}
+
+// Whenever the 400px column floor yields a single column, span the whole
+// card across it — the 1↔2 column flip depends on the collection's own
+// width (2 × 400px + the grid gap), not the viewport, so this is a
+// container query rather than a media query. Multi-column grids keep the
+// 400px card centered in its track.
+.wp-block-woocommerce-product-collection {
+	container-type: inline-size;
+	container-name: yb-product-grid;
+}
+
+@container yb-product-grid (width < 815px) {
+	.wc-block-product-template .wc-block-product {
+		.product-card {
+			align-self: stretch;
+			align-items: stretch;
+			width: 100%;
+			max-width: none;
+		}
+
+		.product-card-group {
+			width: 100%;
+			min-width: 0;
 		}
 	}
 }
