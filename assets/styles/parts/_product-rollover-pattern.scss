@@ -903,8 +903,26 @@
 			grid-template-columns: 1fr !important; // stylelint-disable-line declaration-no-important
 		}
 
-		.wc-block-product-template .wc-block-product .product-card-group {
-			max-width: 360px;
+		.wc-block-product-template .wc-block-product {
+			// Single-column mockup: the can card spans the full viewport
+			// width. The desktop `align-self: start` (set above to keep the
+			// card at content height) also cancels the column stretch, which
+			// shrink-wrapped the card to its 250px image.
+			.product-card {
+				align-self: stretch;
+				width: 100%;
+			}
+
+			.product-card-group {
+				max-width: none;
+			}
+
+			// Add-to-Cart matches the size-picker width — the eightshift
+			// wrapper is a grid whose main track sits 18px in from the left
+			// edge, so span the full grid instead.
+			.wrapper > .wrapper__inner {
+				grid-column: 1 / -1;
+			}
 		}
 	}
 }
