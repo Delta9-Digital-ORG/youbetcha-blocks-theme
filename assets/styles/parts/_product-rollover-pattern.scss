@@ -907,9 +907,13 @@
 			// Single-column mockup: the can card spans the full viewport
 			// width. The desktop `align-self: start` (set above to keep the
 			// card at content height) also cancels the column stretch, which
-			// shrink-wrapped the card to its 250px image.
+			// shrink-wrapped the card to its 250px image. The beverage
+			// pattern additionally centers its children (align-items from
+			// the block's content justification), which shrink-wraps the
+			// colored card-group to the 250px can image — stretch those too.
 			.product-card {
 				align-self: stretch;
+				align-items: stretch;
 				width: 100%;
 			}
 
