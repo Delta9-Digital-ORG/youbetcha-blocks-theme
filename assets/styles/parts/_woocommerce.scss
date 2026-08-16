@@ -140,6 +140,29 @@ figure.wp-block-post-featured-image {
 			order: 3;
 			width: 100%;
 			max-width: 500px;
+			min-width: 250px;
+		}
+
+		// Stack the Description / Nutritional facts / Benefits tabs —
+		// three-across they crush to ~109px each and wrap their labels.
+		// The buttons' desktop flex: 1 0 0 would distribute the column's
+		// height instead of its width, so reset them to natural height.
+		&__tabs {
+			flex-direction: column;
+			width: 100%;
+			max-width: 500px;
+			min-width: 250px;
+
+			button {
+				flex: 0 0 auto;
+				width: 100%;
+			}
+		}
+
+		&__panelCard {
+			width: 100%;
+			max-width: 500px;
+			min-width: 250px;
 		}
 
 		&__purchaseTop {
