@@ -1,12 +1,19 @@
 .wp-block-woocommerce-product-collection {
 	.wc-block-product-template {
 		.wc-block-product {
+			// Anchored to the card (.product-card is position: relative)
+			// instead of the old -380px/-72px margin offsets, which were
+			// authored against the 400px desktop card and walked the badge
+			// off-canvas on full-width single-column cards. top: -41px pops
+			// the badge above the colored group's top edge; the group sits
+			// flush at the card's top now that the badge is out of flow.
 			.product-category-active-ingredient-label {
+				position: absolute;
+				top: -41px;
+				left: -40px;
 				width: 100px;
 				z-index: 1;
-				margin-left: -380px;
-				margin-bottom: -72px;
-				
+
 				.wrapper > .wrapper__inner {
 					margin-left: -8px;
 				}
@@ -201,6 +208,7 @@
 			// equal-height grid row, so the price/Add-to-Cart sit directly under
 			// the product type label (matches the homepage product grid).
 			.product-card {
+				position: relative; // anchors the ingredient badge
 				height: auto;
 				align-self: start;
 			}
@@ -882,11 +890,6 @@
 			margin-inline: auto;
 		}
 
-		// The circular "Xmg THC per container" badge keeps its authored
-		// desktop margins at every width; only its alignment resets here.
-		.product-category-active-ingredient-label {
-			align-self: flex-start;
-		}
 	}
 }
 
@@ -1066,5 +1069,13 @@
 			width: 100%;
 			min-width: 0;
 		}
+
+	}
+
+	// No track gutter to poke into on a full-width card — keep the badge
+	// fully on-canvas at the card's top-left corner. Collection class
+	// included to match the base rule's specificity.
+	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product .product-category-active-ingredient-label {
+		left: 8px;
 	}
 }
