@@ -953,3 +953,53 @@
 		}
 	}
 }
+// On phones/tablets the card group is content-height (height: auto above),
+// so the desktop rollover's display swap made the card change height —
+// can image ~490px vs spec sheet 416px — and the page jumped 74px on
+// every tap. Stack both states in one grid cell and cross-fade with
+// opacity only: both stay in layout, the group keeps the taller height,
+// and the tap animation is a clean fade. Desktop keeps the original
+// mechanism (fixed 468px group, discrete display swap).
+@include bp-down(lg) {
+	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product {
+		.product-card-group {
+			display: grid;
+			align-items: center;
+			justify-items: center;
+
+			> .wc-block-components-product-image,
+			> .product-card-info {
+				grid-area: 1 / 1;
+			}
+
+			// !important: the desktop hover sets display: none on the image
+			// link and display: grid !important on the info sheet — both
+			// stay rendered here so the height can't change.
+			.wc-block-components-product-image > a {
+				display: flex !important;
+				transition: opacity 0.25s ease, visibility 0.25s ease;
+			}
+
+			.product-card-info {
+				display: grid !important;
+				opacity: 0;
+				visibility: hidden;
+				transition: opacity 0.25s ease, visibility 0.25s ease;
+			}
+		}
+	}
+
+	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product:hover {
+		.product-card-group {
+			.wc-block-components-product-image > a {
+				opacity: 0;
+				visibility: hidden;
+			}
+
+			.product-card-info {
+				opacity: 1;
+				visibility: visible;
+			}
+		}
+	}
+}
