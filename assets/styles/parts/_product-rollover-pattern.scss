@@ -977,6 +977,11 @@
 			// track itself hugs the left of a wider group — center it too,
 			// or the can and spec sheet both sit left of the outline.
 			justify-content: center;
+			// The rollover outline SVGs carry only a viewBox; the gummies
+			// pouch letterboxes at its intrinsic ratio (~305px wide in a
+			// 480px card) instead of tracking the card like the beverage
+			// can does. Stretch every outline to the card's exact box.
+			background-size: 100% 100% !important;
 
 			> .wc-block-components-product-image,
 			> .product-card-info {
@@ -997,6 +1002,14 @@
 				visibility: hidden;
 				transition: opacity 0.25s ease, visibility 0.25s ease;
 			}
+		}
+
+		// The pouch outline draws its zipper bars across the top ~13% of
+		// the card; without desktop's fixed geometry the sheet's first row
+		// (calories/sugars) lands right on them. Clear the zipper.
+		&.product_cat-gummies .product-card-info,
+		&.product_cat-chocolate-bars .product-card-info {
+			padding-top: 44px;
 		}
 	}
 
