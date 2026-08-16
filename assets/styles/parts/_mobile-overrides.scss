@@ -17,6 +17,28 @@
 	}
 }
 
+// The spacing presets come from the DB global styles as fixed values
+// (spacing-70: 3.38rem, spacing-80: 5.06rem at every width), so the
+// desktop-scale band and section paddings persist onto phones. Shrink the
+// variables themselves below md: every inline
+// `padding: var(--wp--preset--spacing--80)` in templates and DB content
+// tightens with them. Set on body (not :root) so this wins over the
+// global-styles :root definition by inheritance proximity, regardless of
+// stylesheet order.
+@include bp-down(md) {
+	body {
+		--wp--preset--spacing--70: 1.06rem;
+		--wp--preset--spacing--80: 1.06rem;
+	}
+}
+
+@media (max-width: 480px) {
+	body .is-layout-flex {
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+}
+
 // Flex rows authored nowrap for desktop (the benefits-band icon row, card
 // meta rows) force their flex/grid ancestors out to content width on
 // tablets and phones. lg rather than md because an iPad-portrait 768px

@@ -109,12 +109,7 @@ footer {
 		height: clamp(180px, 45vw, 300px) !important;
 	}
 
-	// Both footer bands carry desktop-scale side padding (spacing 80 ≈ 80px
-	// per side, plus another 70 on the inner columns) — over 40% of a phone
-	// screen gone before content starts. Inline styles again, so !important.
-	footer > .wp-block-group,
-	footer .wp-block-columns {
-		padding-right: var(--wp--preset--spacing--50) !important;
-		padding-left: var(--wp--preset--spacing--50) !important;
-	}
+	// Band and column side paddings need no override here: they reference
+	// the spacing-70/80 presets inline, and _mobile-overrides.scss shrinks
+	// those variables below md.
 }
