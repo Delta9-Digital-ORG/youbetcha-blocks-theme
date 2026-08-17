@@ -108,18 +108,45 @@
 	height: auto !important;
 }
 
-// Core stacks this pattern's columns at 781px, matching its own
-// breakpoint rather than the theme scale.
-@media (max-width: 781px) {
-	// The band's phone padding is ~17px, not the desktop 80px — soften
-	// the heading overlap to match (inline margin, hence !important).
-	.yb-sbs-heading {
-		margin-bottom: -20px !important;
-	}
+// The frame hero never squeezes below 250px in the side-by-side layout —
+// the flanking icon columns give first.
+.yb-sbs-band > .wp-block-columns > .wp-block-column:nth-child(2) {
+	min-width: 250px;
+}
 
-	// Inside each band half: hero frame first across the full row, then
-	// the six fact tiles flow into a 3-column grid — the icon columns
-	// and their vertical stacks dissolve via display: contents.
+// The tile labels break only between words — never mid-word (core's
+// body-level overflow-wrap: break-word otherwise splits NO HANGOVER and
+// friends in narrow tiles).
+.yb-sbs-band p {
+	word-break: normal;
+	overflow-wrap: normal;
+	hyphens: none;
+}
+
+// The band halves are authored with spacing-80 (~81px) side padding —
+// step it down as the halves narrow so the 250px frame and icon columns
+// keep their room (inline padding, hence !important).
+@include bp-down(xl) {
+	.yb-sbs-band {
+		padding-right: 48px !important;
+		padding-left: 48px !important;
+	}
+}
+
+@include bp-down(lg) {
+	.yb-sbs-band {
+		padding-right: 20px !important;
+		padding-left: 20px !important;
+	}
+}
+
+// Below 850px a band half can't fit icons | 250px frame | icons even
+// with minimum padding, so the inner columns switch to their stacked
+// form early: hero frame first across the full row, then the six fact
+// tiles in a 3-column grid — the icon columns and their vertical stacks
+// dissolve via display: contents. Between 782-849 the two halves are
+// still side by side, each showing frame-over-tiles.
+@media (max-width: 849px) {
 	.yb-sbs-band > .wp-block-columns {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -143,5 +170,19 @@
 	// The first tile's -24px nudge aligned the desktop vertical stack.
 	.yb-sbs-band .wp-block-group[style*='margin-top:-24px'] {
 		margin-top: 0 !important;
+	}
+}
+
+// Core stacks the pattern's outer halves at 781px.
+@media (max-width: 781px) {
+	.yb-sbs-band {
+		padding-right: 20px !important;
+		padding-left: 20px !important;
+	}
+
+	// The band's phone padding is now 20px, not the desktop 80px — soften
+	// the heading overlap to match (inline margin, hence !important).
+	.yb-sbs-heading {
+		margin-bottom: -20px !important;
 	}
 }
