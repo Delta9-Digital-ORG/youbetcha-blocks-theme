@@ -92,6 +92,22 @@
 	z-index: 1;
 }
 
+// The fact-tile icons carry fixed inline widths (80/84px icons, 106px
+// Minnesota badge); scale them with the viewport so they stay
+// proportionate in the phone tile grid. The `.wp-block-group figure`
+// scope keeps the frame hero images (direct children of their column)
+// out of this rule. !important beats the inline widths; the caps mean
+// desktop resolves to the authored sizes.
+.yb-sbs-band .wp-block-group figure.wp-block-image.size-full img {
+	width: clamp(48px, 12vw, 84px) !important;
+	height: auto !important;
+}
+
+.yb-sbs-band .wp-block-group figure.wp-block-image.size-large img {
+	width: clamp(64px, 14vw, 106px) !important;
+	height: auto !important;
+}
+
 // Core stacks this pattern's columns at 781px, matching its own
 // breakpoint rather than the theme scale.
 @media (max-width: 781px) {
