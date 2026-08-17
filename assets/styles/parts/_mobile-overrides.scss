@@ -16,3 +16,71 @@
 		}
 	}
 }
+
+// The spacing presets come from the DB global styles as fixed values
+// (spacing-70: 3.38rem, spacing-80: 5.06rem at every width), so the
+// desktop-scale band and section paddings persist onto phones. Shrink the
+// variables themselves below md: every inline
+// `padding: var(--wp--preset--spacing--80)` in templates and DB content
+// tightens with them. Set on body (not :root) so this wins over the
+// global-styles :root definition by inheritance proximity, regardless of
+// stylesheet order.
+@include bp-down(md) {
+	body {
+		--wp--preset--spacing--70: 1.06rem;
+		--wp--preset--spacing--80: 1.06rem;
+	}
+}
+
+@media (max-width: 480px) {
+	body .is-layout-flex {
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+}
+
+// Flex rows authored nowrap for desktop (the benefits-band icon row, card
+// meta rows) force their flex/grid ancestors out to content width on
+// tablets and phones. lg rather than md because an iPad-portrait 768px
+// viewport sits exactly on the md boundary and would miss a bp-down(md)
+// rule. wrap only engages when a row genuinely doesn't fit, so rows that
+// already fit are untouched.
+@include bp-down(lg) {
+	.wp-site-blocks .is-nowrap.is-layout-flex {
+		flex-wrap: wrap;
+	}
+
+	// The homepage photo-tile grids pair a lifestyle shot with mood tiles
+	// whose display headings ("Productivity") are single unbreakable words
+	// at ~48px minimum — wider than a half-width tablet column, and flex
+	// min-width:auto lets them push the tile past the viewport. Stack the
+	// grid instead; phones already render it single-column.
+	.entry-content .wp-block-group.is-layout-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	// Overlay stat rows (NO HANGOVER / 0G SUGAR) are right-justified nowrap
+	// rows that otherwise take their content width and escape the tile.
+	.entry-content .is-content-justification-right.is-nowrap {
+		max-width: 100%;
+	}
+
+	// Same min-width:auto trap one level down: a display heading a few px
+	// wider than a phone-width tile floors the tile at the heading's
+	// max-content width. Let the tile stretch to its column; the glyphs
+	// then render over the tile's own padding instead of past the viewport.
+	.entry-content .is-vertical.is-layout-flex > .wp-block-group {
+		min-width: 0;
+	}
+}
+
+// Mood-tile display words ("Productivity", "Easygoing") carry an inline
+// fluid clamp that tops out at 90px — wider than their half-grid tile even
+// on a 1440px desktop, where the word clipped at the viewport edge.
+// Re-clamp to sizes that fit the tile at every width (not media-queried:
+// the inline style needs !important at desktop too). The attribute match
+// keeps this to the fluid display paragraphs; the tiles' small stat labels
+// use preset size classes and are untouched.
+.entry-content .is-layout-grid p[style*='font-size:clamp'] {
+	font-size: clamp(32px, 4.6vw, 66px) !important; // stylelint-disable-line declaration-no-important
+}
