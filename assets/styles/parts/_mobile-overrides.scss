@@ -84,3 +84,48 @@
 .entry-content .is-layout-grid p[style*='font-size:clamp'] {
 	font-size: clamp(32px, 4.6vw, 66px) !important; // stylelint-disable-line declaration-no-important
 }
+// ── "Side by side beverages & gummies" pattern (synced block 2256) ──
+// The script headings pull down (-53px) over the blush band; keep them
+// painting above its background.
+.yb-sbs-heading {
+	position: relative;
+	z-index: 1;
+}
+
+// Core stacks this pattern's columns at 781px, matching its own
+// breakpoint rather than the theme scale.
+@media (max-width: 781px) {
+	// The band's phone padding is ~17px, not the desktop 80px — soften
+	// the heading overlap to match (inline margin, hence !important).
+	.yb-sbs-heading {
+		margin-bottom: -20px !important;
+	}
+
+	// Inside each band half: hero frame first across the full row, then
+	// the six fact tiles flow into a 3-column grid — the icon columns
+	// and their vertical stacks dissolve via display: contents.
+	.yb-sbs-band > .wp-block-columns {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 24px 8px;
+
+		> .wp-block-column:nth-child(2) {
+			order: -1;
+			grid-column: 1 / -1;
+		}
+
+		> .wp-block-column:nth-child(1),
+		> .wp-block-column:nth-child(3) {
+			display: contents;
+
+			> .wp-block-group {
+				display: contents;
+			}
+		}
+	}
+
+	// The first tile's -24px nudge aligned the desktop vertical stack.
+	.yb-sbs-band .wp-block-group[style*='margin-top:-24px'] {
+		margin-top: 0 !important;
+	}
+}
