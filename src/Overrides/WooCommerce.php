@@ -218,7 +218,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product description to general data
 	function custom_product_description_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_description_text_field']) ? $_POST['_custom_product_description_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_description_text_field']) ? wp_unslash($_POST['_custom_product_description_text_field']) : '';
 		$product->update_meta_data('_custom_product_description_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -241,7 +241,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product ingredients to general data
 	function custom_product_ingredients_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_ingredients_text_field']) ? $_POST['_custom_product_ingredients_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_ingredients_text_field']) ? wp_unslash($_POST['_custom_product_ingredients_text_field']) : '';
 		$product->update_meta_data('_custom_product_ingredients_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -270,7 +270,7 @@ class WooCommerce implements ServiceInterface
 
 		$product->update_meta_data(
 			'_custom_product_benefits_text_field',
-			sanitize_textarea_field($_POST['_custom_product_benefits_text_field'])
+			sanitize_textarea_field(wp_unslash($_POST['_custom_product_benefits_text_field']))
 		);
 	}
 
@@ -289,7 +289,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product other ingredients to general data
 	function custom_product_other_ingredients_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_other_ingredients_text_field']) ? $_POST['_custom_product_other_ingredients_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_other_ingredients_text_field']) ? wp_unslash($_POST['_custom_product_other_ingredients_text_field']) : '';
 		$product->update_meta_data('_custom_product_other_ingredients_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -312,7 +312,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product cannafacts to general data
 	function custom_product_cannafacts_select_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_cannafacts_select_field']) ? $_POST['_custom_product_cannafacts_select_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_cannafacts_select_field']) ? wp_unslash($_POST['_custom_product_cannafacts_select_field']) : '';
 		$product->update_meta_data('_custom_product_cannafacts_select_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -331,7 +331,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product serving size to general data
 	function custom_product_per_serving_size_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_per_serving_text_field']) ? $_POST['_custom_product_per_serving_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_per_serving_text_field']) ? wp_unslash($_POST['_custom_product_per_serving_text_field']) : '';
 		$product->update_meta_data('_custom_product_per_serving_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -350,7 +350,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product serving size to general data
 	function custom_product_serving_size_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_serving_size_text_field']) ? $_POST['_custom_product_serving_size_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_serving_size_text_field']) ? wp_unslash($_POST['_custom_product_serving_size_text_field']) : '';
 		$product->update_meta_data('_custom_product_serving_size_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -369,7 +369,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product servings per container to general data
 	function custom_product_servings_per_container_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_servings_per_container_text_field']) ? $_POST['_custom_product_servings_per_container_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_servings_per_container_text_field']) ? wp_unslash($_POST['_custom_product_servings_per_container_text_field']) : '';
 		$product->update_meta_data('_custom_product_servings_per_container_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -388,7 +388,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product suggested use to general data
 	function custom_product_suggested_use_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_suggested_use_text_field']) ? $_POST['_custom_product_suggested_use_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_suggested_use_text_field']) ? wp_unslash($_POST['_custom_product_suggested_use_text_field']) : '';
 		$product->update_meta_data('_custom_product_suggested_use_text_field', sanitize_text_field($custom_field_value));
 	}
 
@@ -460,7 +460,7 @@ class WooCommerce implements ServiceInterface
 			// "<script>" is dropped by the sanitizer before this runs, and
 			// output is escaped with esc_html at render time.
 			$value = html_entity_decode(
-				sanitize_text_field($_POST[$meta_key]),
+				sanitize_text_field(wp_unslash($_POST[$meta_key])),
 				ENT_QUOTES,
 				'UTF-8'
 			);
