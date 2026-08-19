@@ -180,9 +180,22 @@
 		padding-left: 20px !important;
 	}
 
+	// The PLP hero's lifestyle cover is authored 849px tall for the
+	// desktop side-by-side band; stacked under the icons on a phone
+	// that's most of two screens (inline min-height, hence !important).
+	.yb-sbs-photo {
+		min-height: 420px !important;
+	}
+
 	// The band's phone padding is now 20px, not the desktop 80px — soften
 	// the heading overlap to match (inline margin, hence !important).
 	.yb-sbs-heading {
 		margin-bottom: -20px !important;
+	}
+
+	// The PLP heroes put their -72px pull on the heading's wrapper group
+	// instead; zero it there so the class rule above is the only overlap.
+	.wp-block-group:has(> .yb-sbs-heading) {
+		margin-bottom: 0 !important;
 	}
 }
