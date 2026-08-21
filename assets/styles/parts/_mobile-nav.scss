@@ -1,0 +1,261 @@
+// Mobile navigation rework (POC: _mockups/mobile-nav-poc in the site repo).
+//
+// Below 669px the header becomes logo-left / burger-center / icons-right,
+// and the desktop SHOP mega menu (#mega-menu, DB template part "Main Mega
+// Menu") doubles as the mobile menu: the burger (injected by
+// application.js) toggles the same .is-active class, and the five menu
+// columns collapse into single-open accordions. One source of content —
+// editors update the mega menu once and desktop + mobile stay in sync.
+//
+// 669–991px keeps the desktop header but tightens it so the nav links
+// never wrap to a second row.
+
+// The mega menu's translucent brand green flattened over white — the
+// overlay scrolls over page content, so it needs to be opaque.
+$mnav-green: #729789;
+
+// ── 669px up to xl: desktop header on one line (the untouched design
+// only fits once the nav column passes ~360px, around the xl break) ────
+@media (min-width: 669px) and (max-width: 1199.98px) {
+	header.wp-block-template-part {
+		// The core nav wraps via the responsive container's --layout-wrap;
+		// pin every layer to one row and size it to fit — links + logo +
+		// icons share ~670px at the low end.
+		.wp-block-navigation,
+		.wp-block-navigation__responsive-container-content,
+		.wp-block-navigation .wp-block-navigation__container {
+			flex-wrap: nowrap !important; // stylelint-disable-line declaration-no-important
+			gap: clamp(10px, 1.8vw, 16px) !important; // inline blockGap spacing-60 (~2.25rem)
+			font-size: clamp(13px, 1.9vw, 15px);
+			white-space: nowrap;
+		}
+
+		.wc-blocks-header-pattern > .wp-block-columns {
+			padding-right: var(--wp--preset--spacing--30) !important;
+			padding-left: var(--wp--preset--spacing--30) !important;
+			gap: var(--wp--preset--spacing--30);
+
+			// The three columns split evenly (~a third each), pinching the
+			// nav to ~237px and forcing a second row. Shrink-wrap the logo
+			// and icon columns (capped — the mini-cart subtree reports a
+			// runaway max-content) and give the nav the remainder.
+			> .wp-block-column {
+				min-width: 0;
+				padding-right: 0 !important;
+				padding-left: 0 !important;
+				flex: 0 0 auto;
+			}
+
+			> .wp-block-column:has(> .wp-block-navigation) {
+				flex: 1 1 auto;
+				max-width: calc(100% - 260px);
+			}
+
+			> .wp-block-column:has(.wc-block-mini-cart) {
+				max-width: 120px;
+			}
+		}
+
+		img.wp-image-111 {
+			width: clamp(96px, 14vw, 130px) !important;
+		}
+	}
+}
+
+// ── ≤668px: header bar — logo left · burger center · icons right ────────
+@media (max-width: 668px) {
+	header.wp-block-template-part {
+		// The core navigation (and its own burger/overlay) is replaced by
+		// the injected burger + mega-menu overlay.
+		.wp-block-navigation {
+			display: none;
+		}
+
+		.wc-blocks-header-pattern > .wp-block-columns {
+			position: relative; // anchors the injected burger
+
+			// Collapse whichever column holds the (hidden) navigation —
+			// the DB header renders logo | nav | icons, but match by
+			// content rather than position.
+			> .wp-block-column:has(> .wp-block-navigation) {
+				flex: 0 0 0;
+				padding: 0 !important;
+			}
+
+			// Logo hugs the left edge.
+			> .wp-block-column:has(img.wp-image-111) .wp-block-group {
+				justify-content: flex-start;
+			}
+
+			// Account + cart hug the right edge together (the global
+			// ≤480px space-between rule would spread them apart).
+			> .wp-block-column:has(.wc-block-mini-cart) .wp-block-group {
+				justify-content: flex-end;
+				gap: 14px;
+			}
+		}
+	}
+
+	.yb-mnav-burger {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		translate: -50% -50%;
+		width: 44px;
+		height: 44px;
+		display: grid;
+		place-content: center;
+		gap: 5px;
+		padding: 0;
+		background: none;
+		border: 0;
+		cursor: pointer;
+
+		span {
+			display: block;
+			width: 24px;
+			height: 2.5px;
+			border-radius: 2px;
+			background: var(--wp--preset--color--white, #fff);
+			transition: transform 0.25s ease, opacity 0.2s ease;
+		}
+
+		&[aria-expanded='true'] {
+			span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+			span:nth-child(2) { opacity: 0; }
+			span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+		}
+	}
+
+	// ── #mega-menu as the mobile menu overlay ───────────────────────────
+	// The desktop rules in _mega-menu.scss keep it collapsed (height: 0);
+	// when active it becomes a fixed, scrollable green sheet below the
+	// sticky header (top set inline by the burger JS).
+	#mega-menu.is-active {
+		position: fixed;
+		top: var(--yb-mnav-top, 100px);
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 98;
+		height: auto;
+		overflow-y: auto;
+		background: $mnav-green;
+		padding: 18px 16px 40px !important; // stylelint-disable-line declaration-no-important
+
+		> .wp-block-columns {
+			display: block;
+		}
+	}
+
+	// Featured tiles: can + Beverages | pouch + Gummies, side by side.
+	// Desktop stacks them as two horizontal rows in column 1.
+	#mega-menu > .wp-block-columns > .wp-block-column:first-child {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+		margin-bottom: 8px;
+
+		> .wp-block-group {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			gap: 4px;
+			cursor: pointer;
+
+			figure.wp-block-image img {
+				width: auto !important;
+				height: 76px !important;
+			}
+
+			h4 { margin: 0; }
+			h2 { margin: 0; font-size: clamp(28px, 8.5vw, 38px) !important; } // stylelint-disable-line declaration-no-important
+		}
+	}
+
+	// Menus column: the five sections become full-width accordions.
+	#mega-menu > .wp-block-columns > .wp-block-column:nth-child(2) {
+		// The desktop nowrap rows all stack.
+		.is-nowrap.is-layout-flex,
+		.is-content-justification-space-between {
+			display: block !important; // stylelint-disable-line declaration-no-important
+		}
+
+		.yb-mnav-section {
+			position: relative;
+			width: 100%;
+			margin: 0 0 12px;
+			padding-right: 36px; // room for the chevron
+		}
+
+		// Section header: pill (Day/Any/Night) or heading (Strength,
+		// Benefits). The whole collapsed row toggles (JS), header
+		// included.
+		.yb-mnav-head {
+			display: inline-block;
+			margin: 0;
+			cursor: pointer;
+		}
+
+		// Chevron anchored to the section's first row.
+		.yb-mnav-section::after {
+			content: '';
+			position: absolute;
+			top: 14px;
+			right: 14px;
+			width: 10px;
+			height: 10px;
+			border-right: 2.5px solid var(--wp--preset--color--white, #fff);
+			border-bottom: 2.5px solid var(--wp--preset--color--white, #fff);
+			transform: rotate(45deg);
+			transition: transform 0.22s ease;
+			pointer-events: none;
+		}
+
+		.yb-mnav-section.is-open::after {
+			transform: rotate(225deg);
+		}
+
+		// Collapsed: hide everything in the section except its header
+		// (which may sit inside its own wrapper group).
+		.yb-mnav-section:not(.is-open) {
+			p.has-poppins-font-family,
+			.wp-block-group:not(:has(.yb-mnav-head)) {
+				display: none;
+			}
+		}
+
+		// Open: links list; Strength/Benefits flow two columns via
+		// multicol, with the header row spanning both.
+		.yb-mnav-section.is-open {
+			p.has-poppins-font-family {
+				margin: 0;
+				padding: 7px 4px;
+				break-inside: avoid;
+			}
+		}
+
+		.yb-mnav-section--cols.is-open {
+			column-count: 2;
+			column-gap: 10px;
+
+			> .wp-block-group:has(.yb-mnav-head) {
+				column-span: all;
+			}
+		}
+	}
+
+	body.yb-mnav-open {
+		overflow: hidden;
+	}
+}
+
+// The JS-injected burger and "Shop All …" entries exist only for the
+// mobile mode — the desktop header keeps its nav links and pill links.
+@media (min-width: 669px) {
+	.yb-mnav-burger,
+	.yb-mnav-shopall {
+		display: none;
+	}
+}
