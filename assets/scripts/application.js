@@ -193,20 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			section.classList.add('yb-mnav-section--cols');
 		}
 
-		// The pill itself links to the category archive on desktop; on
-		// mobile the tap toggles the accordion instead, so re-expose the
-		// destination as the list's first entry (shown ≤668px only).
-		const headLink = head.querySelector('a');
-		if (headLink?.getAttribute('href')) {
-			const shopAll = document.createElement('p');
-			shopAll.className = 'has-poppins-font-family has-md-font-size yb-mnav-shopall';
-			const a = document.createElement('a');
-			a.href = headLink.getAttribute('href');
-			a.textContent = `Shop All ${head.textContent.trim()}`;
-			shopAll.appendChild(a);
-			(head.parentElement === section ? head : head.parentElement).after(shopAll);
-		}
-
 		section.addEventListener('click', (e) => {
 			if (!mobileMq.matches) return;
 

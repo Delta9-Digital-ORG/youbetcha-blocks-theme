@@ -282,11 +282,10 @@ $mnav-green: #729789;
 	}
 }
 
-// The JS-injected burger and "Shop All …" entries exist only for the
-// mobile mode — the desktop header keeps its nav links and pill links.
+// The JS-injected burger exists only for the mobile mode — the desktop
+// header keeps its nav links.
 @media (min-width: 669px) {
-	.yb-mnav-burger,
-	.yb-mnav-shopall {
+	.yb-mnav-burger {
 		display: none;
 	}
 }
