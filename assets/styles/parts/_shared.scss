@@ -9,3 +9,25 @@
 @include font-face('Beverly Drive Right', 'BeverlyDriveRight-Bold', 400);
 @include font-face('DDC Hardware', 'DDCHardware-Regular', 400);
 @include font-face('Sharp Grotesk', 'SharpGrotesk-Bold15', 400);
+
+// The can/pouch line art (Frame-3.svg / Frame.svg) appears in several
+// DB-authored heroes (comparison band, PLP heroes, the active-ingredients
+// archive template). Environments whose DB content lacks the pattern-level
+// max-widths render it at full column width on phones — a ~750px-tall
+// pouch on /product-category/active-ingredients/… archives. Cap the
+// artwork itself wherever it appears; contexts that size it tighter (the
+// mobile-menu tiles at 76px, patterns with inline max-widths) come later
+// in the cascade and still win.
+img[src$='/Frame-3.svg'] {
+	display: block;
+	max-width: 250px !important; // stylelint-disable-line declaration-no-important
+	height: auto !important; // stylelint-disable-line declaration-no-important
+	margin-inline: auto;
+}
+
+img[src$='/Frame.svg'] {
+	display: block;
+	max-width: 300px !important; // stylelint-disable-line declaration-no-important
+	height: auto !important; // stylelint-disable-line declaration-no-important
+	margin-inline: auto;
+}
