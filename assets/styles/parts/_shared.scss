@@ -15,18 +15,14 @@
 // archive template). Environments whose DB content lacks the pattern-level
 // max-widths render it at full column width on phones — a ~750px-tall
 // pouch on /product-category/active-ingredients/… archives. Cap the
-// artwork itself wherever it appears; contexts that size it tighter (the
-// mobile-menu tiles at 76px, patterns with inline max-widths) come later
-// in the cascade and still win.
-img[src$='/Frame-3.svg'] {
-	display: block;
-	max-width: 250px !important; // stylelint-disable-line declaration-no-important
-	height: auto !important; // stylelint-disable-line declaration-no-important
-	margin-inline: auto;
-}
-
+// artwork itself wherever it appears. Contexts that size it tighter still
+// win on specificity — the mobile-menu tiles (76px) are scoped under
+// #mega-menu, which outranks this attribute selector even against
+// !important.
+img[src$='/Frame-3.svg'],
 img[src$='/Frame.svg'] {
 	display: block;
+	width: 100% !important; // stylelint-disable-line declaration-no-important
 	max-width: 300px !important; // stylelint-disable-line declaration-no-important
 	height: auto !important; // stylelint-disable-line declaration-no-important
 	margin-inline: auto;
