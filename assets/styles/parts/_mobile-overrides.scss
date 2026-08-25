@@ -84,3 +84,118 @@
 .entry-content .is-layout-grid p[style*='font-size:clamp'] {
 	font-size: clamp(32px, 4.6vw, 66px) !important; // stylelint-disable-line declaration-no-important
 }
+// ── "Side by side beverages & gummies" pattern (synced block 2256) ──
+// The script headings pull down (-53px) over the blush band; keep them
+// painting above its background.
+.yb-sbs-heading {
+	position: relative;
+	z-index: 1;
+}
+
+// The fact-tile icons carry fixed inline widths (80/84px icons, 106px
+// Minnesota badge); scale them with the viewport so they stay
+// proportionate in the phone tile grid. The `.wp-block-group figure`
+// scope keeps the frame hero images (direct children of their column)
+// out of this rule. !important beats the inline widths; the caps mean
+// desktop resolves to the authored sizes.
+.yb-sbs-band .wp-block-group figure.wp-block-image.size-full img {
+	width: clamp(48px, 12vw, 84px) !important;
+	height: auto !important;
+}
+
+.yb-sbs-band .wp-block-group figure.wp-block-image.size-large img {
+	width: clamp(64px, 14vw, 106px) !important;
+	height: auto !important;
+}
+
+// The frame hero never squeezes below 250px in the side-by-side layout —
+// the flanking icon columns give first.
+.yb-sbs-band > .wp-block-columns > .wp-block-column:nth-child(2) {
+	min-width: 250px;
+}
+
+// The tile labels break only between words — never mid-word (core's
+// body-level overflow-wrap: break-word otherwise splits NO HANGOVER and
+// friends in narrow tiles).
+.yb-sbs-band p {
+	word-break: normal;
+	overflow-wrap: normal;
+	hyphens: none;
+}
+
+// The band halves are authored with spacing-80 (~81px) side padding —
+// step it down as the halves narrow so the 250px frame and icon columns
+// keep their room (inline padding, hence !important).
+@include bp-down(xl) {
+	.yb-sbs-band {
+		padding-right: 48px !important;
+		padding-left: 48px !important;
+	}
+}
+
+@include bp-down(lg) {
+	.yb-sbs-band {
+		padding-right: 20px !important;
+		padding-left: 20px !important;
+	}
+}
+
+// Below 850px a band half can't fit icons | 250px frame | icons even
+// with minimum padding, so the inner columns switch to their stacked
+// form early: hero frame first across the full row, then the six fact
+// tiles in a 3-column grid — the icon columns and their vertical stacks
+// dissolve via display: contents. Between 782-849 the two halves are
+// still side by side, each showing frame-over-tiles.
+@media (max-width: 849px) {
+	.yb-sbs-band > .wp-block-columns {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 24px 8px;
+
+		> .wp-block-column:nth-child(2) {
+			order: -1;
+			grid-column: 1 / -1;
+		}
+
+		> .wp-block-column:nth-child(1),
+		> .wp-block-column:nth-child(3) {
+			display: contents;
+
+			> .wp-block-group {
+				display: contents;
+			}
+		}
+	}
+
+	// The first tile's -24px nudge aligned the desktop vertical stack.
+	.yb-sbs-band .wp-block-group[style*='margin-top:-24px'] {
+		margin-top: 0 !important;
+	}
+}
+
+// Core stacks the pattern's outer halves at 781px.
+@media (max-width: 781px) {
+	.yb-sbs-band {
+		padding-right: 20px !important;
+		padding-left: 20px !important;
+	}
+
+	// The PLP hero's lifestyle cover is authored 849px tall for the
+	// desktop side-by-side band; stacked under the icons on a phone
+	// that's most of two screens (inline min-height, hence !important).
+	.yb-sbs-photo {
+		min-height: 420px !important;
+	}
+
+	// The band's phone padding is now 20px, not the desktop 80px — soften
+	// the heading overlap to match (inline margin, hence !important).
+	.yb-sbs-heading {
+		margin-bottom: -20px !important;
+	}
+
+	// The PLP heroes put their -72px pull on the heading's wrapper group
+	// instead; zero it there so the class rule above is the only overlap.
+	.wp-block-group:has(> .yb-sbs-heading) {
+		margin-bottom: 0 !important;
+	}
+}
