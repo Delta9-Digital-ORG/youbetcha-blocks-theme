@@ -4,6 +4,23 @@
 	@include box-sizing;
 }
 
+// Never break words mid-character anywhere on the site.
+// WordPress core block styles (`.wp-block-column`, `.wp-block-post-title`,
+// `.wp-block-button__link`, etc.) set `word-break: break-word`, which shatters
+// real words such as "Productivity" or "ENERGIZING" across lines inside narrow
+// flex columns. Force normal wrapping instead. `!important` is required to beat
+// core's class-level rules; `body { overflow-x: hidden }` guards against any
+// genuinely unbreakable long token (e.g. a URL) causing horizontal overflow.
+// stylelint-disable declaration-no-important
+*,
+*::before,
+*::after {
+	word-break: normal !important;
+	overflow-wrap: normal !important;
+	hyphens: none !important;
+}
+// stylelint-enable declaration-no-important
+
 html {
 	font-size: var(--base-font-size);
 }
