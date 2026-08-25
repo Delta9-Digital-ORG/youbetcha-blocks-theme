@@ -216,6 +216,14 @@
 			.product-card-product-name {
 				margin: 0;
 				text-align: center;
+				// Reserve space for up to 3 lines and vertically center the title,
+				// so cards in the same row stay equal height regardless of how
+				// long each product name is (e.g. short can names vs. longer
+				// gummy names that wrap to 3 lines).
+				min-height: 3.6em;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
 
 				a {
 					color: inherit;
