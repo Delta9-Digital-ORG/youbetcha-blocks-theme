@@ -55,6 +55,7 @@ class WooCommerce implements ServiceInterface
 		\add_filter('woocommerce_cart_item_subtotal', [$this, 'cartItemSaveBadge'], 20, 3);
 		\add_filter('woocommerce_order_button_text', [$this, 'checkoutButtonText']);
 		\add_filter('gettext', [$this, 'changeProceedToCheckoutText'], 20, 3);
+		\add_action('wp_footer', [$this, 'miniCartEmptyStartShoppingHome']);
 	}
 	/**
 	 * Give new products the starter block layout every product page needs.
@@ -668,5 +669,56 @@ class WooCommerce implements ServiceInterface
 	public function quantityPlusButton(): void
 	{
 		echo '<button type="button" class="yb-qty-btn yb-qty-plus" aria-label="Increase quantity">+</button>';
+	}
+
+	/**
+	 * Point the mini-cart empty state's "Start shopping" button at the site home.
+	 *
+	 * WooCommerce Blocks renders the empty mini-cart button client-side and
+	 * defaults its href to the Shop page permalink. We rewrite that href to the
+	 * home URL and intercept clicks so an empty cart sends shoppers home.
+	 *
+	 * @return void
+	 */
+	public function miniCartEmptyStartShoppingHome(): void
+	{
+		if (\is_admin()) {
+			return;
+		}
+
+		$homeUrl = \wp_json_encode(\home_url('/'));
+		?>
+		<script>
+		(function () {
+			var homeUrl = <?php echo $homeUrl; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
+			var selector = '.wp-block-woocommerce-empty-mini-cart-contents-block a.wc-block-mini-cart__shopping-button';
+
+			// Keep the anchor href in sync (covers middle-click / open-in-new-tab).
+			document.addEventListener('mouseover', function (e) {
+				if (!e.target || !e.target.closest) {
+					return;
+				}
+				var link = e.target.closest(selector);
+				if (!link) {
+					return;
+				}
+				link.setAttribute('href', homeUrl);
+			});
+
+			// Guarantee navigation home on left-click and keyboard activation.
+			document.addEventListener('click', function (e) {
+				if (!e.target || !e.target.closest) {
+					return;
+				}
+				var link = e.target.closest(selector);
+				if (!link) {
+					return;
+				}
+				e.preventDefault();
+				window.location.href = homeUrl;
+			});
+		})();
+		</script>
+		<?php
 	}
 }
