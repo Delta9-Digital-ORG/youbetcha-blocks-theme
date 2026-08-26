@@ -1,12 +1,25 @@
 .wp-block-woocommerce-product-collection {
 	.wc-block-product-template {
 		.wc-block-product {
+			// Breathing room below each card. The grid's row-gap alone
+			// (18-25px) is tighter than the ingredient badge's 41px
+			// overhang, so stacked cards had the next badge crowding the
+			// card above.
+			margin-bottom: 40px;
+
+			// Anchored to the card (.product-card is position: relative)
+			// instead of the old -380px/-72px margin offsets, which were
+			// authored against the 400px desktop card and walked the badge
+			// off-canvas on full-width single-column cards. top: -41px pops
+			// the badge above the colored group's top edge; the group sits
+			// flush at the card's top now that the badge is out of flow.
 			.product-category-active-ingredient-label {
+				position: absolute;
+				top: -41px;
+				left: -40px;
 				width: 100px;
 				z-index: 1;
-				margin-left: -380px;
-				margin-bottom: -72px;
-				
+
 				.wrapper > .wrapper__inner {
 					margin-left: -8px;
 				}
@@ -197,11 +210,22 @@
 				}
 			}
 			
+			// Keep the card at content height instead of stretching to fill the
+			// equal-height grid row, so the price/Add-to-Cart sit directly under
+			// the product type label (matches the homepage product grid).
+			.product-card {
+				position: relative; // anchors the ingredient badge
+				height: auto;
+				align-self: start;
+			}
+
 			.product-card-product-name {
 				margin: 0;
-				
+				text-align: center;
+
 				a {
 					color: inherit;
+					text-align: center;
 				}
 			}
 			
@@ -834,5 +858,243 @@
 				background-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="UTF-8"%3F><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 368.9 592"><defs><style> .st0 { fill: none; stroke: %23D3E5AD; stroke-miterlimit: 10; stroke-width: 2px; } </style></defs><path class="st0" d="M171.4,3.6C86.2-1.9,3.4,3.1,1.1,2.7v31.1c0,0,5.1.1,5.1,4.9s-5.2,4.6-5.2,4.6l.3,537.1c0,1.3,11.1.2,28.5-.2,11.8-.3,25.9,2.2,42.8,4.9,42.1,6.8,98.5,6.3,149.6,5.5,39.9-.6,72-4.7,98.9-8.7,23.3-3.5,45.1-2.1,46.7-2.1V43.1c0,0-4.8.6-4.9-4.3s4.9-4.1,4.9-4.1V4.8c-6.5,0-57.2-1.2-119.4-1.7-24.5-.2-50.6,2.4-77.1.6Z"/><circle cx="186.6" cy="25.9" r="7.1" fill="%23D3E5AD"/><path d="M31.7,71.7h305.6c.9,0,1.6.9,1.6,1.9v2.8c0,1.1-.7,1.9-1.6,1.9H31.7c-.9,0-1.6-.9-1.6-1.9v-2.8c0-1.1.7-1.9,1.6-1.9Z" fill="%23D3E5AD"/><path d="M31.7,62.2h305.6c.9,0,1.6.9,1.6,1.9v2.8c0,1.1-.7,1.9-1.6,1.9H31.7c-.9,0-1.6-.9-1.6-1.9v-2.8c0-1.1.7-1.9,1.6-1.9Z" fill="%23D3E5AD"/><path d="M31.7,52.6h305.6c.9,0,1.6.9,1.6,1.9v2.8c0,1.1-.7,1.9-1.6,1.9H31.7c-.9,0-1.6-.9-1.6-1.9v-2.8c0-1.1.7-1.9,1.6-1.9Z" fill="%23D3E5AD"/></svg>');
 			}
 		}
+	}
+}
+
+// Taxonomy archive pages: equal-height cards with vertical spacing
+.archive .wp-block-woocommerce-product-collection {
+	.wc-block-product-template {
+		.wc-block-product {
+			align-self: stretch;
+			margin-top: var(--wp--preset--spacing--50);
+			margin-bottom: var(--wp--preset--spacing--50);
+		}
+	}
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Responsive: product cards on tablet & phone.
+//
+// Everything above is desktop-first and hard-codes a 400px card (`min-width`
+// + a fixed 468px height, with the decorative ingredient badge offset by
+// -380px to suit that 400px width). In a multi-column grid this forces the
+// card to ignore its grid cell and balloon to 400px, overflowing the viewport
+// on phones and tablets. Below the `lg` breakpoint we let the card size
+// fluidly to its cell; below `sm` we also collapse the grid to a single
+// column so the detailed can artwork stays legible.
+// ─────────────────────────────────────────────────────────────────────────
+// Selectors mirror the desktop-first chain above
+// (`…product-collection .wc-block-product-template .wc-block-product …`) so
+// these overrides match its specificity and win by source order — without
+// `!important`.
+@include bp-down(lg) {
+	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product {
+		.product-card-group {
+			min-width: 0;
+			width: 100%;
+			height: auto;
+			margin-inline: auto;
+		}
+
+	}
+}
+
+@include bp-down(sm) {
+	.wp-block-woocommerce-product-collection {
+		.wc-block-product-template {
+			// Override WooCommerce's generated multi-column template.
+			grid-template-columns: 1fr !important; // stylelint-disable-line declaration-no-important
+		}
+
+		.wc-block-product-template .wc-block-product {
+			// Single-column mockup: the can card spans the full viewport
+			// width. The desktop `align-self: start` (set above to keep the
+			// card at content height) also cancels the column stretch, which
+			// shrink-wrapped the card to its 250px image. The beverage
+			// pattern additionally centers its children (align-items from
+			// the block's content justification), which shrink-wraps the
+			// colored card-group to the 250px can image — stretch those too.
+			.product-card {
+				align-self: stretch;
+				align-items: stretch;
+				width: 100%;
+			}
+
+			.product-card-group {
+				max-width: none;
+			}
+
+			// Add-to-Cart matches the size-picker width — the eightshift
+			// wrapper is a grid whose main track sits 18px in from the left
+			// edge, so span the full grid instead.
+			.wrapper > .wrapper__inner {
+				grid-column: 1 / -1;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product {
+
+		.product-card-group {
+			max-width: none;
+		}
+	}
+	
+	.product-collection-gummies {
+		ul {
+			li {
+				.has-global-padding {
+					padding-right: var(--wp--style--root--padding-right);
+					padding-left: var(--wp--style--root--padding-left);
+				}
+			}
+		}
+	}
+}
+// On phones/tablets the card group is content-height (height: auto above),
+// so the desktop rollover's display swap made the card change height —
+// can image ~490px vs spec sheet 416px — and the page jumped 74px on
+// every tap. Stack both states in one grid cell and cross-fade with
+// opacity only: both stay in layout, the group keeps the taller height,
+// and the tap animation is a clean fade. Desktop keeps the original
+// mechanism (fixed 468px group, discrete display swap).
+@include bp-down(lg) {
+	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product {
+		.product-card-group {
+			display: grid;
+			align-items: center;
+			justify-items: center;
+			// justify-items centers within the track, but the auto-sized
+			// track itself hugs the left of a wider group — center it too,
+			// or the can and spec sheet both sit left of the outline.
+			justify-content: center;
+			// The rollover outline SVGs carry only a viewBox; the gummies
+			// pouch letterboxes at its intrinsic ratio (~305px wide in a
+			// 480px card) instead of tracking the card like the beverage
+			// can does. Stretch every outline to the card's exact box.
+			background-size: 100% 100% !important;
+
+			> .wc-block-components-product-image,
+			> .product-card-info {
+				grid-area: 1 / 1;
+			}
+
+			// !important: the desktop hover sets display: none on the image
+			// link and display: grid !important on the info sheet — both
+			// stay rendered here so the height can't change.
+			.wc-block-components-product-image > a {
+				display: flex !important;
+				transition: opacity 0.25s ease, visibility 0.25s ease;
+			}
+
+			.product-card-info {
+				display: grid !important;
+				opacity: 0;
+				visibility: hidden;
+				transition: opacity 0.25s ease, visibility 0.25s ease;
+			}
+		}
+
+		// The pouch outline draws its zipper bars across the top ~13% of
+		// the card; without desktop's fixed geometry the sheet's first row
+		// (calories/sugars) lands right on them. Clear the zipper.
+		&.product_cat-gummies .product-card-info,
+		&.product_cat-chocolate-bars .product-card-info {
+			padding-top: 44px;
+		}
+	}
+
+	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product:hover {
+		.product-card-group {
+			.wc-block-components-product-image > a {
+				opacity: 0;
+				visibility: hidden;
+				// The desktop hover zeroes the -68px pop-above offset; here
+				// the faded image stays in layout, so a margin change would
+				// resize the group and bring back the tap jump.
+				margin-top: -68px;
+			}
+
+			.product-card-info {
+				opacity: 1;
+				visibility: visible;
+			}
+		}
+	}
+}
+
+// From 576px up: the card is designed around a 400px footprint (can
+// outline, spec-sheet proportions), but WooCommerce's generated template
+// packs fixed column counts — 3 × 238px at 768 — which squeezes the cards
+// and leaves the rollover sheet floating on a mismatched outline. Let the
+// grid derive its column count from a 400px floor instead, and restore
+// the designed min-width. sm (not md) so the 576–767px band doesn't fall
+// back to the generated 3-column template between the phone rules and
+// this block.
+@include bp(sm) {
+	.wp-block-woocommerce-product-collection {
+		.wc-block-product-template {
+			grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important; // stylelint-disable-line declaration-no-important
+		}
+
+		.wc-block-product-template .wc-block-product .product-card-group {
+			min-width: 400px;
+		}
+
+		// The desktop align-self: start leaves the 400px card hugging the
+		// left of a wider column while the price row, picker, and button
+		// span it fully — center the card under the centered title instead.
+		.wc-block-product-template .wc-block-product .product-card {
+			align-self: center;
+		}
+	}
+}
+
+// Whenever the 400px column floor yields a single column, span the whole
+// card across it — the 1↔2 column flip depends on the collection's own
+// width (2 × 400px + the grid gap), not the viewport, so this is a
+// container query rather than a media query. Multi-column grids keep the
+// 400px card centered in its track.
+.wp-block-woocommerce-product-collection {
+	container-type: inline-size;
+	container-name: yb-product-grid;
+}
+
+@container yb-product-grid (width < 815px) {
+	.wc-block-product-template .wc-block-product {
+		.product-card {
+			align-self: stretch;
+			align-items: stretch;
+			width: 100%;
+			max-width: none;
+		}
+
+		.product-card-group {
+			width: 100%;
+			min-width: 0;
+			// Sections authored with a narrower content width (the homepage
+			// gummies collection) inherit a generated max-width that pins the
+			// card to ~400px while the beverages one fills its column. In a
+			// single-column grid the card always spans the column.
+			max-width: none;
+		}
+
+		// Same constraint reaches the name and type strips, which sit
+		// beside the group under that wrapper — clear them too or the
+		// coloured card reads full width with a narrow label below it.
+		.product-card-product-name,
+		.product-card-product-type {
+			max-width: none;
+		}
+
+	}
+
+	// No track gutter to poke into on a full-width card — keep the badge
+	// fully on-canvas at the card's top-left corner. Collection class
+	// included to match the base rule's specificity.
+	.wp-block-woocommerce-product-collection .wc-block-product-template .wc-block-product .product-category-active-ingredient-label {
+		left: 8px;
 	}
 }

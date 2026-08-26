@@ -1,9 +1,50 @@
 .product-page-description-nutrition-cana-facts-pattern {
 	display: flex;
 	align-items: stretch;
-	
+	gap: 16px;
+	// Figma leaves ~80px between the hero's bottom edge and the top of these
+	// cards. The gap is not decorative: the single-product block's script
+	// wordmark deliberately hangs past that edge, so anything less and the
+	// cards collide with the product name.
+	margin-top: 64px;
+
+	// Three columns — description 25%, nutrition/cana facts 25%, product
+	// gallery grid 50%. Flex-grow ratios (1/1/2 on a 0 basis) so the gaps
+	// are absorbed proportionally instead of overflowing fixed widths.
+	.yb-product-gallery-grid {
+		flex: 2 1 0;
+		min-width: 0;
+	}
+
+	// Body copy in both cards reads at 16px. The ingredient lists and the
+	// serving-size labels carried no size of their own and inherited the
+	// theme's 20px, so the two cards sat side by side at different sizes.
+	// Setting it on the card roots covers all of that, because none of that
+	// copy declares a size itself.
+	.product-page-description-pattern,
+	.product-page-nutrition-cana-facts-pattern {
+		font-size: 16px;
+
+		// Card titles ("Description", "Nutrition Facts", "Cana Facts") inherit
+		// too, so they need holding at heading size — without this they drop to
+		// body size along with the copy and the hierarchy flattens.
+		:where(h1, h2, h3, h4) {
+			font-size: var(--wp--preset--font-size--h-4, 20px);
+		}
+	}
+
+	// The nutrition panel ships at 14px from the block, which is right in the
+	// hero's tab where it sits beside 14px panel copy. In this card it sits
+	// beside 16px copy instead, so match the card. Scoped here rather than
+	// changed at source so the hero copy is left alone.
+	.yb-nutrition-facts {
+		font-size: 16px;
+	}
+
 	.product-page-description-pattern {
-		width: 50%;
+		width: auto;
+		flex: 1 1 0;
+		min-width: 0;
 		
 		.product-category-list-custom-category {
 			font-weight: 700;
@@ -14,8 +55,8 @@
 		}
 		
 		.product-page-other-ingredients-pattern {
-			display: flex;
-			align-items: baseline;
+			// Stack the "OTHER INGREDIENTS:" label above the ingredient list.
+			display: block;
 			
 			p {
 				padding-right: 8px;
@@ -28,27 +69,74 @@
 	}
 	
 	.product-page-nutrition-cana-facts-pattern {
-		width: 50%;
+		width: auto;
+		flex: 1 1 0;
+		min-width: 0;
 		background-color: rgb(65 115 96 / 75%);
 		
 		.product-page-nutrition-facts-pattern, .product-page-cana-facts-pattern {
 			width: 100%;
-				
-			.product-category-list-custom-nutrition-facts:first-of-type, .product-category-list-custom-list:first-of-type {
-				border-width: 1px 0px 1px 0px;
+
+			// Eightshift's grid wrapper reserves a side column and starts its
+			// inner at column 2, which indents the list ~17px past the
+			// nutrition grid it sits under. Span the full grid so both lists
+			// share a left edge. Same fix the dropdown-picker block already
+			// uses for its own wrapper.
+			.wrapper > .wrapper__inner {
+				grid-column: 1 / -1;
 			}
-			
+
+			// Cana Facts is still taxonomy-driven, so it renders as label/value
+			// divs rather than the FDA panel's table. These rules restate that
+			// panel's look — Poppins 600/14, hairline rules in the inherited
+			// colour, values hard right — so the two lists in this card read as
+			// one system. Source of truth for the treatment is
+			// `.yb-nutrition-facts` in the plugin's product-nutrition-facts
+			// block; keep the two in step if either changes.
 			.product-category-list-custom-nutrition-facts, .product-category-list-custom-list {
 				width: 100%;
 				display: flex;
 				justify-content: space-between;
-				padding: 4px 0 4px 0;
+				gap: 12px;
+				padding: 6px 0;
 				border-style: solid;
-				border-color: white;
-				border-width: 0px 0px 1px 0px;
+				border-color: currentcolor;
+				border-width: 0 0 1px;
+				font: 600 16px/1.5 var(--wp--preset--font-family--poppins, "Poppins", sans-serif);
 				text-transform: none;
-				font-weight: normal;
+			}
+
+			// Every line uses the grid's body treatment — no headline row. The
+			// nutrition panel reserves that for Calories, which has no
+			// equivalent here; each cannabinoid carries the same weight.
+
+			// Last line closes the list without a trailing rule.
+			.product-category-list-custom-nutrition-facts:last-of-type, .product-category-list-custom-list:last-of-type {
+				border-bottom: 0;
+			}
+
+			// Value column — right-aligned and never wrapped off its label.
+			.product-category-list-custom-subcategory {
+				text-align: right;
+				white-space: nowrap;
 			}
 		}
 	}
 }
+
+@media only screen and (max-width: 600px) {
+	.product-page-description-nutrition-cana-facts-pattern {
+		// Three flex children don't fit side by side on phones — stack them.
+		flex-direction: column;
+
+		.product-page-description-pattern , .product-page-nutrition-cana-facts-pattern {
+			width: auto;
+			flex: none;
+		}
+
+		.yb-product-gallery-grid {
+			flex: none;
+		}
+	}
+}
+

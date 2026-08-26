@@ -23,3 +23,31 @@ https://github.com/infinum/eightshift-frontend-libs/blob/develop/styles/scss/_co
 	--global-colors-black-values: 0 0 0;
 	--global-colors-primary500: white;
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// Standardized responsive breakpoints — Bootstrap-style 576 / 768 / 992 / 1200.
+// Single source of truth for theme partials. Use mobile-first (`bp`) wherever
+// possible; `bp-down` exists to layer mobile overrides onto the legacy
+// desktop-first partials without rewriting them.
+//
+//   @include bp(md)      { ... }   // applies at >= 768px
+//   @include bp-down(md) { ... }   // applies at <= 767.98px
+// ─────────────────────────────────────────────────────────────────────────
+$yb-breakpoints: (
+	sm: 576px,
+	md: 768px,
+	lg: 992px,
+	xl: 1200px,
+);
+
+@mixin bp($name) {
+	@media (min-width: map-get($yb-breakpoints, $name)) {
+		@content;
+	}
+}
+
+@mixin bp-down($name) {
+	@media (max-width: (map-get($yb-breakpoints, $name) - 0.02px)) {
+		@content;
+	}
+}

@@ -10,6 +10,7 @@
 
 // Config.
 @import './parts/core';
+@import './parts/header';
 @import './parts/footer';
 @import './parts/forms';
 @import './parts/product-count';
@@ -17,3 +18,11 @@
 @import './parts/product-rollover-pattern';
 @import './parts/woocommerce';
 @import './parts/accordion';
+@import './parts/mega-menu';
+@import './parts/mobile-nav';
+@import './parts/mini-cart';
+@import './parts/cart-page';
+@import './parts/checkout-page';
+@import './parts/my-account-page';
+@import './parts/age-verification';
+@import './parts/mobile-overrides';

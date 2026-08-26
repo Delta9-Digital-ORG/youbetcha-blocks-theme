@@ -1,0 +1,538 @@
+// Checkout page brand redesign
+// Styles the classic WooCommerce checkout to match cart sidebar design
+
+$co-primary: #417360;
+$co-primary-dark: #2f5245;
+$co-primary-light: #729789;
+$co-primary-tint: rgba(65, 115, 96, 0.1);
+$co-charcoal: #2B2B2B;
+$co-border: #EAEAEA;
+$co-error: #FF905F;
+$co-white: #ffffff;
+$co-transition: 0.3s ease-out;
+
+// ============================================================
+// Override WC dl.variation dt on checkout
+// ============================================================
+body.woocommerce-checkout .woocommerce td.product-name dl.variation dt {
+	display: none;
+}
+
+body.woocommerce-checkout .woocommerce td.product-name dl.variation dd {
+	margin: 0;
+	padding: 0;
+}
+
+body.woocommerce-checkout .woocommerce td.product-name dl.variation {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 4px;
+	margin-top: 6px;
+}
+
+body.woocommerce-checkout .woocommerce td.product-name dl.variation dd.variation-Ingredients p {
+	font-family: 'Poppins', sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: $co-primary-light;
+	margin: 0;
+}
+
+body.woocommerce-checkout .woocommerce td.product-name dl.variation dd.variation-Nutrition p {
+	font-family: 'Poppins', sans-serif;
+	font-size: 11px;
+	font-weight: 700;
+	color: $co-primary;
+	margin: 0;
+}
+
+body.woocommerce-checkout .woocommerce td.product-name dl.variation dd.variation-Mood {
+	width: 100%;
+
+	p {
+		display: inline-block;
+		font-family: 'DDC Hardware', 'Poppins', sans-serif;
+		font-size: 14px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		padding: 2px 8px;
+		border: 2px solid $co-primary;
+		border-radius: 4px;
+		color: $co-primary;
+		line-height: 1.3;
+		margin: 0;
+	}
+}
+
+body.woocommerce-checkout .woocommerce td.product-name dl.variation dd.variation-Active {
+	width: 100%;
+
+	p {
+		font-family: 'DDC Hardware', 'Poppins', sans-serif;
+		font-size: 14px;
+		text-transform: uppercase;
+		color: $co-primary;
+		letter-spacing: 0.02em;
+		margin: 0;
+	}
+}
+
+// ============================================================
+// Checkout page container
+// ============================================================
+.woocommerce-checkout {
+
+	// Full width override
+	&.woocommerce-checkout .woocommerce,
+	.woocommerce {
+		max-width: 100%;
+	}
+
+	// Headings
+	h3,
+	h3#ship-to-different-address,
+	.woocommerce-checkout h3 {
+		font-family: 'Poppins', sans-serif;
+		font-weight: 700;
+		color: $co-primary;
+		font-size: 20px;
+	}
+
+	// ============================================================
+	// Checkout layout — customer details left, order review right
+	// ============================================================
+	form.woocommerce-checkout {
+		display: grid;
+		grid-template-columns: 1.5fr 1fr;
+		gap: 2rem;
+		align-items: start;
+
+		// Customer details — stack col-1 and col-2
+		#customer_details {
+			grid-column: 1;
+			grid-row: 1 / 3;
+
+			&.col2-set {
+				display: flex;
+				flex-direction: column;
+
+				.col-1,
+				.col-2 {
+					width: 100%;
+					float: none;
+					padding: 0;
+				}
+
+				.col-2 {
+					margin-top: 1.5rem;
+				}
+			}
+		}
+
+		// Order review heading — right column
+		#order_review_heading {
+			grid-column: 2;
+			grid-row: 1;
+		}
+
+		// Order review — right column, sticky
+		#order_review {
+			grid-column: 2;
+			grid-row: 2;
+			position: sticky;
+			top: 2rem;
+			align-self: start;
+		}
+	}
+
+	// ============================================================
+	// Login & coupon info notices
+	// ============================================================
+	.woocommerce-info {
+		border-top-color: $co-primary;
+		background: $co-primary-tint;
+		font-family: 'Poppins', sans-serif;
+		font-size: 14px;
+		color: $co-charcoal;
+		border-radius: 8px;
+		padding: 0.75rem 1.25rem;
+
+		&::before {
+			color: $co-primary;
+		}
+
+		a {
+			color: $co-primary;
+			font-weight: 700;
+		}
+	}
+
+	// Login form
+	.woocommerce-form-login {
+		border-color: $co-border;
+		border-radius: 8px;
+	}
+
+	// Coupon form
+	.checkout_coupon {
+		border-color: $co-border;
+		border-radius: 8px;
+
+		#coupon_code {
+			border: 2px solid $co-border;
+			border-radius: 100rem;
+			padding: 0.75rem 1.25rem;
+			font-family: 'Poppins', sans-serif;
+			font-size: 14px;
+			transition: border-color $co-transition;
+
+			&:focus {
+				border-color: $co-primary;
+				outline: none;
+			}
+		}
+
+		button[name="apply_coupon"] {
+			background: transparent;
+			border: 3px solid $co-primary;
+			color: $co-primary;
+			border-radius: 100rem;
+			padding: 0.625rem 1.5rem;
+			font-family: 'Poppins', sans-serif;
+			font-weight: 700;
+			font-size: 14px;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			cursor: pointer;
+			transition: all $co-transition;
+
+			&:hover {
+				background: $co-primary;
+				color: $co-white;
+			}
+		}
+	}
+
+	// ============================================================
+	// Form fields
+	// ============================================================
+	form.woocommerce-checkout {
+
+		// Labels
+		label {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 600;
+			font-size: 14px;
+			color: $co-charcoal;
+		}
+
+		.required {
+			color: $co-primary;
+		}
+
+		// Inputs, selects, textareas
+		input[type="text"],
+		input[type="email"],
+		input[type="tel"],
+		input[type="password"],
+		input[type="number"],
+		select,
+		textarea {
+			border: 2px solid $co-border;
+			border-radius: 8px;
+			padding: 0.75rem 1rem;
+			font-family: 'Poppins', sans-serif;
+			font-size: 14px;
+			color: $co-charcoal;
+			transition: border-color $co-transition;
+			width: 100%;
+
+			&:focus {
+				border-color: $co-primary;
+				outline: none;
+				box-shadow: none;
+			}
+		}
+
+		select {
+			appearance: none;
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23417360' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+			background-repeat: no-repeat;
+			background-position: right 0.75rem center;
+			padding-right: 2.5rem;
+		}
+
+		// Two-column layout
+		.col2-set {
+			.col-1,
+			.col-2 {
+				h3 {
+					margin-bottom: 1rem;
+				}
+			}
+		}
+	}
+
+	// ============================================================
+	// Order review
+	// ============================================================
+	.woocommerce-checkout-review-order {
+		h3#order_review_heading {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 700;
+			color: $co-primary;
+			font-size: 20px;
+			margin-bottom: 1rem;
+		}
+	}
+
+	.woocommerce-checkout-review-order-table {
+		border: 2px solid $co-border;
+		border-radius: 12px;
+		overflow: hidden;
+		border-collapse: separate;
+		border-spacing: 0;
+
+		th {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 600;
+			font-size: 14px;
+			color: $co-primary;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			padding: 1rem 1.25rem;
+			border-bottom: 2px solid $co-border;
+		}
+
+		td {
+			font-family: 'Poppins', sans-serif;
+			padding: 1rem 1.25rem;
+			border: none;
+			border-bottom: 1px solid $co-border;
+		}
+
+		// Product name
+		td.product-name {
+			font-family: 'Poppins', sans-serif;
+			font-size: 14px;
+			font-weight: 600;
+			color: $co-primary;
+
+			.product-quantity {
+				color: $co-primary-light;
+				font-weight: 400;
+			}
+		}
+
+		// Product total
+		td.product-total {
+			font-family: 'Poppins', sans-serif;
+			font-size: 16px;
+			font-weight: 700;
+			color: $co-primary;
+		}
+
+		// Subtotal, shipping, tax rows
+		th {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 600;
+			color: $co-charcoal;
+			font-size: 16px;
+		}
+
+		td {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 700;
+			color: $co-primary;
+			font-size: 16px;
+		}
+
+		// Shipping
+		.woocommerce-shipping-methods {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			label {
+				font-family: 'Poppins', sans-serif;
+				font-weight: 400;
+				color: $co-charcoal;
+			}
+		}
+
+		// Order total
+		tr.order-total {
+			th,
+			td {
+				font-size: 18px;
+				border-bottom: none;
+			}
+
+			td .woocommerce-Price-amount {
+				font-size: 24px;
+				color: $co-primary;
+			}
+		}
+	}
+
+	// ============================================================
+	// Payment methods
+	// ============================================================
+	.woocommerce-checkout-payment {
+		background: transparent;
+		border-radius: 12px;
+		border: 2px solid $co-border;
+		overflow: hidden;
+
+		.wc_payment_methods {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			li {
+				padding: 1rem 1.25rem;
+				border-bottom: 1px solid $co-border;
+
+				&:last-child {
+					border-bottom: none;
+				}
+
+				label {
+					font-family: 'Poppins', sans-serif;
+					font-size: 14px;
+					font-weight: 600;
+					color: $co-charcoal;
+					cursor: pointer;
+				}
+
+				.payment_box {
+					font-family: 'Poppins', sans-serif;
+					font-size: 13px;
+					color: $co-primary-light;
+					background: $co-primary-tint;
+					border-radius: 8px;
+					padding: 0.75rem 1rem;
+					margin-top: 0.5rem;
+				}
+			}
+		}
+
+		// Error notice for no payment methods
+		.wc-block-components-notice-banner {
+			margin: 1rem;
+		}
+	}
+
+	// ============================================================
+	// Place order
+	// ============================================================
+	.place-order {
+		padding: 1.25rem;
+
+		#place_order {
+			display: block;
+			width: 100%;
+			background: $co-primary;
+			border: 3px solid $co-primary;
+			color: $co-white;
+			border-radius: 100rem;
+			padding: 1rem 1.5rem;
+			font-family: 'Poppins', sans-serif;
+			font-weight: 700;
+			font-size: 16px;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			text-align: center;
+			cursor: pointer;
+			transition: all $co-transition;
+
+			&:hover {
+				background: $co-primary-dark;
+				border-color: $co-primary-dark;
+			}
+		}
+
+		// Terms & conditions
+		.woocommerce-terms-and-conditions-wrapper {
+			font-family: 'Poppins', sans-serif;
+			font-size: 13px;
+			color: $co-primary-light;
+			margin-bottom: 1rem;
+
+			a {
+				color: $co-primary;
+				font-weight: 600;
+			}
+		}
+
+		// Privacy policy
+		.woocommerce-privacy-policy-text {
+			font-family: 'Poppins', sans-serif;
+			font-size: 13px;
+			color: $co-primary-light;
+			margin-bottom: 1rem;
+
+			a {
+				color: $co-primary;
+				font-weight: 600;
+			}
+		}
+	}
+
+	// ============================================================
+	// Store notices — reuse cart page styles
+	// ============================================================
+	.wc-block-store-notices {
+		display: flex;
+		justify-content: center;
+		max-width: 100%;
+		margin: 0 auto 1.5rem;
+	}
+
+	// Save badge in order review
+	.yb-save-badge {
+		display: block;
+		margin-top: 4px;
+		background: $co-primary;
+		color: $co-white;
+		font-family: 'Poppins', sans-serif;
+		font-size: 11px;
+		font-weight: 700;
+		padding: 2px 8px;
+		border-radius: 4px;
+		white-space: nowrap;
+		width: fit-content;
+
+		.woocommerce-Price-amount {
+			color: $co-white;
+			font-size: 11px;
+		}
+	}
+}
+
+// The checkout grid (details 1.5fr / order review 1fr) has no mobile
+// stacking, so the review table overflows a phone viewport. Single column
+// below md, with the review under the details and no sticky offset.
+@include bp-down(md) {
+	body.woocommerce-checkout form.woocommerce-checkout {
+		grid-template-columns: minmax(0, 1fr);
+
+		#customer_details {
+			grid-column: 1;
+			grid-row: auto;
+		}
+
+		#order_review_heading {
+			grid-column: 1;
+			grid-row: auto;
+		}
+
+		#order_review {
+			grid-column: 1;
+			grid-row: auto;
+			position: static;
+			max-width: 100%;
+		}
+	}
+}

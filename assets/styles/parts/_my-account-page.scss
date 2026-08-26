@@ -1,0 +1,755 @@
+// My Account page brand redesign
+// Styles the classic WooCommerce My Account pages (dashboard, orders,
+// subscriptions, downloads, addresses, payment methods, account details)
+// to match the cart and checkout page design.
+
+$ma-primary: #417360;
+$ma-primary-dark: #2f5245;
+$ma-primary-light: #729789;
+$ma-primary-tint: rgba(65, 115, 96, 0.1);
+$ma-charcoal: #2B2B2B;
+$ma-border: #EAEAEA;
+$ma-error: #FF905F;
+$ma-porcelain-tint: rgba(241, 232, 227, 0.3);
+$ma-white: #ffffff;
+$ma-transition: 0.3s ease-out;
+
+// ============================================================
+// Shared button mixins — pill style matching cart/checkout
+// ============================================================
+@mixin ma-btn-filled {
+	display: inline-block;
+	background: $ma-primary;
+	border: 3px solid $ma-primary;
+	color: $ma-white;
+	border-radius: 100rem;
+	padding: 0.75rem 1.5rem;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 700;
+	font-size: 14px;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition: all $ma-transition;
+
+	&:hover {
+		background: $ma-primary-dark;
+		border-color: $ma-primary-dark;
+		color: $ma-white;
+	}
+}
+
+@mixin ma-btn-outline {
+	display: inline-block;
+	background: transparent;
+	border: 3px solid $ma-primary;
+	color: $ma-primary;
+	border-radius: 100rem;
+	padding: 0.5rem 1.25rem;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 700;
+	font-size: 13px;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition: all $ma-transition;
+
+	&:hover {
+		background: $ma-primary;
+		color: $ma-white;
+	}
+}
+
+// Outline button used inside notices. WooCommerce Blocks resets .wc-forward
+// links in notice content with `color`/`padding` !important, so those two
+// must be re-asserted with !important to win the cascade.
+@mixin ma-btn-outline-notice {
+	@include ma-btn-outline;
+	margin-left: auto;
+	color: $ma-primary !important;
+	padding: 0.5rem 1.25rem !important;
+
+	&:hover {
+		color: $ma-white !important;
+	}
+}
+
+// ============================================================
+// Account page container
+// ============================================================
+.woocommerce-account {
+
+	// Page title
+	.entry-title,
+	h1.wp-block-heading {
+		font-family: 'Poppins', sans-serif;
+		font-weight: 700;
+		color: $ma-primary;
+	}
+
+	// Full width override + sidebar layout (nav + content)
+	&.woocommerce-account .woocommerce,
+	.woocommerce {
+		max-width: 100%;
+
+		// Breathing room above and below the whole account area
+		margin-top: 4rem;
+		margin-bottom: 4rem;
+
+		// Only the account shell uses the two-column grid. The login form
+		// (logged-out state) keeps WC's default centered layout.
+		&:has(> .woocommerce-MyAccount-navigation) {
+			display: grid;
+			grid-template-columns: minmax(220px, 280px) 1fr;
+			gap: 2rem;
+			align-items: start;
+
+			// Explicit placement — overrides WC's default float + width:30%/68%
+			// which otherwise shrink these inside their grid cells.
+			> .woocommerce-MyAccount-navigation {
+				grid-column: 1;
+				grid-row: 1;
+				float: none;
+				width: 100%;
+				// Stretch the nav cell to the full row height so the sticky
+				// menu inside it has room to stick while content scrolls.
+				align-self: stretch;
+			}
+
+			> .woocommerce-MyAccount-content {
+				grid-column: 2;
+				grid-row: 1;
+				float: none;
+				width: 100%;
+			}
+		}
+	}
+
+	// ============================================================
+	// Navigation sidebar
+	// ============================================================
+	.woocommerce-MyAccount-navigation {
+		font-family: 'Poppins', sans-serif;
+
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0.5rem;
+			border: 2px solid $ma-border;
+			border-radius: 12px;
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+			position: sticky;
+			top: 2rem;
+		}
+
+		li {
+			margin: 0;
+
+			a {
+				display: block;
+				padding: 0.75rem 1rem;
+				border-radius: 8px;
+				font-family: 'Poppins', sans-serif;
+				font-weight: 600;
+				font-size: 14px;
+				color: $ma-charcoal;
+				text-decoration: none;
+				transition: all $ma-transition;
+
+				&:hover {
+					background: $ma-primary-tint;
+					color: $ma-primary;
+				}
+			}
+
+			&.is-active a {
+				background: $ma-primary;
+				color: $ma-white;
+
+				&:hover {
+					background: $ma-primary-dark;
+				}
+			}
+		}
+	}
+
+	// ============================================================
+	// Content area
+	// ============================================================
+	.woocommerce-MyAccount-content {
+		font-family: 'Poppins', sans-serif;
+		color: $ma-charcoal;
+		min-width: 0;
+
+		p {
+			font-family: 'Poppins', sans-serif;
+			font-size: 15px;
+			line-height: 1.6;
+			color: $ma-charcoal;
+		}
+
+		h2,
+		h3 {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 700;
+			color: $ma-primary;
+			font-size: 20px;
+			margin-bottom: 1rem;
+		}
+
+		a:not(.button):not(.woocommerce-button) {
+			color: $ma-primary;
+			font-weight: 600;
+			transition: color $ma-transition;
+
+			&:hover {
+				color: $ma-primary-dark;
+			}
+		}
+	}
+
+	// ============================================================
+	// Buttons — default to outline pill; primary actions filled
+	// ============================================================
+	.woocommerce-MyAccount-content {
+		.button,
+		a.button,
+		button.button,
+		.woocommerce-button {
+			@include ma-btn-outline;
+		}
+
+		// Primary / submit actions
+		button[name="save_address"],
+		button[name="save_account_details"],
+		#place_order,
+		.woocommerce-Button--alt,
+		button[type="submit"] {
+			@include ma-btn-filled;
+		}
+	}
+
+	// ============================================================
+	// Tables — orders, subscriptions, payment methods, downloads
+	// ============================================================
+	.woocommerce-MyAccount-content table.shop_table {
+		border: 2px solid $ma-border;
+		border-radius: 12px;
+		border-collapse: separate;
+		border-spacing: 0;
+		overflow: hidden;
+		width: 100%;
+		margin: 0 0 1.5rem;
+
+		thead th {
+			font-family: 'Poppins', sans-serif;
+			font-weight: 600;
+			font-size: 14px;
+			color: $ma-primary;
+			text-transform: uppercase;
+			letter-spacing: 0.04em;
+			padding: 1rem 1.25rem;
+			border: none;
+			border-bottom: 2px solid $ma-border;
+			text-align: left;
+		}
+
+		tbody tr {
+			transition: background $ma-transition;
+
+			&:hover {
+				background: $ma-porcelain-tint;
+			}
+		}
+
+		tbody td,
+		tbody th {
+			font-family: 'Poppins', sans-serif;
+			font-size: 14px;
+			color: $ma-charcoal;
+			padding: 1rem 1.25rem;
+			border: none;
+			border-bottom: 1px solid $ma-border;
+			vertical-align: middle;
+		}
+
+		tbody tr:last-child td,
+		tbody tr:last-child th {
+			border-bottom: none;
+		}
+
+		// Order / subscription number + view links
+		td a,
+		th a {
+			color: $ma-primary;
+			font-weight: 700;
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		// Price amounts
+		.woocommerce-Price-amount {
+			color: $ma-primary;
+			font-weight: 700;
+		}
+
+		// Inline action buttons (View, Cancel, Download, etc.)
+		td.woocommerce-orders-table__cell-order-actions,
+		td.woocommerce-orders-table__cell-subscription-actions,
+		td.download-file,
+		td.woocommerce-PaymentMethod--actions {
+			text-align: right;
+			white-space: nowrap;
+		}
+
+		.button,
+		a.button,
+		.woocommerce-button {
+			@include ma-btn-outline;
+			margin: 2px 0 2px 4px;
+		}
+	}
+
+	// ============================================================
+	// Pagination
+	// ============================================================
+	.woocommerce-pagination {
+		display: flex;
+		gap: 0.75rem;
+		justify-content: center;
+		margin-top: 1.5rem;
+
+		ul {
+			list-style: none;
+			display: flex;
+			gap: 0.5rem;
+			padding: 0;
+			margin: 0;
+		}
+
+		a,
+		.button {
+			@include ma-btn-outline;
+		}
+	}
+
+	// ============================================================
+	// Addresses (my-address view + edit-address form)
+	// ============================================================
+	.woocommerce-Addresses.col2-set {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.5rem;
+		margin-top: 1rem;
+
+		.col-1,
+		.col-2,
+		.u-column1,
+		.u-column2 {
+			width: 100%;
+			float: none;
+			margin: 0;
+		}
+
+		// Explicit placement — WC's default float reverses grid auto-flow.
+		.col-1,
+		.u-column1 {
+			grid-column: 1;
+		}
+
+		.col-2,
+		.u-column2 {
+			grid-column: 2;
+		}
+	}
+
+	.woocommerce-Address {
+		border: 2px solid $ma-border;
+		border-radius: 12px;
+		padding: 1.5rem;
+
+		.woocommerce-Address-title {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+			margin-bottom: 1rem;
+
+			h2,
+			h3 {
+				margin: 0;
+				font-family: 'Poppins', sans-serif;
+				font-weight: 700;
+				color: $ma-primary;
+				font-size: 18px;
+			}
+
+			a.edit {
+				@include ma-btn-outline;
+			}
+		}
+
+		address {
+			font-family: 'Poppins', sans-serif;
+			font-style: normal;
+			font-size: 14px;
+			line-height: 1.7;
+			color: $ma-charcoal;
+		}
+	}
+
+	// ============================================================
+	// Forms — edit account, edit address, add payment method
+	// ============================================================
+	.woocommerce-MyAccount-content {
+
+		form {
+			max-width: 640px;
+		}
+
+		// Two-column form rows laid out with a grid (replaces WC floats)
+		.woocommerce-EditAccountForm,
+		.woocommerce-address-fields__field-wrapper {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 1.25rem;
+			max-width: 640px;
+		}
+
+		// Each row fills its grid cell — overrides WC's default float +
+		// width:47% which otherwise shrinks the fields to ~half their cell.
+		.form-row {
+			width: 100%;
+			float: none;
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		.form-row-first {
+			grid-column: 1;
+		}
+
+		.form-row-last {
+			grid-column: 2;
+		}
+
+		.form-row-wide,
+		.woocommerce-EditAccountForm > fieldset,
+		.woocommerce-EditAccountForm > p:not(.form-row-first):not(.form-row-last),
+		.woocommerce-address-fields__field-wrapper > .form-row-wide {
+			grid-column: 1 / -1;
+		}
+
+		// WC float clears are unnecessary with grid
+		.clear {
+			display: none;
+		}
+
+		// Field labels
+		label {
+			display: block;
+			font-family: 'Poppins', sans-serif;
+			font-weight: 600;
+			font-size: 14px;
+			color: $ma-charcoal;
+			margin-bottom: 0.35rem;
+		}
+
+		.required {
+			color: $ma-primary;
+			border: none;
+		}
+
+		// Inputs, selects, textareas
+		input[type="text"],
+		input[type="email"],
+		input[type="tel"],
+		input[type="password"],
+		input[type="number"],
+		select,
+		textarea {
+			width: 100%;
+			border: 2px solid $ma-border;
+			border-radius: 8px;
+			padding: 0.75rem 1rem;
+			font-family: 'Poppins', sans-serif;
+			font-size: 14px;
+			color: $ma-charcoal;
+			transition: border-color $ma-transition;
+
+			&:focus {
+				border-color: $ma-primary;
+				outline: none;
+				box-shadow: none;
+			}
+		}
+
+		select {
+			appearance: none;
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23417360' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+			background-repeat: no-repeat;
+			background-position: right 0.75rem center;
+			padding-right: 2.5rem;
+		}
+
+		// Helper text below display-name field
+		#account_display_name_description,
+		span em {
+			font-family: 'Poppins', sans-serif;
+			font-size: 12px;
+			color: $ma-primary-light;
+		}
+
+		// Password change fieldset — card
+		fieldset {
+			grid-column: 1 / -1;
+			border: 2px solid $ma-border;
+			border-radius: 12px;
+			padding: 1.5rem;
+			margin: 0.5rem 0;
+
+			legend {
+				font-family: 'Poppins', sans-serif;
+				font-weight: 700;
+				font-size: 16px;
+				color: $ma-primary;
+				padding: 0 0.5rem;
+			}
+
+			.form-row {
+				margin-bottom: 1rem;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+
+	// ============================================================
+	// Add payment method form
+	// ============================================================
+	.woocommerce-Payment {
+		max-width: 640px;
+
+		.woocommerce-PaymentMethods {
+			list-style: none;
+			margin: 0 0 1.5rem;
+			padding: 0;
+			border: 2px solid $ma-border;
+			border-radius: 12px;
+			overflow: hidden;
+
+			li.woocommerce-PaymentMethod {
+				padding: 1rem 1.25rem;
+				border-bottom: 1px solid $ma-border;
+
+				&:last-child {
+					border-bottom: none;
+				}
+
+				label {
+					display: inline;
+					font-weight: 600;
+					color: $ma-charcoal;
+					cursor: pointer;
+					margin: 0 0 0 0.5rem;
+				}
+
+				input[type="radio"] {
+					width: auto;
+					accent-color: $ma-primary;
+				}
+
+				.payment_box {
+					font-family: 'Poppins', sans-serif;
+					font-size: 13px;
+					color: $ma-primary-light;
+					background: $ma-primary-tint;
+					border-radius: 8px;
+					padding: 0.75rem 1rem;
+					margin-top: 0.75rem;
+				}
+			}
+		}
+	}
+
+	// ============================================================
+	// Notices — unify classic + block notices into one green alert look
+	// (matching the subscriptions empty-state alert). Two notice systems
+	// render on these pages: classic <p>/<ul> (.woocommerce-info etc., with
+	// a ::before icon glyph) and block banners (.wc-block-components-notice-
+	// banner, with an inline <svg>). Both are normalised below.
+	// ============================================================
+	.woocommerce-notices-wrapper:empty {
+		margin: 0;
+	}
+
+	// --- Classic notices (subscriptions empty-state, validation, etc.) ---
+	.woocommerce-message,
+	.woocommerce-info,
+	.woocommerce-error,
+	.woocommerce-Message {
+		font-family: 'Poppins', sans-serif;
+		font-size: 14px;
+		color: $ma-charcoal;
+		border: none;
+		border-top: 3px solid $ma-primary;
+		border-radius: 8px;
+		// Left padding clears WC's absolutely-positioned icon (::before at
+		// left: 1.5em). Without it the icon overlaps the notice text.
+		padding: 0.875rem 1.25rem 0.875rem 3.25rem;
+		position: relative;
+		background: $ma-primary-tint;
+		box-shadow: none;
+		margin: 0 0 1.5rem;
+
+		&::before {
+			color: $ma-primary;
+			left: 1.25rem;
+			margin: 0;
+		}
+
+		a:not(.button):not(.woocommerce-Button) {
+			color: $ma-primary;
+			font-weight: 700;
+		}
+	}
+
+	// Single-line notices with an optional inline action button → flex so
+	// the button is pushed to the right (matches the block notices below).
+	.woocommerce-message,
+	.woocommerce-info,
+	.woocommerce-Message {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+
+		.button,
+		a.button,
+		.woocommerce-Button {
+			@include ma-btn-outline-notice;
+		}
+	}
+
+	// Error variant — orange. Kept as a block (may hold a list of errors).
+	.woocommerce-error {
+		background: rgba(255, 144, 95, 0.1);
+		border-top-color: $ma-error;
+
+		&::before {
+			color: $ma-error;
+		}
+	}
+
+	// --- Block-based notices (orders / downloads / payment-methods empty
+	// states, success messages, store notices) — matched to the look above ---
+	.wc-block-components-notice-banner {
+		font-family: 'Poppins', sans-serif;
+		font-size: 14px;
+		color: $ma-charcoal;
+		background: $ma-primary-tint;
+		border: none;
+		border-top: 3px solid $ma-primary;
+		border-radius: 8px;
+		box-shadow: none;
+		padding: 0.875rem 1.25rem;
+		margin: 0 0 1.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+
+		> svg {
+			fill: $ma-primary;
+			flex-shrink: 0;
+			width: 24px;
+			height: 24px;
+			margin: 0;
+		}
+
+		.wc-block-components-notice-banner__content {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			margin: 0;
+			color: $ma-charcoal;
+
+			a:not(.button):not(.woocommerce-Button) {
+				color: $ma-primary;
+				font-weight: 700;
+			}
+
+			.button,
+			a.button,
+			.woocommerce-Button {
+				@include ma-btn-outline-notice;
+			}
+		}
+
+		// Error variant → orange
+		&.is-error {
+			background: rgba(255, 144, 95, 0.1);
+			border-top-color: $ma-error;
+
+			> svg {
+				fill: $ma-error;
+			}
+		}
+	}
+
+	// Store notices wrapper
+	.wc-block-store-notices {
+		max-width: 100%;
+		margin: 0 auto 1.5rem;
+	}
+
+	// ============================================================
+	// Responsive — stack nav above content
+	// ============================================================
+	@media (max-width: 768px) {
+
+		&.woocommerce-account .woocommerce,
+		.woocommerce {
+			&:has(> .woocommerce-MyAccount-navigation) {
+				grid-template-columns: 1fr;
+
+				> .woocommerce-MyAccount-navigation,
+				> .woocommerce-MyAccount-content {
+					grid-column: 1;
+					grid-row: auto;
+				}
+			}
+		}
+
+		.woocommerce-MyAccount-navigation ul {
+			position: static;
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+
+		.woocommerce-Addresses.col2-set,
+		.woocommerce-MyAccount-content .woocommerce-EditAccountForm,
+		.woocommerce-MyAccount-content .woocommerce-address-fields__field-wrapper {
+			grid-template-columns: 1fr;
+		}
+
+		.form-row-first,
+		.form-row-last,
+		.woocommerce-Addresses.col2-set .col-1,
+		.woocommerce-Addresses.col2-set .col-2,
+		.woocommerce-Addresses.col2-set .u-column1,
+		.woocommerce-Addresses.col2-set .u-column2 {
+			grid-column: 1;
+		}
+	}
+}
