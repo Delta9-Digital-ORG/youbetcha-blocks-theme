@@ -407,29 +407,41 @@ $mc-transition: 0.3s ease-out;
 	}
 
 	// Empty cart state
-	.wc-block-mini-cart__empty-cart-wrapper {
+	// WooCommerce Blocks renders the empty mini-cart inside
+	// .wp-block-woocommerce-empty-mini-cart-contents-block (a centered message
+	// paragraph + a client-rendered "Start shopping" button anchor).
+	.wp-block-woocommerce-empty-mini-cart-contents-block {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		text-align: center;
+		gap: 1.5rem;
 		padding: 3rem 1.5rem;
 
-		svg {
-			color: $mc-primary-light;
-			opacity: 0.5;
-			margin-bottom: 1.5rem;
-		}
-
+		// "Your cart is currently empty!" message
 		p {
+			margin: 0;
 			font-family: 'Poppins', sans-serif;
-			font-size: 16px;
+			font-size: 18px;
 			font-weight: 600;
-			color: $mc-charcoal;
+			color: $mc-primary;
+
+			strong {
+				font-weight: 700;
+			}
 		}
 
-		.wc-block-mini-cart__shopping-button a {
-			display: inline-block;
+		// Reset the block-button wrapper so our anchor styling drives the layout
+		.wp-block-button {
+			margin: 0;
+		}
+
+		// "Start shopping" button — mirrors the footer action buttons
+		a.wc-block-mini-cart__shopping-button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
 			padding: 0.875rem 2rem;
 			border-radius: 100rem;
 			background: $mc-primary;
@@ -443,9 +455,15 @@ $mc-transition: 0.3s ease-out;
 			text-decoration: none;
 			transition: all $mc-transition;
 
-			&:hover {
+			.wc-block-components-button__text {
+				color: inherit;
+			}
+
+			&:hover,
+			&:focus {
 				background: $mc-primary-dark;
 				border-color: $mc-primary-dark;
+				color: $mc-white;
 			}
 		}
 	}
