@@ -30,6 +30,23 @@ document.addEventListener('click', (e) => {
 	input.dispatchEvent(new Event('change', { bubbles: true }));
 });
 
+// Publish the sticky site header's height as a custom property so CSS can
+// offset against it — the checkout's pinned order summary needs to clear it,
+// and the header's height changes with the breakpoint (and if the
+// announcement bar wraps).
+(() => {
+	const publishHeaderHeight = () => {
+		const header = document.querySelector('header.wp-block-template-part');
+		if (!header) return;
+		const h = Math.round(header.getBoundingClientRect().height);
+		document.documentElement.style.setProperty('--yb-header-height', `${h}px`);
+	};
+
+	document.addEventListener('DOMContentLoaded', publishHeaderHeight);
+	window.addEventListener('load', publishHeaderHeight);
+	window.addEventListener('resize', publishHeaderHeight, { passive: true });
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
 	const megaMenu = document.querySelector('#mega-menu');
 	if (!megaMenu) return;
