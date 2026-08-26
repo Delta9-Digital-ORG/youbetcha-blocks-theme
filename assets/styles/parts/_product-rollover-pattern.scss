@@ -1,6 +1,12 @@
 .wp-block-woocommerce-product-collection {
 	.wc-block-product-template {
 		.wc-block-product {
+			// Breathing room below each card. The grid's row-gap alone
+			// (18-25px) is tighter than the ingredient badge's 41px
+			// overhang, so stacked cards had the next badge crowding the
+			// card above.
+			margin-bottom: 40px;
+
 			// Anchored to the card (.product-card is position: relative)
 			// instead of the old -380px/-72px margin offsets, which were
 			// authored against the 400px desktop card and walked the badge
