@@ -199,3 +199,42 @@
 		margin-bottom: 0 !important;
 	}
 }
+
+// ── Lifestyle photo-tile grids ("Product Photo Grid — Mood" patterns) ──
+// These grids mix a full-width heading block with cover tiles, and each
+// child carries an editor-set content width. Below the desktop
+// three-column layout WordPress resolves that into ragged tracks — at
+// 768px the tiles came out 497px and 259px, so one photo was squashed to
+// half its neighbour. Force even columns and let each tile fill its cell.
+// Scoped by `:has(.wp-block-cover)` so it only reaches photo-tile grids —
+// the homepage's icon/stat grids contain no covers and keep their own
+// stacking rules above.
+@include bp-down(lg) {
+	.entry-content .wp-block-group.is-layout-grid:has(.wp-block-cover) {
+		grid-template-columns: repeat(2, minmax(0, 1fr)) !important; // stylelint-disable-line declaration-no-important
+
+		// Clear the per-child widths so tiles fill the even tracks.
+		> * {
+			width: auto !important; // stylelint-disable-line declaration-no-important
+			max-width: none !important; // stylelint-disable-line declaration-no-important
+		}
+
+		// Tiles (covers, or groups of stacked covers) take one cell…
+		> :is(.wp-block-cover, :has(.wp-block-cover)) {
+			grid-column: auto !important; // stylelint-disable-line declaration-no-important
+		}
+
+		// …everything else (the heading block) spans the row.
+		> :not(.wp-block-cover):not(:has(.wp-block-cover)) {
+			grid-column: 1 / -1 !important; // stylelint-disable-line declaration-no-important
+		}
+	}
+}
+
+// One tile per row on phones — two 294px photos side by side lose their
+// subject.
+@include bp-down(sm) {
+	.entry-content .wp-block-group.is-layout-grid:has(.wp-block-cover) {
+		grid-template-columns: minmax(0, 1fr) !important; // stylelint-disable-line declaration-no-important
+	}
+}
