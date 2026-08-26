@@ -1,6 +1,12 @@
 .wp-block-woocommerce-product-collection {
 	.wc-block-product-template {
 		.wc-block-product {
+			// Breathing room below each card. The grid's row-gap alone
+			// (18-25px) is tighter than the ingredient badge's 41px
+			// overhang, so stacked cards had the next badge crowding the
+			// card above.
+			margin-bottom: 40px;
+
 			// Anchored to the card (.product-card is position: relative)
 			// instead of the old -380px/-72px margin offsets, which were
 			// authored against the 400px desktop card and walked the badge
@@ -1076,6 +1082,19 @@
 		.product-card-group {
 			width: 100%;
 			min-width: 0;
+			// Sections authored with a narrower content width (the homepage
+			// gummies collection) inherit a generated max-width that pins the
+			// card to ~400px while the beverages one fills its column. In a
+			// single-column grid the card always spans the column.
+			max-width: none;
+		}
+
+		// Same constraint reaches the name and type strips, which sit
+		// beside the group under that wrapper — clear them too or the
+		// coloured card reads full width with a narrow label below it.
+		.product-card-product-name,
+		.product-card-product-type {
+			max-width: none;
 		}
 
 	}
