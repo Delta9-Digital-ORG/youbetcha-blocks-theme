@@ -57,7 +57,10 @@
 			
 			.product-card-group {
 				min-width: 400px;
-				height: 468px;
+				// Sized to the product image so the can bottoms out just
+				// above the title. The hover info panel (.product-card-info)
+				// is 416px tall, so it still fits within this height.
+				height: 422px;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-between;
