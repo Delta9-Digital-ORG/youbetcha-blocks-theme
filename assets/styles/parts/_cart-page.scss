@@ -476,8 +476,28 @@ body.woocommerce-cart .woocommerce td.product-name dl.variation dd.variation-Act
 		}
 	}
 
+	// Notices sit in `.woocommerce-notices-wrapper`, which is just another
+	// flex item in the cart's `display: flex; flex-wrap: wrap` container —
+	// so "Cart updated." shrink-wrapped to ~250px and sat in the left
+	// margin *beside* the cart table. Give it its own full-width row at the
+	// top. `:not(:empty)` keeps the usual empty wrapper from claiming a row
+	// and its 32px gap.
+	.woocommerce > .woocommerce-notices-wrapper:not(:empty) {
+		flex: 0 0 100%;
+		width: 100%;
+		order: -1;
+		margin-bottom: 0.5rem;
+	}
+
+	// Blocks store notices render into their own wrapper — span it too.
+	.wc-block-store-notices .woocommerce-notices-wrapper:not(:empty) {
+		width: 100%;
+	}
+
 	// WooCommerce notices (classic)
 	.woocommerce-message {
+		width: 100%;
+		box-sizing: border-box;
 		border-top-color: $cp-primary;
 		font-family: 'Poppins', sans-serif;
 
