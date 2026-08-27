@@ -55,6 +55,7 @@ class WooCommerce implements ServiceInterface
 		\add_filter('woocommerce_cart_item_subtotal', [$this, 'cartItemSaveBadge'], 20, 3);
 		\add_filter('woocommerce_order_button_text', [$this, 'checkoutButtonText']);
 		\add_filter('gettext', [$this, 'changeProceedToCheckoutText'], 20, 3);
+		\add_action('wp_footer', [$this, 'miniCartEmptyStartShoppingHome']);
 	}
 	/**
 	 * Give new products the starter block layout every product page needs.
@@ -218,7 +219,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product description to general data
 	function custom_product_description_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_description_text_field']) ? $_POST['_custom_product_description_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_description_text_field']) ? wp_unslash($_POST['_custom_product_description_text_field']) : '';
 		$product->update_meta_data('_custom_product_description_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -241,7 +242,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product ingredients to general data
 	function custom_product_ingredients_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_ingredients_text_field']) ? $_POST['_custom_product_ingredients_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_ingredients_text_field']) ? wp_unslash($_POST['_custom_product_ingredients_text_field']) : '';
 		$product->update_meta_data('_custom_product_ingredients_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -270,7 +271,7 @@ class WooCommerce implements ServiceInterface
 
 		$product->update_meta_data(
 			'_custom_product_benefits_text_field',
-			sanitize_textarea_field($_POST['_custom_product_benefits_text_field'])
+			sanitize_textarea_field(wp_unslash($_POST['_custom_product_benefits_text_field']))
 		);
 	}
 
@@ -289,7 +290,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product other ingredients to general data
 	function custom_product_other_ingredients_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_other_ingredients_text_field']) ? $_POST['_custom_product_other_ingredients_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_other_ingredients_text_field']) ? wp_unslash($_POST['_custom_product_other_ingredients_text_field']) : '';
 		$product->update_meta_data('_custom_product_other_ingredients_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -312,7 +313,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product cannafacts to general data
 	function custom_product_cannafacts_select_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_cannafacts_select_field']) ? $_POST['_custom_product_cannafacts_select_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_cannafacts_select_field']) ? wp_unslash($_POST['_custom_product_cannafacts_select_field']) : '';
 		$product->update_meta_data('_custom_product_cannafacts_select_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -331,7 +332,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product serving size to general data
 	function custom_product_per_serving_size_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_per_serving_text_field']) ? $_POST['_custom_product_per_serving_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_per_serving_text_field']) ? wp_unslash($_POST['_custom_product_per_serving_text_field']) : '';
 		$product->update_meta_data('_custom_product_per_serving_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -350,7 +351,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product serving size to general data
 	function custom_product_serving_size_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_serving_size_text_field']) ? $_POST['_custom_product_serving_size_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_serving_size_text_field']) ? wp_unslash($_POST['_custom_product_serving_size_text_field']) : '';
 		$product->update_meta_data('_custom_product_serving_size_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -369,7 +370,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product servings per container to general data
 	function custom_product_servings_per_container_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_servings_per_container_text_field']) ? $_POST['_custom_product_servings_per_container_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_servings_per_container_text_field']) ? wp_unslash($_POST['_custom_product_servings_per_container_text_field']) : '';
 		$product->update_meta_data('_custom_product_servings_per_container_text_field', sanitize_text_field($custom_field_value));
 	}
 	
@@ -388,7 +389,7 @@ class WooCommerce implements ServiceInterface
 
 	// Hook to save product suggested use to general data
 	function custom_product_suggested_use_text_field_save($product) {
-		$custom_field_value = isset($_POST['_custom_product_suggested_use_text_field']) ? $_POST['_custom_product_suggested_use_text_field'] : '';
+		$custom_field_value = isset($_POST['_custom_product_suggested_use_text_field']) ? wp_unslash($_POST['_custom_product_suggested_use_text_field']) : '';
 		$product->update_meta_data('_custom_product_suggested_use_text_field', sanitize_text_field($custom_field_value));
 	}
 
@@ -460,7 +461,7 @@ class WooCommerce implements ServiceInterface
 			// "<script>" is dropped by the sanitizer before this runs, and
 			// output is escaped with esc_html at render time.
 			$value = html_entity_decode(
-				sanitize_text_field($_POST[$meta_key]),
+				sanitize_text_field(wp_unslash($_POST[$meta_key])),
 				ENT_QUOTES,
 				'UTF-8'
 			);
@@ -668,5 +669,56 @@ class WooCommerce implements ServiceInterface
 	public function quantityPlusButton(): void
 	{
 		echo '<button type="button" class="yb-qty-btn yb-qty-plus" aria-label="Increase quantity">+</button>';
+	}
+
+	/**
+	 * Point the mini-cart empty state's "Start shopping" button at the site home.
+	 *
+	 * WooCommerce Blocks renders the empty mini-cart button client-side and
+	 * defaults its href to the Shop page permalink. We rewrite that href to the
+	 * home URL and intercept clicks so an empty cart sends shoppers home.
+	 *
+	 * @return void
+	 */
+	public function miniCartEmptyStartShoppingHome(): void
+	{
+		if (\is_admin()) {
+			return;
+		}
+
+		$homeUrl = \wp_json_encode(\home_url('/'));
+		?>
+		<script>
+		(function () {
+			var homeUrl = <?php echo $homeUrl; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>;
+			var selector = '.wp-block-woocommerce-empty-mini-cart-contents-block a.wc-block-mini-cart__shopping-button';
+
+			// Keep the anchor href in sync (covers middle-click / open-in-new-tab).
+			document.addEventListener('mouseover', function (e) {
+				if (!e.target || !e.target.closest) {
+					return;
+				}
+				var link = e.target.closest(selector);
+				if (!link) {
+					return;
+				}
+				link.setAttribute('href', homeUrl);
+			});
+
+			// Guarantee navigation home on left-click and keyboard activation.
+			document.addEventListener('click', function (e) {
+				if (!e.target || !e.target.closest) {
+					return;
+				}
+				var link = e.target.closest(selector);
+				if (!link) {
+					return;
+				}
+				e.preventDefault();
+				window.location.href = homeUrl;
+			});
+		})();
+		</script>
+		<?php
 	}
 }

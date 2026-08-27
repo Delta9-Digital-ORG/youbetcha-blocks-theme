@@ -105,6 +105,12 @@ body.woocommerce-checkout .woocommerce td.product-name dl.variation dd.variation
 	form.woocommerce-checkout {
 		display: grid;
 		grid-template-columns: 1.5fr 1fr;
+		// Row 2 takes the leftover height (the customer-details column spans
+		// both rows and drives the form's height). Without this the row
+		// auto-sizes to the order summary itself, leaving a sticky summary no
+		// room to travel inside its own grid area — it scrolled with the page
+		// and never pinned.
+		grid-template-rows: auto 1fr;
 		gap: 2rem;
 		align-items: start;
 
@@ -136,14 +142,28 @@ body.woocommerce-checkout .woocommerce td.product-name dl.variation dd.variation
 			grid-row: 1;
 		}
 
-		// Order review — right column, sticky
+		// Order review — right column, sticky.
+		//
+		// `top` has to clear the sticky site header (~120px at desktop),
+		// otherwise the summary pins *underneath* it and the "Your Order"
+		// heading and totals are hidden. And a sticky box taller than the
+		// viewport never pins at all — it just scrolls away — so cap it to
+		// the space below the header and let a long item list scroll inside
+		// itself. Both offsets come off one custom property so the two stay
+		// in step.
 		#order_review {
+			--yb-checkout-sticky-top: calc(var(--yb-header-height, 120px) + 1rem);
+
 			grid-column: 2;
 			grid-row: 2;
 			position: sticky;
-			top: 2rem;
+			top: var(--yb-checkout-sticky-top);
 			align-self: start;
+			max-height: calc(100vh - var(--yb-checkout-sticky-top) - 1rem);
+			overflow-y: auto;
+			overscroll-behavior: contain;
 		}
+
 	}
 
 	// ============================================================
@@ -533,6 +553,11 @@ body.woocommerce-checkout .woocommerce td.product-name dl.variation dd.variation
 			grid-row: auto;
 			position: static;
 			max-width: 100%;
+			// Stacked, the summary flows with the page — the desktop
+			// viewport cap and internal scrolling would trap it in a short
+			// scroll box.
+			max-height: none;
+			overflow: visible;
 		}
 	}
 }
