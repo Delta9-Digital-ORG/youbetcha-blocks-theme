@@ -32,10 +32,13 @@
 	}
 }
 
+// Centre wrapped flex rows rather than spreading them: on 3+ column
+// layouts a short final row (e.g. the benefits-band icons wrapping to
+// 4 + 1) reads better centred than pushed to the edges by space-between.
 @media (max-width: 480px) {
 	body .is-layout-flex {
 		flex-wrap: wrap;
-		justify-content: space-between;
+		justify-content: center;
 	}
 }
 
@@ -236,5 +239,40 @@
 @include bp-down(sm) {
 	.entry-content .wp-block-group.is-layout-grid:has(.wp-block-cover) {
 		grid-template-columns: minmax(0, 1fr) !important; // stylelint-disable-line declaration-no-important
+	}
+}
+
+// Cart page — stack the form above the totals below the tablet breakpoint.
+// The cart row is flex with the form at `flex: 2` and the totals at
+// `flex: 1; min-width: 300px`. On phones the 300px totals column still
+// fits beside the form, so the form collapses to a sliver and the two
+// columns never stack. Force a single column and space them out.
+@media (max-width: 768px) {
+	.woocommerce-cart .woocommerce {
+		flex-direction: column;
+		flex-wrap: nowrap;
+
+		.woocommerce-cart-form,
+		.cart-collaterals {
+			flex: 1 1 100%;
+			width: 100%;
+			min-width: 0;
+		}
+
+		.cart-collaterals {
+			margin-top: 2rem;
+		}
+	}
+}
+
+// Homepage "Are You Ready To Feel The Difference?" band — the floated
+// "Grown in Minnesota" badge above this full-width grid bleeds down over
+// the heading on phones and tablets. The section's top padding is set
+// inline by the block (var(--wp--preset--spacing--80), already shrunk to
+// 1.06rem above), so !important is needed to add clearance below the badge.
+// Core stacks these columns at 781px, so match that boundary.
+@media (max-width: 781px) {
+	.wp-block-group.alignfull.has-background.is-layout-grid {
+		padding-top: 8rem !important; // stylelint-disable-line declaration-no-important
 	}
 }
