@@ -242,12 +242,14 @@
 	}
 }
 
-// Cart page — stack the form above the totals below the tablet breakpoint.
+// Cart page — stack the form above the totals below the desktop breakpoint.
 // The cart row is flex with the form at `flex: 2` and the totals at
-// `flex: 1; min-width: 300px`. On phones the 300px totals column still
-// fits beside the form, so the form collapses to a sliver and the two
-// columns never stack. Force a single column and space them out.
-@media (max-width: 768px) {
+// `flex: 1; min-width: 300px`. The cart table's min content width is
+// ~682px (six columns incl. the styled qty stepper), so once the viewport
+// drops below ~1014px (682 + gap + 300 totals) the table can't share the
+// row and bleeds over the totals column. Stack a comfortable step earlier,
+// at 1100px, so the two-column layout only shows on real desktop widths.
+@media (max-width: 1100px) {
 	.woocommerce-cart .woocommerce {
 		flex-direction: column;
 		flex-wrap: nowrap;
