@@ -318,7 +318,6 @@
 		}
 
 		// Labelled detail rows — full width, label left / value right.
-		td.product-name,
 		td.product-price,
 		td.product-quantity,
 		td.product-subtotal {
@@ -328,6 +327,24 @@
 			justify-content: space-between;
 			gap: 12px;
 			text-align: left;
+		}
+
+		// Product name + variation meta — left-aligned, each value on its
+		// own row (name, then the ingredient / mood / active lines). Drop
+		// the `Product:` pseudo-label; the name speaks for itself.
+		td.product-name {
+			grid-column: 1 / -1;
+			display: block;
+			text-align: left;
+
+			&::before {
+				display: none;
+			}
+
+			> a {
+				display: block;
+				margin-bottom: 6px;
+			}
 		}
 
 		// The `Label:` pseudo-labels become the left-hand flex item.
