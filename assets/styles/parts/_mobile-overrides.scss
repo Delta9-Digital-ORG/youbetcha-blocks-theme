@@ -267,6 +267,77 @@
 	}
 }
 
+// Cart page — mobile card layout for each line item. WooCommerce's
+// `shop_table_responsive` stacks the cells into blocks below 768px; restyle
+// them into a card: the product image (which WC hides) sits top-left grouped
+// with the remove button top-right, then each labelled row lays out
+// space-between (label left, value right) to match the styled qty stepper.
+@media (max-width: 768px) {
+	.woocommerce-cart table.shop_table.cart tr.woocommerce-cart-form__cart-item {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 10px 14px;
+		align-items: center;
+		padding: 1.25rem 0;
+		border-bottom: 1px solid #eaeaea;
+
+		td {
+			padding: 0;
+			border: none;
+		}
+
+		// Product image — top-left, restored (WC sets display: none on mobile).
+		td.product-thumbnail {
+			display: block !important; // stylelint-disable-line declaration-no-important
+			grid-column: 1;
+			grid-row: 1;
+			width: 84px;
+
+			&::before {
+				display: none;
+			}
+
+			img {
+				width: 84px;
+				height: auto;
+				min-width: 0;
+			}
+		}
+
+		// Remove (trash) button — top-right, grouped with the image.
+		td.product-remove {
+			grid-column: 2;
+			grid-row: 1;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+
+			&::before {
+				display: none;
+			}
+		}
+
+		// Labelled detail rows — full width, label left / value right.
+		td.product-name,
+		td.product-price,
+		td.product-quantity,
+		td.product-subtotal {
+			grid-column: 1 / -1;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			text-align: left;
+		}
+
+		// The `Label:` pseudo-labels become the left-hand flex item.
+		td::before {
+			float: none;
+			font-weight: 600;
+		}
+	}
+}
+
 // Homepage "Are You Ready To Feel The Difference?" band — the floated
 // "Grown in Minnesota" badge above this full-width grid bleeds down over
 // the heading on phones and tablets. The section's top padding is set
