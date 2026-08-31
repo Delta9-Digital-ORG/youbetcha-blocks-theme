@@ -335,7 +335,10 @@
 		td.product-name {
 			grid-column: 1 / -1;
 			display: block;
-			text-align: left;
+			// WC's shop_table_responsive forces `text-align: right !important`
+			// on stacked cells, so !important is needed to left-align the name
+			// and its variation lines.
+			text-align: left !important; // stylelint-disable-line declaration-no-important
 
 			&::before {
 				display: none;
