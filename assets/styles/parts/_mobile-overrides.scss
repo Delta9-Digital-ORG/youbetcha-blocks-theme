@@ -278,3 +278,121 @@
 		padding-top: 8rem !important; // stylelint-disable-line declaration-no-important
 	}
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// Narrow-viewport fixes from the 2026-08-31 mobile audit. Measured live at
+// 320/375/390/400 on /, /all-products/beverages/ and /all-products/gummies/;
+// 768 and 1440 verified byte-identical with and without this block. The
+// header/footer chrome renders identically across all three pages.
+//
+// The 2026-08-15 pass verified 390/768/1440 for HORIZONTAL overflow only,
+// which is why the product-collection overlap below survived it: that defect
+// is vertical, and 390 is already as broken as 400.
+// Why rect-based evidence and not overflow probes: body computes to
+// `overflow-x: clip`, so none of this registers as page scroll and
+// scrollWidth === innerWidth at every width. The bleed is real but invisible
+// to the usual probes.
+// ─────────────────────────────────────────────────────────────────────────
+
+// Announcement bar text: centre it. The <p> is a flex item, so at desktop it
+// shrink-wraps and the group's justify-content: center already centres it
+// (720px wide in a 1440px bar). But once the copy needs the full bar the item
+// stretches edge to edge and `text-align: start` left-aligns every wrapped
+// line — at 600px that leaves a 70.8px orphan hanging on line 2. Centring the
+// text is a no-op wherever the paragraph still shrink-wraps (verified
+// identical at 768 and 1440), so this needs no media query.
+header.wp-block-template-part .wp-block-group.has-primary-background-color.is-nowrap > p {
+	text-align: center;
+}
+
+// Announcement bar sits on the viewport edge at every phone width. Its group
+// carries an inline `padding-left/right:0`, and core's `.has-global-padding >
+// .alignfull` rule adds margin-inline: -7.04px, cancelling the root gutter
+// (--wp--preset--spacing--20 = 0.44rem) — so the net inline padding is 0.
+// Pad the paragraph rather than the group: the <p> has no inline style, so
+// this needs no !important. At 400 the first line measured 399.29px inside a
+// 400px viewport, clipping "Discount" — that is the blocker this clears.
+// This necessarily also applies at 390/400; measured there as inset-only,
+// with bar height and wrap count unchanged.
+@media (max-width: 480px) {
+	header.wp-block-template-part .wp-block-group.has-primary-background-color.is-nowrap > p {
+		padding-left: 16px;
+		padding-right: 16px;
+	}
+}
+
+@media (max-width: 360px) {
+	// The burger is absolutely centred in the header row (_mobile-nav.scss),
+	// but the logo holds a fixed 130px, so at 320 the centre line lands *on*
+	// the wordmark — the 44px tap target overlapped it by 9.76px. Offsetting
+	// left by +22px while the -50% translate still applies parks the button's
+	// left edge on the row midpoint (320: 160 → 204), clearing the logo by
+	// 12.24px and the account cluster by 14.24px. Fixed px rather than a
+	// percentage so it degrades evenly across 320–360.
+	header.wp-block-template-part .yb-mnav-burger {
+		left: calc(50% + 22px);
+	}
+
+	// "© 2026 You Betcha Cannabis. All rights reserved." needs ~289px at the
+	// 12px sm preset but its column is 286.09px at 320, orphaning "reserved."
+	// onto a second line. WP emits `.has-sm-font-size` with !important from
+	// #global-styles-inline-css, so the override must carry it too.
+	// (375 currently fits with 0.00px of slack — if the copy ever grows, widen
+	// this query to 380px rather than reaching for letter-spacing.)
+	footer.wp-block-template-part p.has-text-align-right.has-sm-font-size {
+		font-size: 11px !important; // stylelint-disable-line declaration-no-important
+	}
+}
+
+// Hero script "You Betcha!" loses the tail of its "!" at every phone width.
+// This is glyph-ink overhang, not a width problem: the string is only
+// ~233-250px inside a ~300px box, but Beverly Drive Right paints ~0.23em of
+// ink PAST its advance width, and `text-align: right` pins that advance edge
+// exactly to the carousel's clip boundary (.swiper{overflow:hidden}, from the
+// delta9 blocks plugin, which loads after the theme sheet — so fighting it at
+// equal specificity would lose). Measured overhang: 11.18px @320, 11.72px
+// @375, 11.96px @400 — constant in em, so pad in em. Padding is not inline
+// styled on this heading, so no !important needed. 0.25em cleared the clip by
+// only 0.94px measured, so 0.3em buys margin against font-rendering variance.
+@media (max-width: 480px) {
+	.block-carousel-item h2.wp-block-heading.has-beverly-drive-right-font-family {
+		padding-right: 0.3em;
+	}
+}
+
+// ── Product collection: reclaim the deliberate "pop above the card" overhang ──
+// The card image link carries margin-top: -68px and the ingredient badge
+// top: -41px (_product-rollover-pattern.scss:73 / :18) so the product pokes
+// above its tile. Neither is clipped — every ancestor from .product-card up is
+// overflow: visible, and the only clipping box in the chain is
+// body{overflow-x:clip}, which is horizontal-only. So the overhang paints over
+// whatever sits above the collection, and the tile is a later positioned
+// sibling of the section header, so it always wins the paint order.
+// Measured on /all-products/gummies/: the image overlaps the "SHOP ALL Gummies"
+// pill by 35.1px at EVERY width. Above ~381px the header row stops wrapping and
+// collapses 178px -> 92px, which drops the script heading into the overhang too
+// — leaving ~33px of the "G" visible at 390 and 400.
+// Note this is a VERTICAL overlap: scrollWidth === innerWidth and a full rect
+// walk finds nothing outside [0, innerWidth] at any width. That is exactly why
+// the 2026-08-15 pass, which verified horizontal overflow at 390, did not catch
+// it — 390 is already as broken as 400.
+// Reserve the overhang inside the collection rather than removing it, so the
+// designed look survives. Nothing else sets padding here, so no !important.
+@include bp-down(sm) {
+	.entry-content .wp-block-woocommerce-product-collection {
+		padding-top: 68px;
+	}
+
+	// No rule for the qty/price row: the audit reported the price hard against
+	// the right edge, but measured it sits 58.6px clear at 390 (24px at 320).
+	// Restoring the block's authored space-between actually pushes the price
+	// OUT to 23px from the edge, and padding alone is a no-op (59px). Left as is.
+
+	// The cross-sell script headings that are not .alignwide have no inline
+	// padding, so 57.84px display type starts at x: 0 and touches the left
+	// viewport edge at 320. (The audit reported the opposite edge; measured, the
+	// right side is 41.8px clear — it is the left that bleeds.)
+	.entry-content .wp-block-group.yb-sbs-heading:not(.alignwide) {
+		padding-inline: 16px;
+	}
+}
