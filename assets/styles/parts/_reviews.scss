@@ -51,6 +51,40 @@
 	.yb-reviews__cell + .yb-reviews__cell {
 		margin-top: var(--wp--preset--spacing--60);
 	}
+
+	// Each cell's rotator fills the space under its label, so the review
+	// can center vertically in it.
+	.yb-reviews__cell,
+	.yb-reviews__pair > .wp-block-column {
+		display: flex;
+		flex-direction: column;
+
+		> .yb-review-rotator {
+			flex: 1;
+		}
+	}
+
+	// Side by side, the columns share rows (subgrid) so the Gummies and
+	// Drinks cells line up across Night/Day/Any Time and each row is as
+	// tall as its longest review.
+	@media (min-width: 782px) {
+		.yb-reviews__grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			grid-template-rows: auto auto auto;
+			row-gap: var(--wp--preset--spacing--60);
+
+			> .wp-block-column {
+				display: grid;
+				grid-row: span 3;
+				grid-template-rows: subgrid;
+
+				> * {
+					margin: 0;
+				}
+			}
+		}
+	}
 }
 
 .yb-review {
@@ -87,6 +121,7 @@
 // rotator holds the tallest review's height and nothing below it jumps.
 .yb-review-rotator.is-rotating {
 	display: grid;
+	align-items: center;
 
 	> .yb-review {
 		grid-area: 1 / 1;
