@@ -14,6 +14,10 @@
 	color: var(--wp--preset--color--white);
 	padding: var(--wp--preset--spacing--80) var(--wp--preset--spacing--50);
 
+	> .wp-block-columns {
+		gap: var(--wp--preset--spacing--60);
+	}
+
 	.yb-reviews__title {
 		color: var(--wp--preset--color--white);
 		font-family: var(--wp--preset--font-family--poppins);
