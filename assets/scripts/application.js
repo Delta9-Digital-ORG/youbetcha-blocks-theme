@@ -244,71 +244,45 @@ document.addEventListener('DOMContentLoaded', () => {
 		closeMegaMenu();
 	});
 });
-// Review rotators (.yb-review-rotator): cross-fade through each cell's
-// reviews. Every rotator on the page gets its own interval and start offset
-// so neighboring cells never flip in unison. Pauses while hovered or focused;
-// with reduced motion it only advances via the dots.
+// Review rotators (.yb-review-rotator): fade through each cell's reviews in
+// order. Every rotator on the page gets its own interval and start offset so
+// neighboring cells never change in unison. Pauses while hovered.
 document.addEventListener('DOMContentLoaded', () => {
-	const rotators = document.querySelectorAll('.yb-review-rotator');
-	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-	rotators.forEach((rotator, index) => {
+	document.querySelectorAll('.yb-review-rotator').forEach((rotator, index) => {
 		const reviews = Array.from(rotator.querySelectorAll(':scope > .yb-review'));
 		if (reviews.length < 2) return;
 
-		// 6s, 7s, 8s, 6.5s, 7.5s, 8.5s… and a staggered first flip.
+		// 6s, 7s, 8s, 6.5s, 7.5s, 8.5s… and a staggered first change.
 		const interval = 6000 + (index % 3) * 1000 + (Math.floor(index / 3) % 2) * 500;
 		const startDelay = 1500 + index * 900;
 
 		let current = 0;
 		let paused = false;
-		let timer = null;
-
-		const dots = document.createElement('div');
-		dots.className = 'yb-review-rotator__dots';
-		rotator.after(dots);
 
 		const show = (next) => {
-			current = (next + reviews.length) % reviews.length;
+			current = next % reviews.length;
 			reviews.forEach((review, i) => {
 				const active = i === current;
 				review.classList.toggle('is-active', active);
 				review.setAttribute('aria-hidden', active ? 'false' : 'true');
 			});
-			dots.querySelectorAll('button').forEach((dot, i) => {
-				dot.setAttribute('aria-current', i === current ? 'true' : 'false');
-			});
 		};
 
-		const schedule = (delay) => {
-			clearTimeout(timer);
-			if (reduceMotion) return;
-			timer = setTimeout(() => {
+		const tick = (delay) => {
+			setTimeout(() => {
 				if (!paused) show(current + 1);
-				schedule(interval);
+				tick(interval);
 			}, delay);
 		};
 
-		reviews.forEach((review, i) => {
-			const dot = document.createElement('button');
-			dot.type = 'button';
-			dot.setAttribute('aria-label', `Show review ${i + 1} of ${reviews.length}`);
-			dot.addEventListener('click', () => {
-				show(i);
-				schedule(interval);
-			});
-			dots.appendChild(dot);
-		});
-
-		[rotator, dots].forEach((el) => {
-			el.addEventListener('pointerenter', () => { paused = true; });
-			el.addEventListener('pointerleave', () => { paused = false; });
-			el.addEventListener('focusin', () => { paused = true; });
-			el.addEventListener('focusout', () => { paused = false; });
-		});
+		rotator.addEventListener('pointerenter', () => { paused = true; });
+		rotator.addEventListener('pointerleave', () => { paused = false; });
 
 		rotator.classList.add('is-rotating');
 		show(0);
-		schedule(startDelay);
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => rotator.classList.add('is-animated'));
+		});
+		tick(startDelay);
 	});
 });

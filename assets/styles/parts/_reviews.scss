@@ -93,44 +93,23 @@
 		margin: 0;
 		opacity: 0;
 		visibility: hidden;
-		transition: opacity 0.6s ease, visibility 0s linear 0.6s;
 
 		&.is-active {
 			opacity: 1;
 			visibility: visible;
-			transition: opacity 0.6s ease;
 		}
 	}
-}
 
-.yb-review-rotator__dots {
-	display: flex;
-	gap: 8px;
-	margin-top: 20px;
+	// Fades switch on a frame after setup (`.is-animated`) so the stacked
+	// reviews don't all fade out at once on page load. The outgoing review
+	// fades out before the next one fades in, so the two never overlap.
+	@media (prefers-reduced-motion: no-preference) {
+		&.is-animated > .yb-review {
+			transition: opacity 0.5s ease, visibility 0s linear 0.5s;
 
-	button {
-		width: 10px;
-		height: 10px;
-		padding: 0;
-		border: 0;
-		border-radius: 50%;
-		background-color: rgb(255 255 255 / 0.35);
-		cursor: pointer;
-		transition: background-color 0.3s ease;
-
-		&[aria-current='true'] {
-			background-color: var(--wp--preset--color--warning);
+			&.is-active {
+				transition: opacity 0.5s ease 0.5s, visibility 0s linear 0.5s;
+			}
 		}
-
-		&:focus-visible {
-			outline: 2px solid var(--wp--preset--color--white);
-			outline-offset: 2px;
-		}
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.yb-review-rotator.is-rotating > .yb-review {
-		transition: none;
 	}
 }
