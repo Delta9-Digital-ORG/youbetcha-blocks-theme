@@ -1,0 +1,132 @@
+// Customer reviews section — the global "Ratings" synced pattern (3-column
+// Night/Day/Any Time grid) and the per-product review patterns.
+//
+// The global pattern is dropped into wrapper groups that paint their own
+// lighter green and constrain the width, so the section paints its darker
+// green full-bleed itself (box-shadow spread, clipped to its own height).
+
+.yb-reviews {
+	--yb-reviews-bg: var(--wp--preset--color--secondary);
+
+	background-color: var(--yb-reviews-bg);
+	box-shadow: 0 0 0 100vmax var(--yb-reviews-bg);
+	clip-path: inset(0 -100vmax);
+	color: var(--wp--preset--color--white);
+	padding: var(--wp--preset--spacing--80) var(--wp--preset--spacing--50);
+
+	.yb-reviews__title {
+		color: var(--wp--preset--color--white);
+		font-family: var(--wp--preset--font-family--poppins);
+		font-size: clamp(32px, 4vw, 48px);
+		font-weight: 700;
+		line-height: 1.2;
+		margin-bottom: var(--wp--preset--spacing--60);
+	}
+
+	.yb-reviews__heading {
+		color: var(--wp--preset--color--white);
+		font-family: var(--wp--preset--font-family--ddc-hardware);
+		font-size: 24px;
+		font-weight: 400;
+		line-height: 1.2;
+		margin: 0 0 var(--wp--preset--spacing--40);
+		padding-bottom: 12px;
+		border-bottom: 2px solid rgb(255 255 255 / 0.25);
+	}
+
+	.yb-reviews__label {
+		color: rgb(255 255 255 / 0.7);
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		line-height: 1.4;
+		text-transform: uppercase;
+		margin: 0 0 12px;
+	}
+
+	.yb-reviews__cell + .yb-reviews__cell {
+		margin-top: var(--wp--preset--spacing--60);
+	}
+}
+
+.yb-review {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+
+	.yb-review__stars {
+		margin: 0;
+
+		img {
+			display: block;
+			width: 117px;
+			height: auto;
+		}
+	}
+
+	.yb-review__quote {
+		font-size: 16px;
+		line-height: 1.5;
+		margin: 0;
+	}
+
+	.yb-review__author {
+		font-size: 16px;
+		font-weight: 600;
+		line-height: 1.5;
+		margin: 0;
+	}
+}
+
+// Rotator — the script adds `.is-rotating` (so with no JS, and in the editor,
+// every review stays stacked and visible). Reviews share one grid cell so the
+// rotator holds the tallest review's height and nothing below it jumps.
+.yb-review-rotator.is-rotating {
+	display: grid;
+
+	> .yb-review {
+		grid-area: 1 / 1;
+		margin: 0;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.6s ease, visibility 0s linear 0.6s;
+
+		&.is-active {
+			opacity: 1;
+			visibility: visible;
+			transition: opacity 0.6s ease;
+		}
+	}
+}
+
+.yb-review-rotator__dots {
+	display: flex;
+	gap: 8px;
+	margin-top: 20px;
+
+	button {
+		width: 10px;
+		height: 10px;
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background-color: rgb(255 255 255 / 0.35);
+		cursor: pointer;
+		transition: background-color 0.3s ease;
+
+		&[aria-current='true'] {
+			background-color: var(--wp--preset--color--warning);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--wp--preset--color--white);
+			outline-offset: 2px;
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.yb-review-rotator.is-rotating > .yb-review {
+		transition: none;
+	}
+}
