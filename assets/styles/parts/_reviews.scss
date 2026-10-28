@@ -54,13 +54,36 @@
 
 	// Each cell's rotator fills the space under its label, so the review
 	// can center vertically in it.
-	.yb-reviews__cell,
-	.yb-reviews__pair > .wp-block-column {
+	.yb-reviews__cell {
 		display: flex;
 		flex-direction: column;
 
 		> .yb-review-rotator {
 			flex: 1;
+		}
+	}
+
+	// Product pages: every review showing at once, three across then the
+	// rest centered beneath (a 6-track grid where each review spans two).
+	.yb-reviews__list {
+		display: grid;
+		gap: var(--wp--preset--spacing--60);
+
+		> .yb-review {
+			margin: 0;
+		}
+
+		@media (min-width: 782px) {
+			grid-template-columns: repeat(6, minmax(0, 1fr));
+
+			> .yb-review {
+				grid-column: span 2;
+			}
+
+			// A last row of two starts one track in, so it sits centered.
+			> .yb-review:nth-child(3n + 1):nth-last-child(2) {
+				grid-column: 2 / span 2;
+			}
 		}
 	}
 
