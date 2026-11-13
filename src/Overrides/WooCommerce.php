@@ -374,23 +374,37 @@ class WooCommerce implements ServiceInterface
 		$product->update_meta_data('_custom_product_servings_per_container_text_field', sanitize_text_field($custom_field_value));
 	}
 	
-	// Hook to add product suggested use to general data
+	// Hook to add product suggested use to general data.
+	//
+	// A WYSIWYG editor rather than a text input, so the per-product claims
+	// icons (Grown in Minnesota, Gluten Free, Functional Mushroom, …) and the
+	// organic/cruelty-free line can be placed under the suggested-use copy
+	// with Add Media. The description row's Meta Field Block prints this key
+	// through wp_kses_post, so images and basic formatting render as-is.
+	// wpautop is off so paragraphs are saved as <p> tags — that block does
+	// not run wpautop, so bare line breaks would collapse on the front end.
 	function custom_product_suggested_use_text_field() {
-		woocommerce_wp_text_input(
+		global $post;
+
+		echo '<div class="form-field _custom_product_suggested_use_text_field_field" style="padding: 5px 20px 5px 162px;">';
+		echo '<label for="custom_product_suggested_use_editor" style="float: left; width: 150px; margin-left: -150px;">' . esc_html__('Suggested Use', 'woocommerce') . '</label>';
+		wp_editor(
+			(string) get_post_meta($post->ID, '_custom_product_suggested_use_text_field', true),
+			'custom_product_suggested_use_editor',
 			array(
-				'id'		  => '_custom_product_suggested_use_text_field',
-				'label'		  => __('Suggested Use', 'woocommerce'),
-				'placeholder' => __('Enter suggested use here', 'woocommerce'),
-				'desc_tip'	  => 'true',
-				'description' => __('Product Suggested Use.', 'woocommerce'),
+				'textarea_name' => '_custom_product_suggested_use_text_field',
+				'textarea_rows' => 10,
+				'media_buttons' => true,
+				'wpautop'       => false,
 			)
 		);
+		echo '</div>';
 	}
 
 	// Hook to save product suggested use to general data
 	function custom_product_suggested_use_text_field_save($product) {
 		$custom_field_value = isset($_POST['_custom_product_suggested_use_text_field']) ? wp_unslash($_POST['_custom_product_suggested_use_text_field']) : '';
-		$product->update_meta_data('_custom_product_suggested_use_text_field', sanitize_text_field($custom_field_value));
+		$product->update_meta_data('_custom_product_suggested_use_text_field', wp_kses_post($custom_field_value));
 	}
 
 	/**
