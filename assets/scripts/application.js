@@ -244,3 +244,45 @@ document.addEventListener('DOMContentLoaded', () => {
 		closeMegaMenu();
 	});
 });
+// Review rotators (.yb-review-rotator): fade through each cell's reviews in
+// order. Every rotator on the page gets its own interval and start offset so
+// neighboring cells never change in unison. Pauses while hovered.
+document.addEventListener('DOMContentLoaded', () => {
+	document.querySelectorAll('.yb-review-rotator').forEach((rotator, index) => {
+		const reviews = Array.from(rotator.querySelectorAll(':scope > .yb-review'));
+		if (reviews.length < 2) return;
+
+		// 6s, 7s, 8s, 6.5s, 7.5s, 8.5s… and a staggered first change.
+		const interval = 6000 + (index % 3) * 1000 + (Math.floor(index / 3) % 2) * 500;
+		const startDelay = 1500 + index * 900;
+
+		let current = 0;
+		let paused = false;
+
+		const show = (next) => {
+			current = next % reviews.length;
+			reviews.forEach((review, i) => {
+				const active = i === current;
+				review.classList.toggle('is-active', active);
+				review.setAttribute('aria-hidden', active ? 'false' : 'true');
+			});
+		};
+
+		const tick = (delay) => {
+			setTimeout(() => {
+				if (!paused) show(current + 1);
+				tick(interval);
+			}, delay);
+		};
+
+		rotator.addEventListener('pointerenter', () => { paused = true; });
+		rotator.addEventListener('pointerleave', () => { paused = false; });
+
+		rotator.classList.add('is-rotating');
+		show(0);
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => rotator.classList.add('is-animated'));
+		});
+		tick(startDelay);
+	});
+});
