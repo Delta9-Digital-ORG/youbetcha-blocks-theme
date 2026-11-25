@@ -217,9 +217,22 @@
 			// equal-height grid row, so the price/Add-to-Cart sit directly under
 			// the product type label (matches the homepage product grid).
 			.product-card {
-				position: relative; // anchors the ingredient badge
+				position: relative; // anchors the ingredient badge and the stretched title link
 				height: auto;
 				align-self: start;
+			}
+
+			// The whole colored card links to the product: the title link's
+			// ::after stretches over .product-card (which is position:
+			// relative). The qty stepper, pack select and Add to Cart sit
+			// outside .product-card, so they are not covered. The hover
+			// rollover keys on .wc-block-product:hover, an ancestor, so it
+			// still fires over the overlay.
+			.product-card-product-name a::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				z-index: 2;
 			}
 
 			.product-card-product-name {
