@@ -1,0 +1,223 @@
+// Post-purchase survey (order-received page + /post-purchase-survey/).
+// Markup: src/WooCommerce/PostPurchaseSurvey.php
+
+$pps-primary: #417360;
+$pps-primary-dark: #2f5245;
+$pps-primary-tint: rgba(65, 115, 96, 0.1);
+$pps-charcoal: #2B2B2B;
+$pps-border: #EAEAEA;
+$pps-transition: 0.3s ease-out;
+
+.yb-survey {
+	margin: 2.5rem 0;
+	padding: 1.5rem;
+	border: 2px solid $pps-border;
+	border-radius: 12px;
+	font-family: 'Poppins', sans-serif;
+	color: $pps-charcoal;
+	max-width: 44rem;
+
+	&__title {
+		margin: 0 0 0.25rem;
+		font-family: 'Poppins', sans-serif;
+		font-weight: 700;
+		font-size: 20px;
+		color: $pps-primary;
+	}
+
+	&__intro {
+		margin: 0;
+		font-size: 14px;
+	}
+
+	&__form {
+		display: grid;
+		gap: 1.25rem;
+		margin-top: 1.25rem;
+	}
+
+	&__fieldset {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		min-width: 0;
+	}
+
+	&__legend {
+		margin-bottom: 0.75rem;
+		padding: 0;
+		font-weight: 600;
+		font-size: 14px;
+	}
+
+	&__options {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	// Pill radios: native input stays in the label (visually hidden) for a11y.
+	&__option {
+		position: relative;
+		cursor: pointer;
+
+		input {
+			position: absolute;
+			opacity: 0;
+			inset: 0;
+			margin: 0;
+			cursor: pointer;
+		}
+
+		span {
+			display: inline-block;
+			padding: 0.5rem 1rem;
+			border: 2px solid $pps-border;
+			border-radius: 100rem;
+			font-size: 14px;
+			font-weight: 600;
+			line-height: 1.3;
+			transition: border-color $pps-transition, background-color $pps-transition, color $pps-transition;
+		}
+
+		&:hover span {
+			border-color: $pps-primary;
+		}
+
+		input:focus-visible + span {
+			outline: 2px solid $pps-primary;
+			outline-offset: 2px;
+		}
+
+		input:checked + span {
+			border-color: $pps-primary;
+			background-color: $pps-primary;
+			color: #ffffff;
+		}
+	}
+
+	&__detail {
+		display: grid;
+		gap: 0.5rem;
+
+		label {
+			font-weight: 600;
+			font-size: 14px;
+		}
+
+		input[type="text"] {
+			width: 100%;
+			padding: 0.75rem 1rem;
+			border: 2px solid $pps-border;
+			border-radius: 8px;
+			font-family: 'Poppins', sans-serif;
+			font-size: 14px;
+			color: $pps-charcoal;
+			transition: border-color $pps-transition;
+
+			&:focus {
+				border-color: $pps-primary;
+				outline: none;
+			}
+		}
+	}
+
+	&__prompt {
+		display: none;
+	}
+
+	&__prompt--fallback {
+		display: inline;
+	}
+
+	&__optional {
+		font-weight: 400;
+	}
+
+	&__check {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.625rem;
+		padding: 0.75rem 1rem;
+		border-radius: 8px;
+		background-color: $pps-primary-tint;
+		font-size: 14px;
+		cursor: pointer;
+
+		input {
+			flex: none;
+			width: 18px;
+			height: 18px;
+			margin: 2px 0 0;
+			accent-color: $pps-primary;
+		}
+
+		a {
+			color: $pps-primary;
+			font-weight: 600;
+		}
+	}
+
+	&__submit {
+		justify-self: start;
+		padding: 0.875rem 2.5rem;
+		border: 3px solid $pps-primary;
+		border-radius: 100rem;
+		background: $pps-primary;
+		color: #ffffff;
+		font-family: 'Poppins', sans-serif;
+		font-weight: 700;
+		font-size: 16px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		cursor: pointer;
+		transition: all $pps-transition;
+
+		&:hover,
+		&:focus-visible {
+			border-color: $pps-primary-dark;
+			background: $pps-primary-dark;
+		}
+	}
+
+	&--notice {
+		border-color: $pps-primary;
+		background-color: $pps-primary-tint;
+
+		.yb-survey__intro {
+			font-weight: 600;
+		}
+	}
+
+	@media (max-width: 600px) {
+		padding: 1.25rem 1rem;
+
+		&__submit {
+			justify-self: stretch;
+		}
+	}
+}
+
+// Follow-up field only for answers that have a prompt. Browsers without :has()
+// keep the field visible with the generic "Anything to add?" label.
+@supports selector(:has(*)) {
+	.yb-survey__detail {
+		display: none;
+	}
+
+	.yb-survey__prompt--fallback {
+		display: none;
+	}
+
+	@each $value in store, event, sales_rep, other {
+		.yb-survey__form:has(input[name="hear_about_us"][value="#{$value}"]:checked) {
+			.yb-survey__detail {
+				display: grid;
+			}
+
+			.yb-survey__prompt[data-for="#{$value}"] {
+				display: inline;
+			}
+		}
+	}
+}

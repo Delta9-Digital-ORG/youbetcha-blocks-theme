@@ -55,6 +55,14 @@
 	max-width: 100%;
 }
 
+// The site footer renders on store pages too, and must look the same there
+// as everywhere else. A px cap makes an image incompressible in flex layout:
+// the "Site by" logo (243px SVG in a 25px flex slot) could no longer shrink
+// and blew up to full size on every archive, cart, and account page.
+footer.wp-block-template-part img {
+	max-width: 100%;
+}
+
 // An editor who sized an image in the editor meant it — `is-resized` is the
 // class core adds when they do. The 280px cap was silently overriding that
 // intent: the You Betcha wordmark is placed at 1450px and was rendering at 280.
