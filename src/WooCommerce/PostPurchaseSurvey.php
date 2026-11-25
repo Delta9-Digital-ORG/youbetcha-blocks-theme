@@ -283,7 +283,7 @@ class PostPurchaseSurvey implements ServiceInterface
 		}
 
 		$heading = \__('One quick question', 'youbetcha-cannabis-theme');
-		$text = \__('How did you hear about Youbetcha? It takes 10 seconds and helps a small brand a lot.', 'youbetcha-cannabis-theme');
+		$text = \__('How did you hear about You Betcha? It takes 10 seconds and helps a small brand a lot.', 'youbetcha-cannabis-theme');
 		$button = \__('Answer now', 'youbetcha-cannabis-theme');
 
 		if ($plainText) {
